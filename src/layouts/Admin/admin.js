@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { SideBar, TopBar } from "./components";
+import { TopMenu, TopBar } from "./components";
 
 const Admin = (props) => {
   const { children } = props;
 
   return (
     <div id="wrapper">
-      <SideBar isToggled={false} />
+      {/* <TopMenu isToggled={false} /> */}
       <div className="d-flex flex-column" id="content-wrapper">
         <div id="content">
           <TopBar />
+          <TopMenu />
           {children}
         </div>
         <footer className="bg-white sticky-footer">

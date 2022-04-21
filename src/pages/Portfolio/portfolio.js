@@ -2,13 +2,7 @@ import React from "react";
 
 const Portfolio = (props) => {
   return (
-    <div className="container-fluid">
-      <div className="d-sm-flex justify-content-between align-items-center mb-4">
-        <h3 className="text-dark mb-0">Portfolio</h3>
-        <button className="btn btn-primary btn-sm d-none d-sm-inline-block">
-          <i className="fas fa-download fa-sm text-white-50" /> Generate Report
-        </button>
-      </div>
+    <div className="container">
       <div className="row">
         {/* 총 매수 */}
         <div className="col-md-6 col-xl-3 mb-4">
@@ -20,11 +14,11 @@ const Portfolio = (props) => {
                     <span>총 매수</span>
                   </div>
                   <div className="text-dark font-weight-bold h5 mb-0">
-                    <span>10</span>
+                    <span>0</span>
                   </div>
                 </div>
                 <div className="col-auto">
-                  <i className="fas fa-calendar fa-2x text-gray-300" />
+                  <i className="fas fa-wallet fa-2x text-gray-300" />
                 </div>
               </div>
             </div>
@@ -40,7 +34,7 @@ const Portfolio = (props) => {
                     <span>총 평가</span>
                   </div>
                   <div className="text-dark font-weight-bold h5 mb-0">
-                    <span>55</span>
+                    <span>0</span>
                   </div>
                 </div>
                 <div className="col-auto">
@@ -59,25 +53,8 @@ const Portfolio = (props) => {
                   <div className="text-uppercase text-info font-weight-bold mb-1">
                     <span>평가손익</span>
                   </div>
-                  <div className="row no-gutters align-items-center">
-                    <div className="col-auto">
-                      <div className="text-dark font-weight-bold h5 mb-0 mr-3">
-                        <span>50%</span>
-                      </div>
-                    </div>
-                    <div className="col">
-                      <div className="progress progress-sm">
-                        <div
-                          className="progress-bar bg-info"
-                          aria-valuenow="50"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          style={{ width: "50%" }}
-                        >
-                          <span className="sr-only">50%</span>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="text-dark font-weight-bold h5 mb-0 mr-3">
+                    <span>0</span>
                   </div>
                 </div>
                 <div className="col-auto">
@@ -89,7 +66,7 @@ const Portfolio = (props) => {
         </div>
         {/* 수익률 */}
         <div className="col-md-6 col-xl-3 mb-4">
-          <div className="card shadow border-left-primary py-2">
+          <div className="card shadow border-left-warning py-2">
             <div className="card-body">
               <div className="row align-items-center no-gutters">
                 <div className="col mr-2">
@@ -97,11 +74,11 @@ const Portfolio = (props) => {
                     <span>수익률</span>
                   </div>
                   <div className="text-dark font-weight-bold h5 mb-0">
-                    <span>18</span>
+                    <span>0</span>
                   </div>
                 </div>
                 <div className="col-auto">
-                  <i className="fas fa-users fa-2x text-gray-300" />
+                  <i className="fas fa-percentage fa-2x text-gray-300" />
                 </div>
               </div>
             </div>
@@ -156,71 +133,63 @@ const Portfolio = (props) => {
       <hr />
       {/* <!-- table --> */}
       {/* <!-- Page Heading --> */}
-      <div className="row">
-        <button id="get_data" className="btn btn-info ml-2">
-          get data
-        </button>
-        <button id="stop_data" className="btn btn-danger ml-2">
-          stop data
-        </button>
+      <div className="row justify-content-between">
+        <div>
+          <button id="add_stock" className="btn btn-light ml-2">
+            <i className="fas fa-plus mr-2"></i>
+            Add new
+          </button>
+          <button id="remove_stock" className="btn btn-light text-danger ml-2">
+            <i className="fas fa-trash mr-2"></i>
+            Remove
+          </button>
+        </div>
+        <div>
+          <button id="get_data" className="btn btn-info ml-2">
+            get data
+          </button>
+          <button id="stop_data" className="btn btn-danger ml-2">
+            stop data
+          </button>
+        </div>
       </div>
       <hr />
 
       {/* <!-- DataTales Example --> */}
       <div className="row">
-        <div className="card shadow col-xl-12 mb-4">
-          <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">DataTables</h6>
-          </div>
-          <div className="card-body">
-            <div className="table-responsive">
-              <table
-                className="table table-bordered"
-                id="dataTable"
-                width="100%"
-                cellspacing="0"
-              >
-                <thead>
-                  <tr>
-                    <th>종목</th>
-                    <th>현재가</th>
-                    <th>전일대비</th>
-                    <th>평균단가</th>
-                    <th>수량</th>
-                    <th>평가금액</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td id="name1">BTC</td>
-                    <td id="price"></td>
-                    <td>
-                      <span id="rate"></span> <span id="change_price"></span>
-                    </td>
-                    <td id="btc_avgPrice"></td>
-                    <td id="btc_amount"></td>
-                    <td id="btc_eval"></td>
-                  </tr>
-                  <tr>
-                    <td id="name2">XVG</td>
-                    <td id="xvg_price"></td>
-                    <td id="xvg_rate"></td>
-                    <td id="xvg_avgPrice"></td>
-                    <td id="xvg_amount"></td>
-                    <td id="xvg_eval"></td>
-                  </tr>
-                  <tr>
-                    <td id="name3">우리기술투자</td>
-                    <td id="woori_price"></td>
-                    <td id="woori_rate"></td>
-                    <td id="woori_avgPrice"></td>
-                    <td id="woori_amount"></td>
-                    <td id="woori_eval"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <div className="table-responsive">
+          <table className="table table-bordered" id="dataTable" width="100%">
+            <thead className="thead-light">
+              <tr>
+                <th>종목</th>
+                <th>현재가</th>
+                <th>전일대비</th>
+                <th>평균단가</th>
+                <th>수량</th>
+                <th>평가금액</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="name1">BTC</td>
+                <td id="price"></td>
+                <td>
+                  <span id="rate"></span> <span id="change_price"></span>
+                </td>
+                <td id="btc_avgPrice"></td>
+                <td id="btc_amount"></td>
+                <td id="btc_eval"></td>
+              </tr>
+              <tr>
+                <td id="name2">XVG</td>
+                <td id="xvg_price"></td>
+                <td id="xvg_rate"></td>
+                <td id="xvg_avgPrice"></td>
+                <td id="xvg_amount"></td>
+                <td id="xvg_eval"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
