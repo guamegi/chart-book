@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Portfolio = (props) => {
+  const [items, setItems] = useState([]);
+  const [hasData, setHasData] = useState(false);
+
   return (
     <div className="container">
       <div className="row">
@@ -88,13 +91,11 @@ const Portfolio = (props) => {
 
       <div className="row">
         {/* <!-- Area Chart --> */}
-        {/* <div className="col-xl-8 col-lg-7"> */}
         <div className="col-xl-7 col-md-7">
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 className="m-0 font-weight-bold text-primary">자산 흐름</h6>
             </div>
-            {/* <!-- Card Body --> */}
             <div className="card-body">
               <div className="chart-area">
                 <canvas id="myAreaChart"></canvas>
@@ -110,7 +111,6 @@ const Portfolio = (props) => {
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 className="m-0 font-weight-bold text-primary">보유 비중</h6>
             </div>
-            {/* <!-- Card Body --> */}
             <div className="card-body">
               <div className="chart-pie pt-4 pb-2">
                 <canvas id="myPieChart"></canvas>
@@ -144,6 +144,20 @@ const Portfolio = (props) => {
             Remove
           </button>
         </div>
+        {/* <div className="text-md-right dataTables_filter" id="dataTable_filter">
+          <div className="input-group">
+            <input
+              className="bg-light form-control small"
+              type="text"
+              placeholder="종목명 입력"
+            />
+            <div className="input-group-append">
+              <button className="btn btn-primary py-0" type="button">
+                <i className="fas fa-search" />
+              </button>
+            </div>
+          </div>
+        </div> */}
         <div>
           <button id="get_data" className="btn btn-info ml-2">
             get data
@@ -170,24 +184,24 @@ const Portfolio = (props) => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td id="name1">BTC</td>
-                <td id="price"></td>
-                <td>
-                  <span id="rate"></span> <span id="change_price"></span>
-                </td>
-                <td id="btc_avgPrice"></td>
-                <td id="btc_amount"></td>
-                <td id="btc_eval"></td>
-              </tr>
-              <tr>
-                <td id="name2">XVG</td>
-                <td id="xvg_price"></td>
-                <td id="xvg_rate"></td>
-                <td id="xvg_avgPrice"></td>
-                <td id="xvg_amount"></td>
-                <td id="xvg_eval"></td>
-              </tr>
+              {hasData ? (
+                <tr>
+                  <td id="name1">BTC</td>
+                  <td id="price"></td>
+                  <td>
+                    <span id="rate"></span> <span id="change_price"></span>
+                  </td>
+                  <td id="btc_avgPrice"></td>
+                  <td id="btc_amount"></td>
+                  <td id="btc_eval"></td>
+                </tr>
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    No Data...
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
