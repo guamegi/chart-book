@@ -1,16 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TopMenu, TopBar } from "./components";
+import { default as TopMenu } from "./TopMenu/topMenu";
+import { default as TitleBar } from "./TitleBar/titleBar";
 
 const Admin = (props) => {
   const { children } = props;
 
   return (
     <div id="wrapper">
-      {/* <TopMenu isToggled={false} /> */}
       <div className="d-flex flex-column" id="content-wrapper">
         <div id="content">
-          <TopBar />
+          <TitleBar />
           <TopMenu />
           {children}
         </div>

@@ -1,8 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { SearchStockPopup } from "components";
 
-const Portfolio = (props) => {
-  const [items, setItems] = useState([]);
-  const [hasData, setHasData] = useState(false);
+const Portfolio = () => {
+  const [stockData, setStockData] = useState([]);
+  const [modalOn, setModalOn] = useState(false);
+  const addButtonEl = useRef();
+  const stockPopupEl = useRef();
+
+  // add 클릭
+  const onOpenModal = () => {
+    setModalOn(!modalOn);
+    addButtonEl.current.focus();
+  };
+
+  // background 클릭
+  const onCloseModal = (event) => {
+    const target = event.target;
+    if (target === addButtonEl.current || target === stockPopupEl.current)
+      return;
+    setModalOn(false);
+  };
+
+  const removeStock = () => {
+    console.log("del");
+    setStockData([]);
+  };
+
+  useEffect(() => {
+    // console.log("first loading");
+    window.addEventListener("click", onCloseModal);
+    return () => {
+      window.removeEventListener("click", onCloseModal);
+    };
+  }, []);
 
   return (
     <div className="container">
@@ -135,31 +165,37 @@ const Portfolio = (props) => {
       {/* <!-- Page Heading --> */}
       <div className="row justify-content-between">
         <div>
-          <button id="add_stock" className="btn btn-light ml-2">
+          <button
+            id="addStock"
+            className="btn btn-light ml-2"
+            onClick={onOpenModal}
+            ref={addButtonEl}
+          >
             <i className="fas fa-plus mr-2"></i>
             Add new
           </button>
-          <button id="remove_stock" className="btn btn-light text-danger ml-2">
+          <button
+            id="removeStock"
+            className="btn btn-light text-danger ml-2"
+            onClick={removeStock}
+          >
             <i className="fas fa-trash mr-2"></i>
             Remove
           </button>
-        </div>
-        {/* <div className="text-md-right dataTables_filter" id="dataTable_filter">
-          <div className="input-group">
-            <input
-              className="bg-light form-control small"
-              type="text"
-              placeholder="종목명 입력"
+          {modalOn ? (
+            <SearchStockPopup
+              modalOn={modalOn}
+              setModalOn={setModalOn}
+              stockData={stockData}
+              setStockData={setStockData}
+              ref={stockPopupEl}
             />
-            <div className="input-group-append">
-              <button className="btn btn-primary py-0" type="button">
-                <i className="fas fa-search" />
-              </button>
-            </div>
-          </div>
-        </div> */}
+          ) : (
+            ""
+          )}
+        </div>
         <div>
-          <button id="get_data" className="btn btn-info ml-2">
+          <button id="get_data" className="btn btn-info">
             get data
           </button>
           <button id="stop_data" className="btn btn-danger ml-2">
@@ -184,17 +220,31 @@ const Portfolio = (props) => {
               </tr>
             </thead>
             <tbody>
-              {hasData ? (
-                <tr>
-                  <td id="name1">BTC</td>
-                  <td id="price"></td>
-                  <td>
-                    <span id="rate"></span> <span id="change_price"></span>
-                  </td>
-                  <td id="btc_avgPrice"></td>
-                  <td id="btc_amount"></td>
-                  <td id="btc_eval"></td>
-                </tr>
+              {stockData.length ? (
+                stockData.map((stock, index) => (
+                  <tr key={index}>
+                    <td className="bg-light ">{stock.name}</td>
+                    <td id={`${stock.code}-price`}></td>
+                    <td>
+                      <span id="rate"></span> <span id="change_price"></span>
+                    </td>
+                    <td id="avgPrice">
+                      <input
+                        className="bg-light form-control small"
+                        type="number"
+                        placeholder="평균단가 입력"
+                      />
+                    </td>
+                    <td id="amount">
+                      <input
+                        className="bg-light form-control small"
+                        type="number"
+                        placeholder="수량 입력"
+                      />
+                    </td>
+                    <td id="eval"></td>
+                  </tr>
+                ))
               ) : (
                 <tr>
                   <td colSpan="6" className="text-center">

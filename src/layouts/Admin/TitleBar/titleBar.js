@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const TopBar = (props) => {
+const TitleBar = (props) => {
   return (
     <nav className="navbar navbar-light navbar-expand bg-white topbar static-top">
       <div className="container">
@@ -22,4 +22,4 @@ const TopBar = (props) => {
   );
 };
 
-export default TopBar;
+export default TitleBar;
