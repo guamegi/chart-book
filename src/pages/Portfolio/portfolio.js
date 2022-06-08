@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SearchStockPopup } from "components";
+import { ws, rmWs, initWebSocket } from "services/websocket";
 
 const Portfolio = () => {
   const [stockData, setStockData] = useState([]);
@@ -7,13 +8,13 @@ const Portfolio = () => {
   const addButtonEl = useRef();
   const stockPopupEl = useRef();
 
-  // add 클릭
+  // add new 클릭. 모달 창 열기
   const onOpenModal = () => {
     setModalOn(!modalOn);
     addButtonEl.current.focus();
   };
 
-  // background 클릭
+  // background 클릭. 모달 창 닫기
   const onCloseModal = (event) => {
     const target = event.target;
     if (target === addButtonEl.current || target === stockPopupEl.current)
@@ -21,9 +22,36 @@ const Portfolio = () => {
     setModalOn(false);
   };
 
+  // remove 클릭. 종목 삭제
   const removeStock = () => {
-    console.log("del");
+    console.log("remove");
     setStockData([]);
+    if (ws.length > 0) {
+      ws.forEach((socket) => {
+        socket.close();
+        // 웹소켓 삭제
+        rmWs();
+      });
+    }
+  };
+
+  // 실시간 on
+  const getData = () => {
+    console.log(stockData);
+    stockData.forEach((socket) => {
+      // socket.send();
+      initWebSocket(socket.code, socket.codes);
+    });
+  };
+
+  // 실시간 off
+  const stopData = () => {
+    console.log(ws);
+    if (ws.length > 0) {
+      ws.forEach((socket) => {
+        socket.close();
+      });
+    }
   };
 
   useEffect(() => {
@@ -195,10 +223,10 @@ const Portfolio = () => {
           )}
         </div>
         <div>
-          <button id="get_data" className="btn btn-info">
+          <button className="btn btn-info" onClick={getData}>
             get data
           </button>
-          <button id="stop_data" className="btn btn-danger ml-2">
+          <button className="btn btn-danger ml-2" onClick={stopData}>
             stop data
           </button>
         </div>
@@ -223,26 +251,27 @@ const Portfolio = () => {
               {stockData.length ? (
                 stockData.map((stock, index) => (
                   <tr key={index}>
-                    <td className="bg-light ">{stock.name}</td>
+                    <td>{stock.name}</td>
                     <td id={`${stock.code}-price`}></td>
                     <td>
-                      <span id="rate"></span> <span id="change_price"></span>
+                      <div id={`${stock.code}-changeRate`}></div>
+                      <div id={`${stock.code}-changePrice`}></div>
                     </td>
-                    <td id="avgPrice">
+                    <td id={`${stock.code}-avgPrice`}>
                       <input
                         className="bg-light form-control small"
                         type="number"
                         placeholder="평균단가 입력"
                       />
                     </td>
-                    <td id="amount">
+                    <td id={`${stock.code}-amount`}>
                       <input
                         className="bg-light form-control small"
                         type="number"
                         placeholder="수량 입력"
                       />
                     </td>
-                    <td id="eval"></td>
+                    <td id={`${stock.code}-eval`}></td>
                   </tr>
                 ))
               ) : (

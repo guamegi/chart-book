@@ -1,6 +1,7 @@
 import React, { forwardRef } from "react";
 import stockList from "services/stockList";
 import styles from "./searchStockPopup.module.css";
+import { initWebSocket } from "services/websocket";
 
 const searchStockPopup = forwardRef((props, ref) => {
   console.log(stockList);
@@ -22,8 +23,9 @@ const searchStockPopup = forwardRef((props, ref) => {
     }
     setStockData((list) => [...list, stock]);
 
-    if (stock.category == "coin") {
+    if (stock.category === "coin") {
       // coin 시세 호출
+      initWebSocket(stock.code, stock.codes);
     } else {
       // stock 호출
     }
