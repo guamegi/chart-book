@@ -1,12 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SearchStockPopup } from "components";
-import { ws, rmWs, rmAllWs, initWebSocket } from "services/websocket";
+import { ws, removeWs, removeAllWs, initWebSocket } from "services/websocket";
+import NumberFormat from "react-number-format";
 
 const Portfolio = () => {
   const [stockData, setStockData] = useState([]);
   const [modalOn, setModalOn] = useState(false);
   const addButtonEl = useRef();
   const stockPopupEl = useRef();
+  console.log("stockData:", stockData);
+
+  const saveData = () => {
+    // console.log(stockData);
+    // localstorage 저장. 종목 정보 + 평단/수량
+    const data = { ...stockData };
+    for (let i in data) {
+      // console.log(data[i]);
+      // data에 인덱스 기준으로 평단,수량 저장
+      const avgPriceInput = document.querySelector(`#${data[i].code}-avgPrice`);
+      const amountInput = document.querySelector(`#${data[i].code}-amount`);
+      data[i].avgPrice = avgPriceInput.value;
+      data[i].amount = amountInput.value;
+    }
+    console.log("data:", data);
+    localStorage.setItem("saveData", JSON.stringify(data));
+  };
 
   // add new 클릭. 모달 창 열기
   const onOpenModal = () => {
@@ -24,52 +42,81 @@ const Portfolio = () => {
 
   // 개별 종목 삭제
   const removeStock = (code, index) => {
-    console.log("del");
-    console.log(code, index);
+    console.log("remove");
+    // console.log(code, index);
     setStockData(stockData.filter((stock) => stock.code !== code));
     if (ws.length > 0) {
       // 웹소켓 삭제
-      rmWs(index);
+      removeWs(index);
     }
   };
 
-  // remove 클릭. 종목 삭제
+  // remove all 클릭. 전체 종목 삭제
   const removeAllStock = () => {
-    console.log("remove");
+    console.log("remove all");
     setStockData([]);
     if (ws.length > 0) {
       // 웹소켓 전체 삭제
-      rmAllWs();
+      removeAllWs();
     }
   };
 
   // 실시간 on
   const getData = () => {
-    console.log("on");
+    console.log("get data");
     stockData.forEach((socket) => {
-      console.log(stockData);
+      // console.log(stockData);
       initWebSocket(socket.code, socket.codes);
     });
+    // console.log("ws:", ws);
   };
 
   // 실시간 off
   const stopData = () => {
-    console.log("off");
-    // console.log("ws:", ws);
+    console.log("stop data");
     if (ws.length > 0) {
       ws.forEach((socket) => {
         socket.close();
       });
+      removeAllWs();
     }
+    // console.log("ws:", ws);
   };
 
   useEffect(() => {
-    // console.log("first loading");
+    loadData();
+
     window.addEventListener("click", onCloseModal);
     return () => {
       window.removeEventListener("click", onCloseModal);
     };
   }, []);
+
+  async function loadData() {
+    // localData 체크
+    const localData = localStorage.getItem("saveData");
+    if (localData) {
+      console.log("load data");
+      const data = JSON.parse(localData);
+      const dataArr = [];
+      for (let i in data) {
+        dataArr.push(data[i]);
+      }
+      // console.log("dataArr:", dataArr);
+      await setStockData(dataArr); // table 추가
+
+      // 실시간
+      for (let data of dataArr) {
+        // 평단,수량 입력
+        document.querySelector(`#${data.code}-avgPrice`).value = data.avgPrice;
+        document.querySelector(`#${data.code}-amount`).value = data.amount;
+        if (data.category === "coin") {
+          initWebSocket(data.code, data.codes);
+        } else {
+        }
+      }
+    }
+  }
 
   return (
     <div className="container">
@@ -231,7 +278,10 @@ const Portfolio = () => {
           )}
         </div>
         <div>
-          <button className="btn btn-info" onClick={getData}>
+          <button className="btn btn-primary" onClick={saveData}>
+            save
+          </button>
+          <button className="btn btn-info ml-2" onClick={getData}>
             get data
           </button>
           <button className="btn btn-danger ml-2" onClick={stopData}>
@@ -272,21 +322,21 @@ const Portfolio = () => {
                       ></div>
                     </td>
                     <td>
-                      <input
+                      <NumberFormat
                         className="avgPrice bg-light form-control small"
-                        type="number"
                         placeholder="평균단가 입력"
                         name="avgPrice"
                         id={`${stock.code}-avgPrice`}
+                        thousandSeparator={true}
                       />
                     </td>
                     <td>
-                      <input
+                      <NumberFormat
                         className="amount bg-light form-control small"
-                        type="number"
                         placeholder="수량 입력"
                         name="amount"
                         id={`${stock.code}-amount`}
+                        thousandSeparator={true}
                       />
                     </td>
                     <td className="eval" id={`${stock.code}-eval`}></td>

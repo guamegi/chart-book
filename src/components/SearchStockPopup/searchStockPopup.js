@@ -4,7 +4,7 @@ import styles from "./searchStockPopup.module.css";
 import { initWebSocket } from "services/websocket";
 
 const searchStockPopup = forwardRef((props, ref) => {
-  console.log(stockList);
+  // console.log(stockList);
   const { setModalOn, modalOn, stockData, setStockData } = props;
 
   // list 클릭
@@ -33,7 +33,6 @@ const searchStockPopup = forwardRef((props, ref) => {
     // add 하면 input 에 포커스
     const avgPriceInput = document.querySelector(`#${code}-avgPrice`);
     avgPriceInput.focus();
-    // console.log(code, avgPriceInput);
   }
 
   return (

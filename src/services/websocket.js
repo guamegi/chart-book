@@ -1,18 +1,18 @@
-// const [ws, rmWs] = useState([]);
+// const [ws, removeWs] = useState([]);
 
 let ws = [];
 // ws 제거용
-const rmWs = (index) => {
+const removeWs = (index) => {
   ws.forEach((socket, idx) => {
     if (index === idx) {
-      console.log(index, idx, socket);
+      //   console.log(index, idx, ws, socket);
       socket.close();
     }
   });
   ws.splice(index, 1);
 };
 
-const rmAllWs = () => {
+const removeAllWs = () => {
   ws.forEach((socket) => {
     socket.close();
   });
@@ -28,7 +28,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   const websocket = new WebSocket("wss://api.upbit.com/websocket/v1");
   websocket.binaryType = "blob";
   ws.push(websocket);
-  //   rmWs((socket) => [...socket, websocket]);
+  //   removeWs((socket) => [...socket, websocket]);
 
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {
@@ -37,10 +37,8 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
       websocket.send(JSON.stringify(json));
     }
   };
-  websocket.onclose = function (evt, index) {
-    console.log(index);
+  websocket.onclose = function (evt) {
     console.log("socket close");
-    // rmWs(index);
   };
   websocket.onmessage = function (evt) {
     const reader = new FileReader();
@@ -73,47 +71,34 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
 
         // input 두개에 값이 있으면, 평가금액/평가손익/수익률 갱신하기
         if (avgPriceInput.value && amountInput.value) {
-          //   console.log("asf");
+          //   console.log(avgPriceInput.value, amountInput.value);
           evalPrice.textContent = comma(
-            (
-              document
-                .querySelector(`#${code}-price`)
-                .textContent.split(",")
-                .join("") * amountInput.value
-            ).toFixed(0)
+            (uncomma(price.textContent) * uncomma(amountInput.value)).toFixed(0)
           );
           profit.textContent = comma(
             (
-              document
-                .querySelector(`#${code}-price`)
-                .textContent.split(",")
-                .join("") *
-                amountInput.value -
-              avgPriceInput.value * amountInput.value
+              uncomma(price.textContent) * uncomma(amountInput.value) -
+              uncomma(avgPriceInput.value) * uncomma(amountInput.value)
             ).toFixed(0)
           );
           profitRate.textContent =
             (
-              (document
-                .querySelector(`#${code}-price`)
-                .textContent.split(",")
-                .join("") /
-                avgPriceInput.value) *
+              (uncomma(price.textContent) / uncomma(avgPriceInput.value)) *
                 100 -
               100
             ).toFixed(2) + "%";
 
           // total amt 계산
-          const avgPriceEl = document.querySelectorAll(".avgPrice");
-          const amountEl = document.querySelectorAll(".amount");
+          const allAvgPriceEl = document.querySelectorAll(".avgPrice");
+          const allAmountEl = document.querySelectorAll(".amount");
           let avgPriceNum = [];
           let amountNum = [];
           let amtNum = 0;
-          avgPriceEl.forEach((e) => {
-            avgPriceNum.push(e.value);
+          allAvgPriceEl.forEach((e) => {
+            avgPriceNum.push(uncomma(e.value));
           });
-          amountEl.forEach((e) => {
-            amountNum.push(e.value);
+          allAmountEl.forEach((e) => {
+            amountNum.push(uncomma(e.value));
           });
           for (let i = 0; i < avgPriceNum.length; i++) {
             amtNum += avgPriceNum[i] * amountNum[i];
@@ -141,8 +126,8 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
           // total 수익률 계산
           totalProfitRate.textContent =
             (
-              (totalProfit.textContent.split(",").join("") /
-                totalAmt.textContent.split(",").join("")) *
+              (uncomma(totalProfit.textContent) /
+                uncomma(totalAmt.textContent)) *
               100
             ).toFixed(2) + "%";
         } else {
@@ -197,4 +182,4 @@ const uncomma = (str) => {
   return str.replaceAll(",", "");
 };
 
-export { ws, rmWs, rmAllWs, initWebSocket, comma };
+export { ws, removeWs, removeAllWs, initWebSocket, comma };
