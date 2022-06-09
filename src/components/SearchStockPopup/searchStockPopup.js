@@ -8,11 +8,11 @@ const searchStockPopup = forwardRef((props, ref) => {
   const { setModalOn, modalOn, stockData, setStockData } = props;
 
   // list 클릭
-  const onClickList = (code) => {
+  async function onClickList(code) {
     // popup 닫기
     setModalOn(!modalOn);
 
-    // TODO: 해당 코드의 실시간 시세 호출, table 추가
+    // 해당 코드의 실시간 시세 호출, table 추가
     // stockList 에 해당 code와 같은 오브젝트 추가하기
     let stock = stockList.find((list) => list.code === code);
 
@@ -25,11 +25,16 @@ const searchStockPopup = forwardRef((props, ref) => {
 
     if (stock.category === "coin") {
       // coin 시세 호출
-      initWebSocket(stock.code, stock.codes);
+      await initWebSocket(stock.code, stock.codes);
     } else {
       // stock 호출
     }
-  };
+
+    // add 하면 input 에 포커스
+    const avgPriceInput = document.querySelector(`#${code}-avgPrice`);
+    avgPriceInput.focus();
+    // console.log(code, avgPriceInput);
+  }
 
   return (
     <div className={styles.container}>

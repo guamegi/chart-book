@@ -1,12 +1,26 @@
-let ws = [];
 // const [ws, rmWs] = useState([]);
 
-const rmWs = () => {
+let ws = [];
+// ws 제거용
+const rmWs = (index) => {
+  ws.forEach((socket, idx) => {
+    if (index === idx) {
+      console.log(index, idx, socket);
+      socket.close();
+    }
+  });
+  ws.splice(index, 1);
+};
+
+const rmAllWs = () => {
+  ws.forEach((socket) => {
+    socket.close();
+  });
   ws = [];
 };
 
 // 업비트 웹소켓 통신 시작함
-const initWebSocket = (code, codes = "KRW-BTC") => {
+const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // request data
   const json = [{ ticket: "ticket" }, { type: "ticker", codes: [codes] }];
 
@@ -19,12 +33,14 @@ const initWebSocket = (code, codes = "KRW-BTC") => {
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {
     if (websocket.readyState === 1) {
+      console.log("socket open");
       websocket.send(JSON.stringify(json));
     }
   };
-  websocket.onclose = function (evt) {
+  websocket.onclose = function (evt, index) {
+    console.log(index);
     console.log("socket close");
-    rmWs();
+    // rmWs(index);
   };
   websocket.onmessage = function (evt) {
     const reader = new FileReader();
@@ -34,15 +50,106 @@ const initWebSocket = (code, codes = "KRW-BTC") => {
       console.log(result);
 
       // 특정 id에 실시간 데이터 표시
+      const totalAmt = document.querySelector("#totalAmt");
+      const totalEval = document.querySelector("#totalEval");
+      const totalProfit = document.querySelector("#totalProfit");
+      const totalProfitRate = document.querySelector("#totalProfitRate");
+
       const price = document.querySelector(`#${code}-price`);
       const changeRate = document.querySelector(`#${code}-changeRate`);
       const changePrice = document.querySelector(`#${code}-changePrice`);
+
+      const avgPriceInput = document.querySelector(`#${code}-avgPrice`);
+      const amountInput = document.querySelector(`#${code}-amount`);
+
+      const evalPrice = document.querySelector(`#${code}-eval`);
+      const profit = document.querySelector(`#${code}-profit`);
+      const profitRate = document.querySelector(`#${code}-yield`);
 
       if (price) {
         price.textContent = comma(result.trade_price);
         const cr_txt = result.change_rate.toFixed(2);
         const cp_txt = comma(result.change_price);
 
+        // input 두개에 값이 있으면, 평가금액/평가손익/수익률 갱신하기
+        if (avgPriceInput.value && amountInput.value) {
+          //   console.log("asf");
+          evalPrice.textContent = comma(
+            (
+              document
+                .querySelector(`#${code}-price`)
+                .textContent.split(",")
+                .join("") * amountInput.value
+            ).toFixed(0)
+          );
+          profit.textContent = comma(
+            (
+              document
+                .querySelector(`#${code}-price`)
+                .textContent.split(",")
+                .join("") *
+                amountInput.value -
+              avgPriceInput.value * amountInput.value
+            ).toFixed(0)
+          );
+          profitRate.textContent =
+            (
+              (document
+                .querySelector(`#${code}-price`)
+                .textContent.split(",")
+                .join("") /
+                avgPriceInput.value) *
+                100 -
+              100
+            ).toFixed(2) + "%";
+
+          // total amt 계산
+          const avgPriceEl = document.querySelectorAll(".avgPrice");
+          const amountEl = document.querySelectorAll(".amount");
+          let avgPriceNum = [];
+          let amountNum = [];
+          let amtNum = 0;
+          avgPriceEl.forEach((e) => {
+            avgPriceNum.push(e.value);
+          });
+          amountEl.forEach((e) => {
+            amountNum.push(e.value);
+          });
+          for (let i = 0; i < avgPriceNum.length; i++) {
+            amtNum += avgPriceNum[i] * amountNum[i];
+          }
+          totalAmt.textContent = comma(amtNum.toFixed(0));
+
+          // total eval 계산
+          const allEvalEl = document.querySelectorAll(".eval");
+          let allEvalNum = 0;
+          allEvalEl.forEach(function (e) {
+            // console.log(e);
+            allEvalNum += parseFloat(uncomma(e.innerText));
+          });
+          totalEval.textContent = comma(allEvalNum.toFixed(0));
+
+          // total profit 계산
+          const allProfitEl = document.querySelectorAll(".profit");
+          let allProfitNum = 0;
+          allProfitEl.forEach((e) => {
+            // console.log(allProfitEl, e.innerText, uncomma(e.innerText));
+            allProfitNum += parseFloat(uncomma(e.innerText));
+          });
+          totalProfit.textContent = comma(allProfitNum.toFixed(0));
+
+          // total 수익률 계산
+          totalProfitRate.textContent =
+            (
+              (totalProfit.textContent.split(",").join("") /
+                totalAmt.textContent.split(",").join("")) *
+              100
+            ).toFixed(2) + "%";
+        } else {
+          evalPrice.textContent = "-";
+          profit.textContent = "-";
+          profitRate.textContent = "-";
+        }
         // style 변경
         if (result.change === "RISE") {
           changeRate.textContent = `+${cr_txt}%`;
@@ -86,4 +193,8 @@ const comma = (str) => {
   return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
 };
 
-export { ws, rmWs, initWebSocket };
+const uncomma = (str) => {
+  return str.replaceAll(",", "");
+};
+
+export { ws, rmWs, rmAllWs, initWebSocket, comma };

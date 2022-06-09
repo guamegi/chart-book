@@ -15,13 +15,6 @@ const stockList = [
     category: "coin",
   },
   {
-    name: "바이낸스코인",
-    en_name: "bnb",
-    code: "BNB",
-    codes: "KRW-BNB",
-    category: "coin",
-  },
-  {
     name: "리플",
     en_name: "xrp",
     code: "XRP",
