@@ -66,7 +66,8 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
 
       if (price) {
         price.textContent = comma(result.trade_price);
-        const cr_txt = result.change_rate.toFixed(2);
+        // const cr_txt = result.change_rate.toFixed(2);
+        const cr_txt = (result.change_rate * 100).toFixed(2);
         const cp_txt = comma(result.change_price);
 
         // input 두개에 값이 있으면, 평가금액/평가손익/수익률 갱신하기
