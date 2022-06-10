@@ -4,12 +4,11 @@ import styles from "./searchStockPopup.module.css";
 import { initWebSocket } from "services/websocket";
 
 const searchStockPopup = forwardRef((props, ref) => {
-  // console.log(stockList);
-  const { setModalOn, modalOn, stockData, setStockData } = props;
+  const { modalOn, setModalOn, stockData, setStockData } = props;
   const [searchList, setSearchList] = useState([]);
 
   // list 클릭
-  async function onClickList(code) {
+  async function selectStockList(code) {
     // popup 닫기
     setModalOn(!modalOn);
 
@@ -67,7 +66,10 @@ const searchStockPopup = forwardRef((props, ref) => {
         <ul>
           {searchList.length > 0
             ? searchList.map((stock) => (
-                <li key={stock.code} onClick={() => onClickList(stock.code)}>
+                <li
+                  key={stock.code}
+                  onClick={() => selectStockList(stock.code)}
+                >
                   <div className="row">
                     <span className="col mr-2">{stock.name}</span>
                     <span className="col-auto">
@@ -77,7 +79,10 @@ const searchStockPopup = forwardRef((props, ref) => {
                 </li>
               ))
             : stockList.map((stock) => (
-                <li key={stock.code} onClick={() => onClickList(stock.code)}>
+                <li
+                  key={stock.code}
+                  onClick={() => selectStockList(stock.code)}
+                >
                   <div className="row">
                     <span className="col mr-2">{stock.name}</span>
                     <span className="col-auto">

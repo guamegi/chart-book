@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SearchStockPopup } from "components";
-import { ws, removeWs, removeAllWs, initWebSocket } from "services/websocket";
+import {
+  ws,
+  removeWebSocket,
+  removeAllWebSocket,
+  initWebSocket,
+} from "services/websocket";
 import NumberFormat from "react-number-format";
 
 const Portfolio = () => {
@@ -8,7 +13,16 @@ const Portfolio = () => {
   const [modalOn, setModalOn] = useState(false);
   const addButtonEl = useRef();
   const stockPopupEl = useRef();
-  console.log("stockData:", stockData);
+
+  useEffect(() => {
+    if (ws.length > 0) removeAllWebSocket();
+    loadData();
+
+    window.addEventListener("click", closeModal);
+    return () => {
+      window.removeEventListener("click", closeModal);
+    };
+  }, []);
 
   const saveData = () => {
     // console.log(stockData);
@@ -27,13 +41,13 @@ const Portfolio = () => {
   };
 
   // add new 클릭. 모달 창 열기
-  const onOpenModal = () => {
+  const openModal = () => {
     setModalOn(!modalOn);
     // addButtonEl.current.focus();
   };
 
   // background 클릭. 모달 창 닫기
-  const onCloseModal = (event) => {
+  const closeModal = (event) => {
     const target = event.target;
     if (target === addButtonEl.current || target === stockPopupEl.current)
       return;
@@ -47,7 +61,7 @@ const Portfolio = () => {
     setStockData(stockData.filter((stock) => stock.code !== code));
     if (ws.length > 0) {
       // 웹소켓 삭제
-      removeWs(index);
+      removeWebSocket(index);
     }
   };
 
@@ -57,12 +71,13 @@ const Portfolio = () => {
     setStockData([]);
     if (ws.length > 0) {
       // 웹소켓 전체 삭제
-      removeAllWs();
+      removeAllWebSocket();
     }
   };
 
   // 실시간 on
   const getData = () => {
+    if (ws.length > 0) removeAllWebSocket();
     console.log("get data");
     stockData.forEach((socket) => {
       // console.log(stockData);
@@ -74,24 +89,8 @@ const Portfolio = () => {
   // 실시간 off
   const stopData = () => {
     console.log("stop data");
-    if (ws.length > 0) {
-      ws.forEach((socket) => {
-        socket.close();
-      });
-      removeAllWs();
-    }
-    // console.log("ws:", ws);
+    if (ws.length > 0) removeAllWebSocket();
   };
-
-  useEffect(() => {
-    if (ws) removeAllWs();
-    loadData();
-
-    window.addEventListener("click", onCloseModal);
-    return () => {
-      window.removeEventListener("click", onCloseModal);
-    };
-  }, []);
 
   async function loadData() {
     // localData 체크
@@ -253,7 +252,7 @@ const Portfolio = () => {
           <button
             id="addStock"
             className="btn btn-light ml-2"
-            onClick={onOpenModal}
+            onClick={openModal}
             ref={addButtonEl}
           >
             <i className="fas fa-plus mr-2"></i>

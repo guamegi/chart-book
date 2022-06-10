@@ -1,23 +1,6 @@
-// const [ws, removeWs] = useState([]);
-
+// const [ws, removeWebSocket] = useState([]);
+import { comma, uncomma } from "common";
 let ws = [];
-// ws 제거용
-const removeWs = (index) => {
-  ws.forEach((socket, idx) => {
-    if (index === idx) {
-      //   console.log(index, idx, ws, socket);
-      socket.close();
-    }
-  });
-  ws.splice(index, 1);
-};
-
-const removeAllWs = () => {
-  ws.forEach((socket) => {
-    socket.close();
-  });
-  ws = [];
-};
 
 // 업비트 웹소켓 통신 시작함
 const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
@@ -28,7 +11,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   const websocket = new WebSocket("wss://api.upbit.com/websocket/v1");
   websocket.binaryType = "blob";
   ws.push(websocket);
-  //   removeWs((socket) => [...socket, websocket]);
+  //   removeWebSocket((socket) => [...socket, websocket]);
 
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {
@@ -173,14 +156,22 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   };
 };
 
-// 숫자 세자리마다 콤마 표시
-const comma = (str) => {
-  str = String(str);
-  return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+// ws 제거용
+const removeWebSocket = (index) => {
+  ws.forEach((socket, idx) => {
+    if (index === idx) {
+      //   console.log(index, idx, ws, socket);
+      socket.close();
+    }
+  });
+  ws.splice(index, 1);
 };
 
-const uncomma = (str) => {
-  return str.replaceAll(",", "");
+const removeAllWebSocket = () => {
+  ws.forEach((socket) => {
+    socket.close();
+  });
+  ws = [];
 };
 
-export { ws, removeWs, removeAllWs, initWebSocket, comma };
+export { ws, removeWebSocket, removeAllWebSocket, initWebSocket };
