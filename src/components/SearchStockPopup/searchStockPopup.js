@@ -7,13 +7,11 @@ const searchStockPopup = forwardRef((props, ref) => {
   const { modalOn, setModalOn, stockData, setStockData } = props;
   const [searchList, setSearchList] = useState([]);
 
-  // list 클릭
   async function selectStockList(code) {
     // popup 닫기
     setModalOn(!modalOn);
 
-    // 해당 코드의 실시간 시세 호출, table 추가
-    // stockList 에 해당 code와 같은 오브젝트 추가하기
+    // stockList 에 해당 code와 같은 종목 저장
     let stock = stockList.find((list) => list.code === code);
 
     // 중복 코드는 생성 안함
@@ -21,6 +19,7 @@ const searchStockPopup = forwardRef((props, ref) => {
       alert("동일한 종목이 존재합니다. 다시 선택해주세요!");
       return;
     }
+    // 해당 종목의 table 추가
     setStockData((list) => [...list, stock]);
 
     if (stock.category === "coin") {
@@ -46,6 +45,19 @@ const searchStockPopup = forwardRef((props, ref) => {
     setSearchList(words);
   };
 
+  const makeStockList = (stock) => {
+    return (
+      <li key={stock.code} onClick={() => selectStockList(stock.code)}>
+        <div className="row">
+          <span className="col mr-2">{stock.name}</span>
+          <span className="col-auto">
+            <small className="font-weight-light">{stock.code}</small>
+          </span>
+        </div>
+      </li>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <div className="input-group">
@@ -65,32 +77,8 @@ const searchStockPopup = forwardRef((props, ref) => {
       <div className={styles.stockList}>
         <ul>
           {searchList.length > 0
-            ? searchList.map((stock) => (
-                <li
-                  key={stock.code}
-                  onClick={() => selectStockList(stock.code)}
-                >
-                  <div className="row">
-                    <span className="col mr-2">{stock.name}</span>
-                    <span className="col-auto">
-                      <small className="font-weight-light">{stock.code}</small>
-                    </span>
-                  </div>
-                </li>
-              ))
-            : stockList.map((stock) => (
-                <li
-                  key={stock.code}
-                  onClick={() => selectStockList(stock.code)}
-                >
-                  <div className="row">
-                    <span className="col mr-2">{stock.name}</span>
-                    <span className="col-auto">
-                      <small className="font-weight-light">{stock.code}</small>
-                    </span>
-                  </div>
-                </li>
-              ))}
+            ? searchList.map((stock) => makeStockList(stock))
+            : stockList.map((stock) => makeStockList(stock))}
         </ul>
       </div>
     </div>

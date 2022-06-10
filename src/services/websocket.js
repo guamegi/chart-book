@@ -49,7 +49,6 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
 
       if (price) {
         price.textContent = comma(result.trade_price);
-        // const cr_txt = result.change_rate.toFixed(2);
         const cr_txt = (result.change_rate * 100).toFixed(2);
         const cp_txt = comma(result.change_price);
 
@@ -93,7 +92,6 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
           const allEvalEl = document.querySelectorAll(".eval");
           let allEvalNum = 0;
           allEvalEl.forEach(function (e) {
-            // console.log(e);
             allEvalNum += parseFloat(uncomma(e.innerText));
           });
           totalEval.textContent = comma(allEvalNum.toFixed(0));
@@ -102,7 +100,6 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
           const allProfitEl = document.querySelectorAll(".profit");
           let allProfitNum = 0;
           allProfitEl.forEach((e) => {
-            // console.log(allProfitEl, e.innerText, uncomma(e.innerText));
             allProfitNum += parseFloat(uncomma(e.innerText));
           });
           totalProfit.textContent = comma(allProfitNum.toFixed(0));
@@ -115,6 +112,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
               100
             ).toFixed(2) + "%";
         } else {
+          // input 두개에 값 없으면 "-" 표시
           evalPrice.textContent = "-";
           profit.textContent = "-";
           profitRate.textContent = "-";
