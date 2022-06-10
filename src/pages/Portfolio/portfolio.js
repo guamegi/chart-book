@@ -29,7 +29,7 @@ const Portfolio = () => {
   // add new 클릭. 모달 창 열기
   const onOpenModal = () => {
     setModalOn(!modalOn);
-    addButtonEl.current.focus();
+    // addButtonEl.current.focus();
   };
 
   // background 클릭. 모달 창 닫기
@@ -328,6 +328,7 @@ const Portfolio = () => {
                         name="avgPrice"
                         id={`${stock.code}-avgPrice`}
                         thousandSeparator={true}
+                        value={stock.avgPrice ? stock.avgPrice : null}
                       />
                     </td>
                     <td>
@@ -337,6 +338,7 @@ const Portfolio = () => {
                         name="amount"
                         id={`${stock.code}-amount`}
                         thousandSeparator={true}
+                        value={stock.amount ? stock.amount : null}
                       />
                     </td>
                     <td className="eval" id={`${stock.code}-eval`}></td>

@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import stockList from "services/stockList";
 import styles from "./searchStockPopup.module.css";
 import { initWebSocket } from "services/websocket";
@@ -6,6 +6,7 @@ import { initWebSocket } from "services/websocket";
 const searchStockPopup = forwardRef((props, ref) => {
   // console.log(stockList);
   const { setModalOn, modalOn, stockData, setStockData } = props;
+  const [searchList, setSearchList] = useState([]);
 
   // list 클릭
   async function onClickList(code) {
@@ -35,6 +36,17 @@ const searchStockPopup = forwardRef((props, ref) => {
     avgPriceInput.focus();
   }
 
+  // 종목 검색 필터
+  const searchStock = (e) => {
+    // console.log(e.target.value);
+    // stockList에서 입력된 종목 검색
+    const words = stockList.filter((stock) =>
+      stock.name.includes(e.target.value)
+    );
+    console.log(words);
+    setSearchList(words);
+  };
+
   return (
     <div className={styles.container}>
       <div className="input-group">
@@ -43,6 +55,7 @@ const searchStockPopup = forwardRef((props, ref) => {
           type="text"
           placeholder="종목명 입력"
           ref={ref}
+          onChange={searchStock}
         />
         <div className="input-group-append">
           <button className="btn btn-primary py-0" type="button">
@@ -52,16 +65,27 @@ const searchStockPopup = forwardRef((props, ref) => {
       </div>
       <div className={styles.stockList}>
         <ul>
-          {stockList.map((stock) => (
-            <li key={stock.code} onClick={() => onClickList(stock.code)}>
-              <div className="row">
-                <span className="col mr-2">{stock.name}</span>
-                <span className="col-auto">
-                  <small className="font-weight-light">{stock.code}</small>
-                </span>
-              </div>
-            </li>
-          ))}
+          {searchList.length > 0
+            ? searchList.map((stock) => (
+                <li key={stock.code} onClick={() => onClickList(stock.code)}>
+                  <div className="row">
+                    <span className="col mr-2">{stock.name}</span>
+                    <span className="col-auto">
+                      <small className="font-weight-light">{stock.code}</small>
+                    </span>
+                  </div>
+                </li>
+              ))
+            : stockList.map((stock) => (
+                <li key={stock.code} onClick={() => onClickList(stock.code)}>
+                  <div className="row">
+                    <span className="col mr-2">{stock.name}</span>
+                    <span className="col-auto">
+                      <small className="font-weight-light">{stock.code}</small>
+                    </span>
+                  </div>
+                </li>
+              ))}
         </ul>
       </div>
     </div>

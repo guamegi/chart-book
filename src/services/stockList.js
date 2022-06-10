@@ -50,6 +50,27 @@ const stockList = [
     category: "coin",
   },
   {
+    name: "샌드박스",
+    en_name: "sandbox",
+    code: "SAND",
+    codes: "KRW-SAND",
+    category: "coin",
+  },
+  {
+    name: "디센트럴랜드",
+    en_name: "decentraland",
+    code: "MANA",
+    codes: "KRW-MANA",
+    category: "coin",
+  },
+  {
+    name: "이캐시",
+    en_name: "eCash",
+    code: "XEC",
+    codes: "KRW-XEC",
+    category: "coin",
+  },
+  {
     name: "삼성전자",
     en_name: null,
     code: "005930",
