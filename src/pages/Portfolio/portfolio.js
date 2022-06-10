@@ -84,6 +84,7 @@ const Portfolio = () => {
   };
 
   useEffect(() => {
+    if (ws) removeAllWs();
     loadData();
 
     window.addEventListener("click", onCloseModal);
