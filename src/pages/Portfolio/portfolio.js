@@ -128,7 +128,7 @@ const Portfolio = () => {
               <div className="row align-items-center no-gutters">
                 <div className="col mr-2">
                   <div className="text-uppercase text-primary font-weight-bold mb-1">
-                    <span>총 매수</span>
+                    <span>총 매수금액</span>
                   </div>
                   <div className="text-dark font-weight-bold h5 mb-0">
                     <span id="totalAmt">0</span>
@@ -148,7 +148,7 @@ const Portfolio = () => {
               <div className="row align-items-center no-gutters">
                 <div className="col mr-2">
                   <div className="text-uppercase text-success font-weight-bold mb-1">
-                    <span>총 평가</span>
+                    <span>총 평가금액</span>
                   </div>
                   <div className="text-dark font-weight-bold h5 mb-0">
                     <span id="totalEval">0</span>
@@ -256,14 +256,14 @@ const Portfolio = () => {
             ref={addButtonEl}
           >
             <i className="fas fa-plus mr-2"></i>
-            Add new
+            종목 추가
           </button>
           <button
             className="btn btn-light text-danger ml-2"
             onClick={removeAllStock}
           >
             <i className="fas fa-trash mr-2"></i>
-            Remove all
+            전체 삭제
           </button>
           {modalOn ? (
             <SearchStockPopup
@@ -278,10 +278,10 @@ const Portfolio = () => {
           )}
         </div>
         <div>
-          <button className="btn btn-primary" onClick={saveData}>
+          <button className="btn btn-info" onClick={saveData}>
             save
           </button>
-          <button className="btn btn-info ml-2" onClick={getData}>
+          <button className="btn btn-success ml-2" onClick={getData}>
             get data
           </button>
           <button className="btn btn-danger ml-2" onClick={stopData}>

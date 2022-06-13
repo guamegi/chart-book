@@ -2,15 +2,7 @@ import React from "react";
 import { Switch, Redirect } from "react-router-dom";
 import { ProtectedRouteWithLayout } from "./components";
 import { AdminLayout } from "./layouts";
-import {
-  Home,
-  Portfolio,
-  Stock,
-  CryptoCurrency,
-  NotFound,
-  MarketIndex,
-  News,
-} from "./pages";
+import { Home, Portfolio, NotFound, Push } from "./pages";
 
 const Routes = () => {
   return (
@@ -29,28 +21,10 @@ const Routes = () => {
         path="/portfolio"
       />
       <ProtectedRouteWithLayout
-        component={Stock}
+        component={Push}
         exact
         layout={AdminLayout}
-        path="/stock"
-      />
-      <ProtectedRouteWithLayout
-        component={CryptoCurrency}
-        exact
-        layout={AdminLayout}
-        path="/cryptoCurrency"
-      />
-      <ProtectedRouteWithLayout
-        component={MarketIndex}
-        exact
-        layout={AdminLayout}
-        path="/marketIndex"
-      />
-      <ProtectedRouteWithLayout
-        component={News}
-        exact
-        layout={AdminLayout}
-        path="/news"
+        path="/push"
       />
       <ProtectedRouteWithLayout
         component={NotFound}

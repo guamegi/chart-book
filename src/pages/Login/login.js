@@ -1,11 +1,11 @@
 import React from "react";
 
-const Stock = () => {
+const Login = (props) => {
   return (
     <div className="container-fluid">
-      <h3 className="text-dark mb-4">Stock</h3>
+      <h3 className="text-dark mb-4">Login</h3>
     </div>
   );
 };
 
-export default Stock;
+export default Login;

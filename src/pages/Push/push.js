@@ -1,11 +1,11 @@
 import React from "react";
 
-const News = () => {
+const Push = () => {
   return (
     <div className="container-fluid">
-      <h3 className="text-dark mb-4">News</h3>
+      <h3 className="text-dark mb-4">Push</h3>
     </div>
   );
 };
 
-export default News;
+export default Push;
