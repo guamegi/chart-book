@@ -112,10 +112,10 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
               100
             ).toFixed(2) + "%";
         } else {
-          // input 두개에 값 없으면 "-" 표시
-          evalPrice.textContent = "-";
-          profit.textContent = "-";
-          profitRate.textContent = "-";
+          // input 두개에 값 없으면 "0" 표시
+          evalPrice.textContent = "0";
+          profit.textContent = "0";
+          profitRate.textContent = "0";
         }
         // style 변경
         if (result.change === "RISE") {
