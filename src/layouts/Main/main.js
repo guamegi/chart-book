@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { default as TopMenu } from "./TopMenu/topMenu";
 import { default as TitleBar } from "./TitleBar/titleBar";
 
-const Admin = (props) => {
+const Main = (props) => {
   const { children } = props;
 
   return (
@@ -26,8 +26,8 @@ const Admin = (props) => {
   );
 };
 
-Admin.propTypes = {
+Main.propTypes = {
   children: PropTypes.node,
 };
 
-export default Admin;
+export default Main;

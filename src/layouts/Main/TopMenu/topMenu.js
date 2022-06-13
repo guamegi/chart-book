@@ -1,0 +1,72 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
+
+class TopMenu extends React.Component {
+  render() {
+    return (
+      <nav
+        className={
+          "navbar navbar-dark navbar-expand bg-gradient-primary shadow mb-4"
+        }
+      >
+        <div className="container d-flex flex-row">
+          <ul className="nav navbar-nav text-light">
+            <li className="nav-item" role="presentation">
+              <NavLink className="nav-link" activeClassName="active" to="/home">
+                <span>Home</span>
+              </NavLink>
+            </li>
+            <li className="nav-item ml-3" role="presentation">
+              <NavLink
+                className="nav-link"
+                activeClassName="active"
+                to="/portfolio"
+              >
+                <span>자산현황</span>
+              </NavLink>
+            </li>
+            <li className="nav-item  ml-3" role="presentation">
+              <NavLink
+                className="nav-link"
+                activeClassName="active"
+                to="/stock"
+              >
+                <span>국내주식</span>
+              </NavLink>
+            </li>
+            <li className="nav-item  ml-3" role="presentation">
+              <NavLink
+                className="nav-link"
+                activeClassName="active"
+                to="/cryptoCurrency"
+              >
+                <span>가상화폐</span>
+              </NavLink>
+            </li>
+            <li className="nav-item  ml-3" role="presentation">
+              <NavLink
+                className="nav-link"
+                activeClassName="active"
+                to="/marketIndex"
+              >
+                <span>시장지표</span>
+              </NavLink>
+            </li>
+            <li className="nav-item  ml-3" role="presentation">
+              <NavLink className="nav-link" activeClassName="active" to="/news">
+                <span>뉴스</span>
+              </NavLink>
+            </li>
+            <li className="nav-item ml-3" role="presentation">
+              <NavLink className="nav-link" activeClassName="active" to="/test">
+                <span>Test</span>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    );
+  }
+}
+
+export default TopMenu;
