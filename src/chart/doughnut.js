@@ -3,18 +3,17 @@ import { Chart } from "chart.js";
 // Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 // Chart.defaults.global.defaultFontColor = '#858796';
 
-export var myPieChart = null;
-var eval_data = [100];
-export function set_piechart() {
+export var myDoughnutChart = null;
+export function setDoughnutChart() {
   // Pie Chart
-  var ctx = document.getElementById("myPieChart");
-  myPieChart = new Chart(ctx, {
+  var ctx = document.getElementById("myDoughnutChart");
+  myDoughnutChart = new Chart(ctx, {
     type: "doughnut",
     data: {
       labels: [],
       datasets: [
         {
-          data: eval_data,
+          data: [],
           backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
           hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf"],
           hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -30,7 +29,7 @@ export function set_piechart() {
         borderWidth: 1,
         xPadding: 15,
         yPadding: 15,
-        displayColors: false,
+        displayColors: true,
         caretPadding: 10,
       },
       legend: {

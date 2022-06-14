@@ -227,7 +227,7 @@ const Portfolio = () => {
             </div>
             <div className="card-body">
               <div className="chart-pie pt-4 pb-2">
-                <canvas id="myPieChart"></canvas>
+                <canvas id="myDoughnutChart"></canvas>
               </div>
               <div className="mt-4 text-center small">
                 <span className="mr-2">

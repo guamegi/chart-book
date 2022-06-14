@@ -1,7 +1,7 @@
 // const [ws, removeWebSocket] = useState([]);
 import { comma, uncomma, getTime } from "common";
-import { myLineChart, set_linechart } from "../chart/area";
-import { myPieChart, set_piechart } from "../chart/pie";
+import { myLineChart, setLineChart } from "../chart/area";
+import { myDoughnutChart, setDoughnutChart } from "../chart/doughnut";
 
 let ws = [];
 let interval = null;
@@ -22,8 +22,8 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // console.log("interval:", interval);
   // 로딩 후 처음 차트 생성
   setTimeout(function () {
-    set_linechart();
-    set_piechart();
+    setLineChart();
+    setDoughnutChart();
   }, 1000);
 
   // 콜백 이벤트 설정
@@ -164,15 +164,15 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
         if (!interval) {
           console.log("has not interval");
           interval = setInterval(function () {
-            // myPieChart.options.animation.duration = 0;
-            // set_linechart();
-            // set_piechart();
+            // myDoughnutChart.options.animation.duration = 0;
+            // setLineChart();
+            // setDoughnutChart();
             myLineChart.update();
-            myPieChart.update();
+            myDoughnutChart.update();
           }, 3000);
 
           updateLineChart();
-          updatePieChart();
+          updateDoughnutChart();
         }
       }
     };
@@ -183,16 +183,17 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
 };
 
 let lineInterval = null;
+const updateTime = 5000;
 const updateLineChart = () => {
   if (lineInterval) return;
-  let lineData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   let xAxes = ["", "", "", "", "", "", "", "", "", "", "", ""];
   const totalEval = document.querySelector("#totalEval");
 
   lineInterval = setInterval(function () {
-    lineData.shift();
-    lineData.push(uncomma(totalEval.textContent));
-    myLineChart.data.datasets[0].data = lineData;
+    data.shift();
+    data.push(uncomma(totalEval.textContent));
+    myLineChart.data.datasets[0].data = data;
 
     const time = getTime();
     xAxes.shift();
@@ -200,20 +201,20 @@ const updateLineChart = () => {
     myLineChart.data.labels = xAxes;
 
     myLineChart.update();
-  }, 5000);
+  }, updateTime);
 };
 
-let pieInterval = null;
-const updatePieChart = () => {
-  if (pieInterval) return;
+let doughnutInterval = null;
+const updateDoughnutChart = () => {
+  if (doughnutInterval) return;
   const totalEval = document.querySelector("#totalEval");
   const dataTable = document.querySelector("#dataTable");
   // console.log(dataTable.childNodes);
 
   // 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
-  pieInterval = setInterval(function () {
-    let pieData = [];
-    let pieCode = [];
+  doughnutInterval = setInterval(function () {
+    let data = [];
+    let code = [];
     for (let i = 0; i < dataTable.childNodes.length; i++) {
       // console.log(dataTable.childNodes[i].id);
       const stockCode = dataTable.childNodes[i].id;
@@ -221,14 +222,14 @@ const updatePieChart = () => {
       if (!stockEl) return; // 다른 화면 전환시 에러. 예외처리
       const price =
         (uncomma(stockEl.textContent) / uncomma(totalEval.textContent)) * 100;
-      pieData.push(price.toFixed(0));
-      pieCode.push(stockCode);
+      data.push(price.toFixed(0));
+      code.push(stockCode);
     }
-    // console.log(pieData);
-    myPieChart.data.datasets[0].data = pieData;
-    myPieChart.data.labels = pieCode;
-    myPieChart.update();
-  }, 5000);
+    // console.log(data);
+    myDoughnutChart.data.datasets[0].data = data;
+    myDoughnutChart.data.labels = code;
+    myDoughnutChart.update();
+  }, updateTime);
 };
 
 // ws 제거용

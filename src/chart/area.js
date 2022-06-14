@@ -32,13 +32,13 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 // 외부에서 접근해서 데이터 조작해야 함
 export var myLineChart = null;
-export function set_linechart(price) {
+export function setLineChart(price) {
   // Area Chart Example
   var ctx = document.getElementById("myAreaChart");
   myLineChart = new Chart(ctx, {
     type: "line",
     data: {
-      labels: ["", "", "", "", "", "", "", "", "", "", "", ""],
+      labels: [],
       datasets: [
         {
           label: "Earnings",
@@ -53,7 +53,7 @@ export function set_linechart(price) {
           pointHoverBorderColor: "rgba(78, 115, 223, 1)",
           pointHitRadius: 10,
           pointBorderWidth: 2,
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          data: [],
         },
       ],
     },
