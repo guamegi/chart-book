@@ -211,10 +211,10 @@ const updatePieChart = () => {
     for (let i = 0; i < dataTable.childNodes.length; i++) {
       // console.log(dataTable.childNodes[i].id);
       const stockCode = dataTable.childNodes[i].id;
+      const stockEl = document.querySelector(`#${stockCode}-eval`);
+      if (!stockEl) return; // 다른 화면 전환시 에러. 예외처리
       const price =
-        (uncomma(document.querySelector(`#${stockCode}-eval`).textContent) /
-          uncomma(totalEval.textContent)) *
-        100;
+        (uncomma(stockEl.textContent) / uncomma(totalEval.textContent)) * 100;
       pieData.push(price.toFixed(0));
       pieCode.push(stockCode);
     }

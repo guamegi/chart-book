@@ -6,27 +6,7 @@ import { Chart } from "chart.js";
 export var myPieChart = null;
 var eval_data = [100];
 export function set_piechart() {
-  // 평가금액 가져오기
-  // const totalEval = document.querySelector("#totalEval");
-
-  // TODO: test code
-  //   var total_eval = parseInt(totalEval.textContent.replaceAll(",", ""));
-  //   var asset1 = parseInt(
-  //     document.querySelector(`#BTC-eval`).textContent.replaceAll(",", "")
-  //   );
-  //   var asset2 = parseInt(
-  //     document.querySelector(`#DOGE-eval`).textContent.replaceAll(",", "")
-  //   );
-  //   var asset3 = parseInt(
-  //     document.querySelector(`#RFR-eval`).textContent.replaceAll(",", "")
-  //   );
-
-  //   // 종목 비율 계산
-  //   var asset1_rate = ((asset1 / total_eval) * 100).toFixed(0);
-  //   var asset2_rate = ((asset2 / total_eval) * 100).toFixed(0);
-  //   var asset3_rate = ((asset3 / total_eval) * 100).toFixed(0);
-
-  // Pie Chart Example
+  // Pie Chart
   var ctx = document.getElementById("myPieChart");
   myPieChart = new Chart(ctx, {
     type: "doughnut",
@@ -42,9 +22,6 @@ export function set_piechart() {
       ],
     },
     options: {
-      //   animation: {
-      //     duration: 0,
-      //   },
       maintainAspectRatio: false,
       tooltips: {
         backgroundColor: "rgb(255,255,255)",
@@ -57,7 +34,7 @@ export function set_piechart() {
         caretPadding: 10,
       },
       legend: {
-        display: false,
+        display: true,
       },
       cutoutPercentage: 80,
     },
