@@ -1,5 +1,5 @@
 // const [ws, removeWebSocket] = useState([]);
-import { comma, uncomma } from "common";
+import { comma, uncomma, getTime } from "common";
 import { myLineChart, set_linechart } from "../chart/area";
 import { myPieChart, set_piechart } from "../chart/pie";
 
@@ -186,15 +186,21 @@ let lineInterval = null;
 const updateLineChart = () => {
   if (lineInterval) return;
   let lineData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let xAxes = ["", "", "", "", "", "", "", "", "", "", "", ""];
   const totalEval = document.querySelector("#totalEval");
 
   lineInterval = setInterval(function () {
     lineData.shift();
     lineData.push(uncomma(totalEval.textContent));
-    // console.log(lineData);
     myLineChart.data.datasets[0].data = lineData;
+
+    const time = getTime();
+    xAxes.shift();
+    xAxes.push(time);
+    myLineChart.data.labels = xAxes;
+
     myLineChart.update();
-  }, 3000);
+  }, 5000);
 };
 
 let pieInterval = null;
@@ -222,7 +228,7 @@ const updatePieChart = () => {
     myPieChart.data.datasets[0].data = pieData;
     myPieChart.data.labels = pieCode;
     myPieChart.update();
-  }, 3000);
+  }, 5000);
 };
 
 // ws 제거용
