@@ -294,7 +294,7 @@ const Portfolio = () => {
       {/* <!-- DataTales Example --> */}
       <div className="row">
         <div className="table-responsive">
-          <table className="table table-bordered" id="dataTable" width="100%">
+          <table className="table table-bordered" width="100%">
             <thead className="thead-light">
               <tr>
                 <th>종목</th>
@@ -308,10 +308,10 @@ const Portfolio = () => {
                 <th>삭제</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="dataTable">
               {stockData.length ? (
                 stockData.map((stock, index) => (
-                  <tr key={index}>
+                  <tr key={index} id={stock.code}>
                     <td>{stock.name}</td>
                     <td id={`${stock.code}-price`}></td>
                     <td>

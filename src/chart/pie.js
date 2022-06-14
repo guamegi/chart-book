@@ -4,10 +4,10 @@ import { Chart } from "chart.js";
 // Chart.defaults.global.defaultFontColor = '#858796';
 
 export var myPieChart = null;
-var eval_data = [30, 30, 40];
+var eval_data = [100];
 export function set_piechart() {
   // 평가금액 가져오기
-  const totalEval = document.querySelector("#totalEval");
+  // const totalEval = document.querySelector("#totalEval");
 
   // TODO: test code
   //   var total_eval = parseInt(totalEval.textContent.replaceAll(",", ""));
@@ -31,7 +31,7 @@ export function set_piechart() {
   myPieChart = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["BTC", "DOGE", "RFR"],
+      labels: [],
       datasets: [
         {
           data: eval_data,

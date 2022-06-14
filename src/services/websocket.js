@@ -5,9 +5,6 @@ import { myPieChart, set_piechart } from "../chart/pie";
 
 let ws = [];
 let interval = null;
-let lineData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let pieData = [];
-
 // 업비트 웹소켓 통신 시작함
 const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // request data
@@ -175,7 +172,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
           }, 3000);
 
           updateLineChart();
-          // updatePieChart();
+          updatePieChart();
         }
       }
     };
@@ -188,6 +185,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
 let lineInterval = null;
 const updateLineChart = () => {
   if (lineInterval) return;
+  let lineData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const totalEval = document.querySelector("#totalEval");
 
   lineInterval = setInterval(function () {
@@ -203,34 +201,26 @@ let pieInterval = null;
 const updatePieChart = () => {
   if (pieInterval) return;
   const totalEval = document.querySelector("#totalEval");
+  const dataTable = document.querySelector("#dataTable");
+  // console.log(dataTable.childNodes);
 
-  // TODO: test code
-  var total_eval = parseInt(totalEval.textContent.replaceAll(",", ""));
-  var asset1 = parseInt(
-    document.querySelector(`#BTC-eval`).textContent.replaceAll(",", "")
-  );
-  var asset2 = parseInt(
-    document.querySelector(`#DOGE-eval`).textContent.replaceAll(",", "")
-  );
-  var asset3 = parseInt(
-    document.querySelector(`#RFR-eval`).textContent.replaceAll(",", "")
-  );
-
-  // 종목 비율 계산
-  var asset1_rate = ((asset1 / total_eval) * 100).toFixed(0);
-  var asset2_rate = ((asset2 / total_eval) * 100).toFixed(0);
-  var asset3_rate = ((asset3 / total_eval) * 100).toFixed(0);
-
-  // TODO: 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
-
-  // console.log(stockData);
-
+  // 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
   pieInterval = setInterval(function () {
-    // pieData.shift();
-    pieData = [];
-    pieData.push(uncomma(totalEval.textContent));
+    let pieData = [];
+    let pieCode = [];
+    for (let i = 0; i < dataTable.childNodes.length; i++) {
+      // console.log(dataTable.childNodes[i].id);
+      const stockCode = dataTable.childNodes[i].id;
+      const price =
+        (uncomma(document.querySelector(`#${stockCode}-eval`).textContent) /
+          uncomma(totalEval.textContent)) *
+        100;
+      pieData.push(price.toFixed(0));
+      pieCode.push(stockCode);
+    }
     // console.log(pieData);
     myPieChart.data.datasets[0].data = pieData;
+    myPieChart.data.labels = pieCode;
     myPieChart.update();
   }, 3000);
 };
