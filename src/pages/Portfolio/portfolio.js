@@ -128,7 +128,7 @@ const Portfolio = () => {
               <div className="row align-items-center no-gutters">
                 <div className="col mr-2">
                   <div className="text-uppercase text-primary font-weight-bold mb-1">
-                    <span>총 매수금액</span>
+                    <span>총 매수</span>
                   </div>
                   <div className="text-dark font-weight-bold h5 mb-0">
                     <span id="totalAmt">0</span>
@@ -148,7 +148,7 @@ const Portfolio = () => {
               <div className="row align-items-center no-gutters">
                 <div className="col mr-2">
                   <div className="text-uppercase text-success font-weight-bold mb-1">
-                    <span>총 평가금액</span>
+                    <span>총 평가</span>
                   </div>
                   <div className="text-dark font-weight-bold h5 mb-0">
                     <span id="totalEval">0</span>

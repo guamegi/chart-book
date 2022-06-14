@@ -1,5 +1,5 @@
 import React, { forwardRef, useState } from "react";
-import stockList from "services/stockList";
+import stockList from "config/stockList";
 import styles from "./searchStockPopup.module.css";
 import { initWebSocket } from "services/websocket";
 

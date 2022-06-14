@@ -1,6 +1,12 @@
 // const [ws, removeWebSocket] = useState([]);
 import { comma, uncomma } from "common";
+import { myLineChart, set_linechart } from "../chart/area";
+import { myPieChart, set_piechart } from "../chart/pie";
+
 let ws = [];
+let interval = null;
+let lineData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let pieData = [];
 
 // 업비트 웹소켓 통신 시작함
 const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
@@ -12,6 +18,16 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   websocket.binaryType = "blob";
   ws.push(websocket);
   //   removeWebSocket((socket) => [...socket, websocket]);
+
+  if (interval) {
+    clearInterval(interval);
+  }
+  // console.log("interval:", interval);
+  // 로딩 후 처음 차트 생성
+  setTimeout(function () {
+    set_linechart();
+    set_piechart();
+  }, 1000);
 
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {
@@ -28,7 +44,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
     reader.readAsText(evt.data);
     reader.onload = function () {
       const result = JSON.parse(reader.result);
-      console.log(result);
+      // console.log(result);
 
       // 특정 id에 실시간 데이터 표시
       const totalAmt = document.querySelector("#totalAmt");
@@ -146,12 +162,77 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
         setTimeout(function () {
           price.style.background = "white";
         }, 100);
+
+        // data 들어오고 한번만 실행
+        if (!interval) {
+          console.log("has not interval");
+          interval = setInterval(function () {
+            // myPieChart.options.animation.duration = 0;
+            // set_linechart();
+            // set_piechart();
+            myLineChart.update();
+            myPieChart.update();
+          }, 3000);
+
+          updateLineChart();
+          // updatePieChart();
+        }
       }
     };
   };
   websocket.onerror = function (evt) {
     console.log("error");
   };
+};
+
+let lineInterval = null;
+const updateLineChart = () => {
+  if (lineInterval) return;
+  const totalEval = document.querySelector("#totalEval");
+
+  lineInterval = setInterval(function () {
+    lineData.shift();
+    lineData.push(uncomma(totalEval.textContent));
+    // console.log(lineData);
+    myLineChart.data.datasets[0].data = lineData;
+    myLineChart.update();
+  }, 3000);
+};
+
+let pieInterval = null;
+const updatePieChart = () => {
+  if (pieInterval) return;
+  const totalEval = document.querySelector("#totalEval");
+
+  // TODO: test code
+  var total_eval = parseInt(totalEval.textContent.replaceAll(",", ""));
+  var asset1 = parseInt(
+    document.querySelector(`#BTC-eval`).textContent.replaceAll(",", "")
+  );
+  var asset2 = parseInt(
+    document.querySelector(`#DOGE-eval`).textContent.replaceAll(",", "")
+  );
+  var asset3 = parseInt(
+    document.querySelector(`#RFR-eval`).textContent.replaceAll(",", "")
+  );
+
+  // 종목 비율 계산
+  var asset1_rate = ((asset1 / total_eval) * 100).toFixed(0);
+  var asset2_rate = ((asset2 / total_eval) * 100).toFixed(0);
+  var asset3_rate = ((asset3 / total_eval) * 100).toFixed(0);
+
+  // TODO: 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
+
+  // console.log(stockData);
+
+  pieInterval = setInterval(function () {
+    // pieData.shift();
+    pieData = [];
+    pieData.push(uncomma(totalEval.textContent));
+    // console.log(pieData);
+    myPieChart.data.datasets[0].data = pieData;
+    myPieChart.update();
+  }, 3000);
 };
 
 // ws 제거용
