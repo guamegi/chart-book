@@ -229,17 +229,6 @@ const Portfolio = () => {
               <div className="chart-pie pt-4 pb-2">
                 <canvas id="myDoughnutChart"></canvas>
               </div>
-              <div className="mt-4 text-center small">
-                <span className="mr-2">
-                  <i className="fas fa-circle text-primary" id="legend1"></i>
-                </span>
-                <span className="mr-2">
-                  <i className="fas fa-circle text-success" id="legend2"></i>
-                </span>
-                <span className="mr-2">
-                  <i className="fas fa-circle text-info" id="legend3"></i>
-                </span>
-              </div>
             </div>
           </div>
         </div>

@@ -21,10 +21,8 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   }
   // console.log("interval:", interval);
   // 로딩 후 처음 차트 생성
-  setTimeout(function () {
-    setLineChart();
-    setDoughnutChart();
-  }, 1000);
+  setLineChart();
+  setDoughnutChart();
 
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {

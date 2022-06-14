@@ -14,8 +14,26 @@ export function setDoughnutChart() {
       datasets: [
         {
           data: [],
-          backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
-          hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf"],
+          backgroundColor: [
+            "#4e73df",
+            "#1cc88a",
+            "#36b9cc",
+            "#f57c10",
+            "#ffff33",
+            "#fc4514",
+            "#f518f9",
+            "#8a8a8a",
+          ],
+          hoverBackgroundColor: [
+            "#2e59d9",
+            "#17a673",
+            "#2c9faf",
+            "#c86710",
+            "#cdcd25",
+            "#c33813",
+            "#ca14cd",
+            "#6e6d6d",
+          ],
           hoverBorderColor: "rgba(234, 236, 244, 1)",
         },
       ],
@@ -34,8 +52,10 @@ export function setDoughnutChart() {
       },
       legend: {
         display: true,
+        position: "right",
+        align: "end",
       },
-      cutoutPercentage: 80,
+      cutoutPercentage: 70,
     },
   });
 }
