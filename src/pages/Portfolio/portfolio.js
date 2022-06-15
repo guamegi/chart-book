@@ -154,9 +154,6 @@ const Portfolio = () => {
                     <span id="totalAmt">0</span>
                   </div>
                 </div>
-                <div className="col-auto">
-                  <i className="fas fa-wallet fa-2x text-gray-300" />
-                </div>
               </div>
             </div>
           </div>
@@ -173,9 +170,6 @@ const Portfolio = () => {
                   <div className="text-dark font-weight-bold h5 mb-0">
                     <span id="totalEval">0</span>
                   </div>
-                </div>
-                <div className="col-auto">
-                  <i className="fas fa-dollar-sign fa-2x text-gray-300" />
                 </div>
               </div>
             </div>
@@ -194,9 +188,6 @@ const Portfolio = () => {
                     <span id="totalProfit">0</span>
                   </div>
                 </div>
-                <div className="col-auto">
-                  <i className="fas fa-clipboard-list fa-2x text-gray-300" />
-                </div>
               </div>
             </div>
           </div>
@@ -213,9 +204,6 @@ const Portfolio = () => {
                   <div className="text-dark font-weight-bold h5 mb-0">
                     <span id="totalProfitRate">0</span>
                   </div>
-                </div>
-                <div className="col-auto">
-                  <i className="fas fa-percentage fa-2x text-gray-300" />
                 </div>
               </div>
             </div>
