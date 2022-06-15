@@ -41,143 +41,142 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
       const result = JSON.parse(reader.result);
       // console.log(result);
 
-      // 특정 id에 실시간 데이터 표시
-      const totalAmt = document.querySelector("#totalAmt");
-      const totalEval = document.querySelector("#totalEval");
-      const totalProfit = document.querySelector("#totalProfit");
-      const totalProfitRate = document.querySelector("#totalProfitRate");
-
-      const price = document.querySelector(`#${code}-price`);
-      const changeRate = document.querySelector(`#${code}-changeRate`);
-      const changePrice = document.querySelector(`#${code}-changePrice`);
-
-      const avgPriceInput = document.querySelector(`#${code}-avgPrice`);
-      const amountInput = document.querySelector(`#${code}-amount`);
-
-      const evalPrice = document.querySelector(`#${code}-eval`);
-      const profit = document.querySelector(`#${code}-profit`);
-      const profitRate = document.querySelector(`#${code}-yield`);
-
-      if (price) {
-        price.textContent = comma(result.trade_price);
-        const cr_txt = (result.change_rate * 100).toFixed(2);
-        const cp_txt = comma(result.change_price);
-
-        // input 두개에 값이 있으면, 평가금액/평가손익/수익률 갱신하기
-        if (avgPriceInput.value && amountInput.value) {
-          //   console.log(avgPriceInput.value, amountInput.value);
-          evalPrice.textContent = comma(
-            (uncomma(price.textContent) * uncomma(amountInput.value)).toFixed(0)
-          );
-          profit.textContent = comma(
-            (
-              uncomma(price.textContent) * uncomma(amountInput.value) -
-              uncomma(avgPriceInput.value) * uncomma(amountInput.value)
-            ).toFixed(0)
-          );
-          profitRate.textContent =
-            (
-              (uncomma(price.textContent) / uncomma(avgPriceInput.value)) *
-                100 -
-              100
-            ).toFixed(2) + "%";
-
-          // total amt 계산
-          const allAvgPriceEl = document.querySelectorAll(".avgPrice");
-          const allAmountEl = document.querySelectorAll(".amount");
-          let avgPriceNum = [];
-          let amountNum = [];
-          let amtNum = 0;
-          allAvgPriceEl.forEach((e) => {
-            avgPriceNum.push(uncomma(e.value));
-          });
-          allAmountEl.forEach((e) => {
-            amountNum.push(uncomma(e.value));
-          });
-          for (let i = 0; i < avgPriceNum.length; i++) {
-            amtNum += avgPriceNum[i] * amountNum[i];
-          }
-          totalAmt.textContent = comma(amtNum.toFixed(0));
-
-          // total eval 계산
-          const allEvalEl = document.querySelectorAll(".eval");
-          let allEvalNum = 0;
-          allEvalEl.forEach(function (e) {
-            allEvalNum += parseFloat(uncomma(e.innerText));
-          });
-          totalEval.textContent = comma(allEvalNum.toFixed(0));
-
-          // total profit 계산
-          const allProfitEl = document.querySelectorAll(".profit");
-          let allProfitNum = 0;
-          allProfitEl.forEach((e) => {
-            allProfitNum += parseFloat(uncomma(e.innerText));
-          });
-          totalProfit.textContent = comma(allProfitNum.toFixed(0));
-
-          // total 수익률 계산
-          totalProfitRate.textContent =
-            (
-              (uncomma(totalProfit.textContent) /
-                uncomma(totalAmt.textContent)) *
-              100
-            ).toFixed(2) + "%";
-        } else {
-          // input 두개에 값 없으면 "0" 표시
-          evalPrice.textContent = "0";
-          profit.textContent = "0";
-          profitRate.textContent = "0";
-        }
-        // style 변경
-        if (result.change === "RISE") {
-          changeRate.textContent = `+${cr_txt}%`;
-          changePrice.textContent = `+${cp_txt}`;
-          price.style.color =
-            changeRate.style.color =
-            changePrice.style.color =
-              "red";
-        } else if (result.change === "FALL") {
-          changeRate.textContent = `-${cr_txt}%`;
-          changePrice.textContent = `-${cp_txt}`;
-          price.style.color =
-            changeRate.style.color =
-            changePrice.style.color =
-              "blue";
-        } else {
-          changeRate.textContent = `${cr_txt}%`;
-          changePrice.textContent = `${cp_txt}`;
-          price.style.color =
-            changeRate.style.color =
-            changePrice.style.color =
-              "black";
-        }
-        // price에 background 깜빡임 효과 주기
-        price.style.background = "linen";
-        // 0.1s 후에 background 원래대로
-        setTimeout(function () {
-          price.style.background = "white";
-        }, 100);
-
-        // data 들어오고 한번만 실행
-        if (!interval) {
-          console.log("has not interval");
-          interval = setInterval(function () {
-            // myDoughnutChart.options.animation.duration = 0;
-            // setLineChart();
-            // setDoughnutChart();
-            myLineChart.update();
-            myDoughnutChart.update();
-          }, 3000);
-
-          updateLineChart();
-          updateDoughnutChart();
-        }
-      }
+      addCoinData(code, result);
     };
   };
   websocket.onerror = function (evt) {
     console.log("error");
   };
+};
+
+const addCoinData = (code, result) => {
+  // 특정 id에 실시간 데이터 표시
+  const totalAmt = document.querySelector("#totalAmt");
+  const totalEval = document.querySelector("#totalEval");
+  const totalProfit = document.querySelector("#totalProfit");
+  const totalProfitRate = document.querySelector("#totalProfitRate");
+
+  const price = document.querySelector(`#${code}-price`);
+  const changeRate = document.querySelector(`#${code}-changeRate`);
+  const changePrice = document.querySelector(`#${code}-changePrice`);
+
+  const avgPriceInput = document.querySelector(`#${code}-avgPrice`);
+  const amountInput = document.querySelector(`#${code}-amount`);
+
+  const evalPrice = document.querySelector(`#${code}-eval`);
+  const profit = document.querySelector(`#${code}-profit`);
+  const profitRate = document.querySelector(`#${code}-yield`);
+
+  if (price) {
+    price.textContent = comma(result.trade_price);
+    const cr_txt = (result.change_rate * 100).toFixed(2);
+    const cp_txt = comma(result.change_price);
+
+    // input 두개에 값이 있으면, 평가금액/평가손익/수익률 갱신하기
+    if (avgPriceInput.value && amountInput.value) {
+      //   console.log(avgPriceInput.value, amountInput.value);
+      evalPrice.textContent = comma(
+        (uncomma(price.textContent) * uncomma(amountInput.value)).toFixed(0)
+      );
+      profit.textContent = comma(
+        (
+          uncomma(price.textContent) * uncomma(amountInput.value) -
+          uncomma(avgPriceInput.value) * uncomma(amountInput.value)
+        ).toFixed(0)
+      );
+      profitRate.textContent =
+        (
+          (uncomma(price.textContent) / uncomma(avgPriceInput.value)) * 100 -
+          100
+        ).toFixed(2) + "%";
+
+      // total amt 계산
+      const allAvgPriceEl = document.querySelectorAll(".avgPrice");
+      const allAmountEl = document.querySelectorAll(".amount");
+      let avgPriceNum = [];
+      let amountNum = [];
+      let amtNum = 0;
+      allAvgPriceEl.forEach((e) => {
+        avgPriceNum.push(uncomma(e.value));
+      });
+      allAmountEl.forEach((e) => {
+        amountNum.push(uncomma(e.value));
+      });
+      for (let i = 0; i < avgPriceNum.length; i++) {
+        amtNum += avgPriceNum[i] * amountNum[i];
+      }
+      totalAmt.textContent = comma(amtNum.toFixed(0));
+
+      // total eval 계산
+      const allEvalEl = document.querySelectorAll(".eval");
+      let allEvalNum = 0;
+      allEvalEl.forEach(function (e) {
+        allEvalNum += parseFloat(uncomma(e.innerText));
+      });
+      totalEval.textContent = comma(allEvalNum.toFixed(0));
+
+      // total profit 계산
+      const allProfitEl = document.querySelectorAll(".profit");
+      let allProfitNum = 0;
+      allProfitEl.forEach((e) => {
+        allProfitNum += parseFloat(uncomma(e.innerText));
+      });
+      totalProfit.textContent = comma(allProfitNum.toFixed(0));
+
+      // total 수익률 계산
+      totalProfitRate.textContent =
+        (
+          (uncomma(totalProfit.textContent) / uncomma(totalAmt.textContent)) *
+          100
+        ).toFixed(2) + "%";
+    } else {
+      // input 두개에 값 없으면 "0" 표시
+      evalPrice.textContent = "0";
+      profit.textContent = "0";
+      profitRate.textContent = "0";
+    }
+    // style 변경
+    if (result.change === "RISE") {
+      changeRate.textContent = `+${cr_txt}%`;
+      changePrice.textContent = `+${cp_txt}`;
+      price.style.color =
+        changeRate.style.color =
+        changePrice.style.color =
+          "red";
+    } else if (result.change === "FALL") {
+      changeRate.textContent = `-${cr_txt}%`;
+      changePrice.textContent = `-${cp_txt}`;
+      price.style.color =
+        changeRate.style.color =
+        changePrice.style.color =
+          "blue";
+    } else {
+      changeRate.textContent = `${cr_txt}%`;
+      changePrice.textContent = `${cp_txt}`;
+      price.style.color =
+        changeRate.style.color =
+        changePrice.style.color =
+          "black";
+    }
+    // price에 background 깜빡임 효과 주기
+    price.style.background = "linen";
+    // 0.1s 후에 background 원래대로
+    setTimeout(function () {
+      price.style.background = "white";
+    }, 100);
+
+    // data 들어오고 한번만 실행
+    if (!interval) {
+      console.log("has not interval");
+      interval = setInterval(function () {
+        myLineChart.update();
+        myDoughnutChart.update();
+      }, 3000);
+
+      updateLineChart();
+      updateDoughnutChart();
+    }
+  }
 };
 
 let lineInterval = null;
@@ -212,7 +211,7 @@ const updateDoughnutChart = () => {
   // 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
   doughnutInterval = setInterval(function () {
     let data = [];
-    let code = [];
+    let name = [];
     for (let i = 0; i < dataTable.childNodes.length; i++) {
       // console.log(dataTable.childNodes[i].id);
       const stockCode = dataTable.childNodes[i].id;
@@ -228,11 +227,21 @@ const updateDoughnutChart = () => {
       const price =
         (uncomma(stockEl.textContent) / uncomma(totalEval.textContent)) * 100;
       data.push(price.toFixed(0));
-      code.push(stockCode);
     }
-    // console.log(data);
+
+    // 도넛차트 legend: name 으로 넣기
+    const saveDataStr = localStorage.getItem("saveData");
+    if (saveDataStr) {
+      name = [];
+      const saveData = JSON.parse(saveDataStr);
+      for (let i in saveData) {
+        // console.log(name);
+        name.push(saveData[i].name);
+      }
+    }
+
     myDoughnutChart.data.datasets[0].data = data;
-    myDoughnutChart.data.labels = code;
+    myDoughnutChart.data.labels = name.length > 0 ? name : "-";
     myDoughnutChart.update();
   }, updateTime);
 };
