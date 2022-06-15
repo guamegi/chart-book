@@ -123,10 +123,10 @@ const Portfolio = () => {
           document.querySelector(`#A${data.code}-amount`).value = data.amount;
 
           addStockData(data.code);
-          // stock 5초마다 호출
+          // stock 10초마다 호출
           setInterval(function () {
             addStockData(data.code);
-          }, 5000);
+          }, 10000);
         } else {
           document.querySelector(`#${data.code}-avgPrice`).value =
             data.avgPrice;

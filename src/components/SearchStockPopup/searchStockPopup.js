@@ -30,10 +30,10 @@ const searchStockPopup = forwardRef((props, ref) => {
 
       avgPriceInput = document.querySelector(`#A${stock.code}-avgPrice`);
 
-      // stock 5초마다 호출
+      // stock 10초마다 호출
       setInterval(function () {
         addStockData(stock.code);
-      }, 5000);
+      }, 10000);
     } else {
       // coin 시세 호출
       await initWebSocket(stock.code, stock.codes);
