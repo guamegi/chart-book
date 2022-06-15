@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "bootstrap": "^4.5.1",
     "chart.js": "^2.9.3",
     "history": "^5.0.0",
@@ -42,5 +42,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://polling.finance.naver.com"
 }

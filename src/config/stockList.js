@@ -151,6 +151,7 @@ const stockList = [
     name: "kodex200 선물인버스2x",
     en_name: null,
     code: "252670",
+    codes: null,
     category: "stock",
   },
 ];

@@ -1,7 +1,9 @@
 import React, { forwardRef, useState } from "react";
+
 import stockList from "config/stockList";
 import styles from "./searchStockPopup.module.css";
 import { initWebSocket } from "services/websocket";
+import { addStockData } from "config/crawler";
 
 const searchStockPopup = forwardRef((props, ref) => {
   const { modalOn, setModalOn, stockData, setStockData } = props;
@@ -20,17 +22,25 @@ const searchStockPopup = forwardRef((props, ref) => {
       return;
     }
     // 해당 종목의 table 추가
-    setStockData((list) => [...list, stock]);
+    await setStockData((list) => [...list, stock]);
 
-    if (stock.category === "coin") {
+    let avgPriceInput = null;
+    if (stock.category === "stock") {
+      addStockData(stock.code);
+
+      avgPriceInput = document.querySelector(`#A${stock.code}-avgPrice`);
+
+      // stock 5초마다 호출
+      setInterval(function () {
+        addStockData(stock.code);
+      }, 5000);
+    } else {
       // coin 시세 호출
       await initWebSocket(stock.code, stock.codes);
-    } else {
-      // stock 호출
-    }
 
+      avgPriceInput = document.querySelector(`#${stock.code}-avgPrice`);
+    }
     // add 하면 input 에 포커스
-    const avgPriceInput = document.querySelector(`#${code}-avgPrice`);
     avgPriceInput.focus();
   }
 

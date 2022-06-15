@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import NumberFormat from "react-number-format";
+
 import { SearchStockPopup } from "components";
 import {
   ws,
@@ -6,7 +8,7 @@ import {
   removeAllWebSocket,
   initWebSocket,
 } from "services/websocket";
-import NumberFormat from "react-number-format";
+import { addStockData } from "config/crawler";
 
 const Portfolio = () => {
   const [stockData, setStockData] = useState([]);
@@ -30,9 +32,16 @@ const Portfolio = () => {
     const data = { ...stockData };
     for (let i in data) {
       // console.log(data[i]);
+      let avgPriceInput = null;
+      let amountInput = null;
+      if (data[i].category === "stock") {
+        avgPriceInput = document.querySelector(`#A${data[i].code}-avgPrice`);
+        amountInput = document.querySelector(`#A${data[i].code}-amount`);
+      } else {
+        avgPriceInput = document.querySelector(`#${data[i].code}-avgPrice`);
+        amountInput = document.querySelector(`#${data[i].code}-amount`);
+      }
       // data에 인덱스 기준으로 평단,수량 저장
-      const avgPriceInput = document.querySelector(`#${data[i].code}-avgPrice`);
-      const amountInput = document.querySelector(`#${data[i].code}-amount`);
       data[i].avgPrice = avgPriceInput.value;
       data[i].amount = amountInput.value;
     }
@@ -108,11 +117,22 @@ const Portfolio = () => {
       // 실시간
       for (let data of dataArr) {
         // 평단,수량 입력
-        document.querySelector(`#${data.code}-avgPrice`).value = data.avgPrice;
-        document.querySelector(`#${data.code}-amount`).value = data.amount;
-        if (data.category === "coin") {
-          initWebSocket(data.code, data.codes);
+        if (data.category === "stock") {
+          document.querySelector(`#A${data.code}-avgPrice`).value =
+            data.avgPrice;
+          document.querySelector(`#A${data.code}-amount`).value = data.amount;
+
+          addStockData(data.code);
+          // stock 5초마다 호출
+          setInterval(function () {
+            addStockData(data.code);
+          }, 5000);
         } else {
+          document.querySelector(`#${data.code}-avgPrice`).value =
+            data.avgPrice;
+          document.querySelector(`#${data.code}-amount`).value = data.amount;
+
+          initWebSocket(data.code, data.codes);
         }
       }
     }
@@ -302,12 +322,28 @@ const Portfolio = () => {
                 stockData.map((stock, index) => (
                   <tr key={index} id={stock.code}>
                     <td>{stock.name}</td>
-                    <td id={`${stock.code}-price`}></td>
+                    <td
+                      id={`${
+                        stock.category === "stock"
+                          ? "A" + stock.code
+                          : stock.code
+                      }-price`}
+                    ></td>
                     <td>
-                      <div id={`${stock.code}-changeRate`}></div>
+                      <div
+                        id={`${
+                          stock.category === "stock"
+                            ? "A" + stock.code
+                            : stock.code
+                        }-changeRate`}
+                      ></div>
                       <div
                         className="small"
-                        id={`${stock.code}-changePrice`}
+                        id={`${
+                          stock.category === "stock"
+                            ? "A" + stock.code
+                            : stock.code
+                        }-changePrice`}
                       ></div>
                     </td>
                     <td>
@@ -315,7 +351,11 @@ const Portfolio = () => {
                         className="avgPrice bg-light form-control small"
                         placeholder="평균단가 입력"
                         name="avgPrice"
-                        id={`${stock.code}-avgPrice`}
+                        id={`${
+                          stock.category === "stock"
+                            ? "A" + stock.code
+                            : stock.code
+                        }-avgPrice`}
                         thousandSeparator={true}
                         value={stock.avgPrice ? stock.avgPrice : null}
                       />
@@ -325,14 +365,38 @@ const Portfolio = () => {
                         className="amount bg-light form-control small"
                         placeholder="수량 입력"
                         name="amount"
-                        id={`${stock.code}-amount`}
+                        id={`${
+                          stock.category === "stock"
+                            ? "A" + stock.code
+                            : stock.code
+                        }-amount`}
                         thousandSeparator={true}
                         value={stock.amount ? stock.amount : null}
                       />
                     </td>
-                    <td className="eval" id={`${stock.code}-eval`}></td>
-                    <td className="profit" id={`${stock.code}-profit`}></td>
-                    <td id={`${stock.code}-yield`}></td>
+                    <td
+                      className="eval"
+                      id={`${
+                        stock.category === "stock"
+                          ? "A" + stock.code
+                          : stock.code
+                      }-eval`}
+                    ></td>
+                    <td
+                      className="profit"
+                      id={`${
+                        stock.category === "stock"
+                          ? "A" + stock.code
+                          : stock.code
+                      }-profit`}
+                    ></td>
+                    <td
+                      id={`${
+                        stock.category === "stock"
+                          ? "A" + stock.code
+                          : stock.code
+                      }-yield`}
+                    ></td>
                     <td>
                       <button
                         className="btn btn-light text-danger"

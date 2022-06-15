@@ -8,7 +8,7 @@ const uncomma = (str) => {
   return str.replaceAll(",", "");
 };
 
-const getTime = () => {
+const getTimeStr = () => {
   const today = new Date();
   const hours = ("0" + today.getHours()).slice(-2);
   const minutes = ("0" + today.getMinutes()).slice(-2);
@@ -17,4 +17,4 @@ const getTime = () => {
   return `${hours}:${minutes}:${seconds}`;
 };
 
-export { comma, uncomma, getTime };
+export { comma, uncomma, getTimeStr };

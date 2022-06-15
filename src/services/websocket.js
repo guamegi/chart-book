@@ -1,5 +1,5 @@
 // const [ws, removeWebSocket] = useState([]);
-import { comma, uncomma, getTime } from "common";
+import { comma, uncomma, getTimeStr } from "common";
 import { myLineChart, setLineChart } from "../chart/area";
 import { myDoughnutChart, setDoughnutChart } from "../chart/doughnut";
 
@@ -193,7 +193,7 @@ const updateLineChart = () => {
     data.push(uncomma(totalEval.textContent));
     myLineChart.data.datasets[0].data = data;
 
-    const time = getTime();
+    const time = getTimeStr();
     xAxes.shift();
     xAxes.push(time);
     myLineChart.data.labels = xAxes;
@@ -216,7 +216,14 @@ const updateDoughnutChart = () => {
     for (let i = 0; i < dataTable.childNodes.length; i++) {
       // console.log(dataTable.childNodes[i].id);
       const stockCode = dataTable.childNodes[i].id;
-      const stockEl = document.querySelector(`#${stockCode}-eval`);
+      // const stockEl = document.querySelector(`#${stockCode}-eval`);
+      let stockEl = null;
+      try {
+        stockEl = document.querySelector(`#${stockCode}-eval`);
+      } catch {
+        stockEl = document.querySelector(`#A${stockCode}-eval`);
+      }
+
       if (!stockEl) return; // 다른 화면 전환시 에러. 예외처리
       const price =
         (uncomma(stockEl.textContent) / uncomma(totalEval.textContent)) * 100;
