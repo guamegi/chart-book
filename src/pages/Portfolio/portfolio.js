@@ -10,6 +10,7 @@ import {
 } from "services/websocket";
 import { addStockData } from "config/crawler";
 
+let stockInterval = {};
 const Portfolio = () => {
   const [stockData, setStockData] = useState([]);
   const [modalOn, setModalOn] = useState(false);
@@ -123,14 +124,19 @@ const Portfolio = () => {
 
     // 실시간
     for (let data of dataArr) {
+      // stockInterval = {};
       // 평단,수량 입력
       if (data.category === "stock") {
+        clearInterval(stockInterval[data.code]);
+        stockInterval[data.code] = null;
+
+        // console.log("stockInterval:", stockInterval);
         document.querySelector(`#A${data.code}-avgPrice`).value = data.avgPrice;
         document.querySelector(`#A${data.code}-amount`).value = data.amount;
 
         addStockData(data.code);
         // stock 10초마다 호출
-        setInterval(function () {
+        stockInterval[data.code] = setInterval(function () {
           addStockData(data.code);
         }, 10000);
       } else {

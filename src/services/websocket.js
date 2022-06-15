@@ -18,6 +18,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // console.log("ws:", ws, interval);
   if (interval) {
     clearInterval(interval);
+    interval = null;
   }
   // console.log("interval:", interval);
   // 로딩 후 처음 차트 생성
