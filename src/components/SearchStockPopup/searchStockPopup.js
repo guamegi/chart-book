@@ -49,7 +49,7 @@ const searchStockPopup = forwardRef((props, ref) => {
     // console.log(e.target.value);
     // stockList에서 입력된 종목 검색
     const words = stockList.filter((stock) =>
-      stock.name.includes(e.target.value)
+      stock.name.includes(e.target.value.toUpperCase())
     );
     console.log(words);
     setSearchList(words);
