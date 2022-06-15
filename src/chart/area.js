@@ -32,7 +32,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 // 외부에서 접근해서 데이터 조작해야 함
 export var myLineChart = null;
-export function setLineChart(price) {
+export function setLineChart() {
   // Area Chart Example
   var ctx = document.getElementById("myAreaChart");
   myLineChart = new Chart(ctx, {

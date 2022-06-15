@@ -15,14 +15,18 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   websocket.binaryType = "blob";
   ws.push(websocket);
   //   removeWebSocket((socket) => [...socket, websocket]);
-
+  // console.log("ws:", ws, interval);
   if (interval) {
     clearInterval(interval);
   }
   // console.log("interval:", interval);
   // 로딩 후 처음 차트 생성
-  setLineChart();
-  setDoughnutChart();
+  if (!myLineChart) {
+    setLineChart();
+  }
+  if (!myDoughnutChart) {
+    setDoughnutChart();
+  }
 
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {
@@ -169,6 +173,7 @@ const addCoinData = (code, result) => {
     // data 들어오고 한번만 실행
     if (!interval) {
       console.log("has not interval");
+
       interval = setInterval(function () {
         myLineChart.update();
         myDoughnutChart.update();

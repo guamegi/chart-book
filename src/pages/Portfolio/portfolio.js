@@ -93,10 +93,10 @@ const Portfolio = () => {
   const getData = () => {
     if (ws.length > 0) removeAllWebSocket();
     console.log("get data");
-    stockData.forEach((socket) => {
+    stockData.forEach((stock) => {
       // console.log(stockData);
-      if (socket.category === "coin") {
-        initWebSocket(socket.code, socket.codes);
+      if (stock.category === "coin") {
+        initWebSocket(stock.code, stock.codes);
       }
     });
     // console.log("ws:", ws);
