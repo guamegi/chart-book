@@ -17,7 +17,9 @@ const Portfolio = () => {
   const stockPopupEl = useRef();
 
   useEffect(() => {
-    if (ws.length > 0) removeAllWebSocket();
+    if (ws.length > 0) {
+      removeAllWebSocket();
+    }
     loadData();
 
     window.addEventListener("click", closeModal);
@@ -103,37 +105,34 @@ const Portfolio = () => {
 
   async function loadData() {
     // localData 체크
-    const localData = localStorage.getItem("saveData");
-    if (localData) {
-      console.log("load data");
-      const data = JSON.parse(localData);
-      const dataArr = [];
-      for (let i in data) {
-        dataArr.push(data[i]);
-      }
-      // console.log("dataArr:", dataArr);
-      await setStockData(dataArr); // table 추가
+    const localDataStr = localStorage.getItem("saveData");
 
-      // 실시간
-      for (let data of dataArr) {
-        // 평단,수량 입력
-        if (data.category === "stock") {
-          document.querySelector(`#A${data.code}-avgPrice`).value =
-            data.avgPrice;
-          document.querySelector(`#A${data.code}-amount`).value = data.amount;
+    console.log("load data");
+    const data = JSON.parse(localDataStr);
+    const dataArr = [];
+    for (let i in data) {
+      dataArr.push(data[i]);
+    }
+    // console.log("dataArr:", dataArr);
+    await setStockData(dataArr); // table 추가
 
+    // 실시간
+    for (let data of dataArr) {
+      // 평단,수량 입력
+      if (data.category === "stock") {
+        document.querySelector(`#A${data.code}-avgPrice`).value = data.avgPrice;
+        document.querySelector(`#A${data.code}-amount`).value = data.amount;
+
+        addStockData(data.code);
+        // stock 10초마다 호출
+        setInterval(function () {
           addStockData(data.code);
-          // stock 10초마다 호출
-          setInterval(function () {
-            addStockData(data.code);
-          }, 10000);
-        } else {
-          document.querySelector(`#${data.code}-avgPrice`).value =
-            data.avgPrice;
-          document.querySelector(`#${data.code}-amount`).value = data.amount;
+        }, 10000);
+      } else {
+        document.querySelector(`#${data.code}-avgPrice`).value = data.avgPrice;
+        document.querySelector(`#${data.code}-amount`).value = data.amount;
 
-          initWebSocket(data.code, data.codes);
-        }
+        initWebSocket(data.code, data.codes);
       }
     }
   }

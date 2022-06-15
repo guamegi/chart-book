@@ -3,6 +3,7 @@
   background-color: white;
   width: 250px;
   margin-top: 10px;
+  z-index: 999;
   /* margin-left: 10px; */
 }
 

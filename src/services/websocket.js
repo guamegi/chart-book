@@ -50,6 +50,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
 };
 
 const addCoinData = (code, result) => {
+  // console.log(code, result);
   // 특정 id에 실시간 데이터 표시
   const totalAmt = document.querySelector("#totalAmt");
   const totalEval = document.querySelector("#totalEval");
@@ -230,16 +231,11 @@ const updateDoughnutChart = () => {
     }
 
     // 도넛차트 legend: name 으로 넣기
-    const saveDataStr = localStorage.getItem("saveData");
-    if (saveDataStr) {
-      name = [];
-      const saveData = JSON.parse(saveDataStr);
-      for (let i in saveData) {
-        // console.log(name);
-        name.push(saveData[i].name);
-      }
+    const dataTableEl = document.querySelector("#dataTable").childNodes;
+    // name=[];
+    for (let i = 0; i < dataTableEl.length; i++) {
+      name.push(dataTableEl[i].firstChild.firstChild.textContent);
     }
-
     myDoughnutChart.data.datasets[0].data = data;
     myDoughnutChart.data.labels = name.length > 0 ? name : "-";
     myDoughnutChart.update();
