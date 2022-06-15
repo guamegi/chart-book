@@ -49,6 +49,9 @@ const Portfolio = () => {
     }
     console.log("data:", data);
     localStorage.setItem("saveData", JSON.stringify(data));
+
+    // 저장 성공 팝업
+    alert("종목 저장 성공!");
   };
 
   // add new 클릭. 모달 창 열기
