@@ -125,11 +125,11 @@ const Portfolio = () => {
     // 실시간
     for (let data of dataArr) {
       // stockInterval = {};
-      // 평단,수량 입력
       if (data.category === "stock") {
         clearInterval(stockInterval[data.code]);
         stockInterval[data.code] = null;
 
+        // 평단,수량 입력
         // console.log("stockInterval:", stockInterval);
         document.querySelector(`#A${data.code}-avgPrice`).value = data.avgPrice;
         document.querySelector(`#A${data.code}-amount`).value = data.amount;

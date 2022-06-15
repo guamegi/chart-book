@@ -13,17 +13,25 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // 웹소켓 생성
   const websocket = new WebSocket("wss://api.upbit.com/websocket/v1");
   websocket.binaryType = "blob";
+
   ws.push(websocket);
   //   removeWebSocket((socket) => [...socket, websocket]);
-  // console.log("ws:", ws, interval);
+  // console.log("interval:", interval);
   if (interval) {
+    // console.log("clear----");
     clearInterval(interval);
     interval = null;
+  } else {
+    // interval 이 null 이면 새로 그림
+    setLineChart();
+    setDoughnutChart();
   }
-  // console.log("interval:", interval);
+
+  // 종목 추가: 다시 안 그림, 화면 전환: 다시 그림
   // 로딩 후 처음 차트 생성
   if (!myLineChart) {
     setLineChart();
+    // console.log("line");
   }
   if (!myDoughnutChart) {
     setDoughnutChart();

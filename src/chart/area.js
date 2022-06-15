@@ -34,6 +34,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 export var myLineChart = null;
 export function setLineChart() {
   // Area Chart Example
+  // console.log("myLineChart:", myLineChart);
   var ctx = document.getElementById("myAreaChart");
   myLineChart = new Chart(ctx, {
     type: "line",

@@ -5,6 +5,7 @@ import { Chart } from "chart.js";
 
 export var myDoughnutChart = null;
 export function setDoughnutChart() {
+  // console.log("myDoughnutChart:", myDoughnutChart);
   // Pie Chart
   var ctx = document.getElementById("myDoughnutChart");
   myDoughnutChart = new Chart(ctx, {
