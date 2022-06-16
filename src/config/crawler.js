@@ -2,9 +2,7 @@ import * as axios from "axios";
 import { comma, uncomma } from "common";
 
 // stock 크롤링
-// let stockData = {};
 const getStockHtml = async (code) => {
-  //   const stockUrl = `/item/main.nhn?code=${code}`;
   //   const stockUrl = `/domestic/stock/${code}/total`;
   const stockUrl = `/api/realtime/domestic/stock/${code}`;
 

@@ -1,41 +1,16 @@
 import { Chart } from "chart.js";
-
-// Set new default font family and font color to mimic Bootstrap's default styling
-// (Chart.defaults.global.defaultFontFamily = "Nunito"),
-//   '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-// Chart.defaults.global.defaultFontColor = "#858796";
-
-function number_format(number, decimals, dec_point, thousands_sep) {
-  // *     example: number_format(1234.56, 2, ',', ' ');
-  // *     return: '1 234,56'
-  number = (number + "").replace(",", "").replace(" ", "");
-  var n = !isFinite(+number) ? 0 : +number,
-    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = typeof thousands_sep === "undefined" ? "," : thousands_sep,
-    dec = typeof dec_point === "undefined" ? "." : dec_point,
-    s = "",
-    toFixedFix = function (n, prec) {
-      var k = Math.pow(10, prec);
-      return "" + Math.round(n * k) / k;
-    };
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-  s = (prec ? toFixedFix(n, prec) : "" + Math.round(n)).split(".");
-  if (s[0].length > 3) {
-    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-  }
-  if ((s[1] || "").length < prec) {
-    s[1] = s[1] || "";
-    s[1] += new Array(prec - s[1].length + 1).join("0");
-  }
-  return s.join(dec);
-}
+import { number_format, uncomma, getTimeStr } from "common";
 
 // 외부에서 접근해서 데이터 조작해야 함
-export var myLineChart = null;
-export function setLineChart() {
-  // Area Chart Example
+let myLineChart = null;
+function setLineChart() {
   // console.log("myLineChart:", myLineChart);
-  var ctx = document.getElementById("myAreaChart");
+  if (myLineChart) {
+    myLineChart.update();
+    // console.log("init chart");
+    return;
+  }
+  let ctx = document.getElementById("myAreaChart");
   myLineChart = new Chart(ctx, {
     type: "line",
     data: {
@@ -131,3 +106,43 @@ export function setLineChart() {
     },
   });
 }
+
+let lineInterval = null;
+const updateTime = 5000;
+const initLineChart = () => {
+  // console.log("line interval:", lineInterval);
+  if (lineInterval) return;
+  let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let xAxes = ["", "", "", "", "", "", "", "", "", "", "", ""];
+  const totalEval = document.querySelector("#totalEval");
+  const dataTable = document.querySelector("#dataTable");
+
+  // 5초마다 총 평가금액 라인차트에 추가
+  lineInterval = setInterval(function () {
+    for (let i = 0; i < dataTable.childNodes.length; i++) {
+      // console.log(dataTable.childNodes[i].id);
+      const stockCode = dataTable.childNodes[i].id;
+      let stockEl = null;
+      try {
+        stockEl = document.querySelector(`#${stockCode}-eval`);
+      } catch {
+        stockEl = document.querySelector(`#A${stockCode}-eval`);
+      }
+
+      if (!stockEl) return; // 다른 화면 전환시 에러. 예외처리
+    }
+
+    data.shift();
+    data.push(uncomma(totalEval.textContent));
+    myLineChart.data.datasets[0].data = data;
+
+    const time = getTimeStr();
+    xAxes.shift();
+    xAxes.push(time);
+    myLineChart.data.labels = xAxes;
+
+    myLineChart.update();
+  }, updateTime);
+};
+
+export { setLineChart, initLineChart };

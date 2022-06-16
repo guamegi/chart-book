@@ -1,13 +1,16 @@
 import { Chart } from "chart.js";
-// Set new default font family and font color to mimic Bootstrap's default styling
-// Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-// Chart.defaults.global.defaultFontColor = '#858796';
+import { uncomma } from "common";
 
-export var myDoughnutChart = null;
-export function setDoughnutChart() {
+let myDoughnutChart = null;
+function setDoughnutChart() {
   // console.log("myDoughnutChart:", myDoughnutChart);
+  if (myDoughnutChart) {
+    myDoughnutChart.update();
+    // console.log("init chart");
+    return;
+  }
   // Pie Chart
-  var ctx = document.getElementById("myDoughnutChart");
+  let ctx = document.getElementById("myDoughnutChart");
   myDoughnutChart = new Chart(ctx, {
     type: "doughnut",
     data: {
@@ -60,3 +63,45 @@ export function setDoughnutChart() {
     },
   });
 }
+
+let doughnutInterval = null;
+const updateTime = 5000;
+const initDoughnutChart = () => {
+  if (doughnutInterval) return;
+  const totalEval = document.querySelector("#totalEval");
+  const dataTable = document.querySelector("#dataTable");
+  // console.log(dataTable.childNodes);
+
+  // 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
+  doughnutInterval = setInterval(function () {
+    let data = [];
+    let name = [];
+    for (let i = 0; i < dataTable.childNodes.length; i++) {
+      // console.log(dataTable.childNodes[i].id);
+      const stockCode = dataTable.childNodes[i].id;
+      let stockEl = null;
+      try {
+        stockEl = document.querySelector(`#${stockCode}-eval`);
+      } catch {
+        stockEl = document.querySelector(`#A${stockCode}-eval`);
+      }
+
+      if (!stockEl) return; // 다른 화면 전환시 에러. 예외처리
+      const price =
+        (uncomma(stockEl.textContent) / uncomma(totalEval.textContent)) * 100;
+      data.push(price.toFixed(0));
+    }
+
+    // 도넛차트 legend: name 으로 넣기
+    const dataTableEl = document.querySelector("#dataTable").childNodes;
+
+    for (let i = 0; i < dataTableEl.length; i++) {
+      name.push(dataTableEl[i].firstChild.firstChild.textContent);
+    }
+    myDoughnutChart.data.datasets[0].data = data;
+    myDoughnutChart.data.labels = name.length > 0 ? name : "-";
+    myDoughnutChart.update();
+  }, updateTime);
+};
+
+export { setDoughnutChart, initDoughnutChart };
