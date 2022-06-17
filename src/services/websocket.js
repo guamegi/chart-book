@@ -8,7 +8,7 @@ let ws = [];
 const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // request data
   const json = [{ ticket: "ticket" }, { type: "ticker", codes: [codes] }];
-
+  // console.log("ws:", ws);
   // 웹소켓 생성
   const websocket = new WebSocket("wss://api.upbit.com/websocket/v1");
   websocket.binaryType = "blob";
@@ -21,12 +21,18 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {
     if (websocket.readyState === 1) {
-      console.log("socket open");
+      console.log("open socket");
       websocket.send(JSON.stringify(json));
     }
   };
   websocket.onclose = function (evt) {
-    console.log("socket close");
+    console.log("close socket");
+    // console.log("ws:", ws);
+
+    // setTimeout(function () {
+    //   initWebSocket();
+    //   console.log("reconnect socket");
+    // }, 1000);
   };
   websocket.onmessage = function (evt) {
     const reader = new FileReader();

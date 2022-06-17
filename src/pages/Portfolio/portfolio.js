@@ -9,6 +9,8 @@ import {
   initWebSocket,
 } from "services/websocket";
 import { addStockData } from "config/crawler";
+import { removeLineChart } from "chart/area";
+import { removeDoughnutChart } from "chart/doughnut";
 
 let stockInterval = {};
 const Portfolio = () => {
@@ -19,15 +21,68 @@ const Portfolio = () => {
 
   useEffect(() => {
     if (ws.length > 0) {
+      // console.log("ws:", ws);
       removeAllWebSocket();
     }
     loadData();
 
-    window.addEventListener("click", closeModal);
+    document.addEventListener("click", closeModal);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
-      window.removeEventListener("click", closeModal);
+      document.removeEventListener("click", closeModal);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      /**
+       * myLineChart, myDoughnutChart 제거
+       * 페이지 내 이동 없을때는 myLineChart 그대로 유지, 새로 페이지 렌더링 될때는 myLineChart
+       * 제거하고 새로 생성해야 함.
+       */
+      removeLineChart();
+      removeDoughnutChart();
     };
+
+    // dependency warning 무시
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function loadData() {
+    // localData 체크
+    const localDataStr = localStorage.getItem("saveData");
+
+    console.log("load data");
+    const data = JSON.parse(localDataStr);
+    const dataArr = [];
+    for (let i in data) {
+      dataArr.push(data[i]);
+    }
+    // console.log("dataArr:", dataArr);
+    await setStockData(dataArr); // table 추가
+
+    // 실시간
+    for (let data of dataArr) {
+      // stockInterval = {};
+      if (data.category === "stock") {
+        clearInterval(stockInterval[data.code]);
+        stockInterval[data.code] = null;
+
+        // 평단,수량 입력
+        // console.log("stockInterval:", stockInterval);
+        document.querySelector(`#A${data.code}-avgPrice`).value = data.avgPrice;
+        document.querySelector(`#A${data.code}-amount`).value = data.amount;
+
+        addStockData(data.code);
+        // stock 10초마다 호출
+        stockInterval[data.code] = setInterval(function () {
+          addStockData(data.code);
+        }, 10000);
+      } else {
+        document.querySelector(`#${data.code}-avgPrice`).value = data.avgPrice;
+        document.querySelector(`#${data.code}-amount`).value = data.amount;
+
+        initWebSocket(data.code, data.codes);
+      }
+    }
+  }
 
   const saveData = () => {
     // console.log(stockData);
@@ -109,44 +164,20 @@ const Portfolio = () => {
     if (ws.length > 0) removeAllWebSocket();
   };
 
-  async function loadData() {
-    // localData 체크
-    const localDataStr = localStorage.getItem("saveData");
+  // 탭 변환시
+  const handleVisibilityChange = () => {
+    console.log("is hidden:", document.hidden);
+    // console.log(ws);
 
-    console.log("load data");
-    const data = JSON.parse(localDataStr);
-    const dataArr = [];
-    for (let i in data) {
-      dataArr.push(data[i]);
+    // 현재 페이지 활성화시 소켓 연결
+    if (!document.hidden) {
+      stockData.forEach((stock) => {
+        if (stock.category === "coin") {
+          initWebSocket(stock.code, stock.codes);
+        }
+      });
     }
-    // console.log("dataArr:", dataArr);
-    await setStockData(dataArr); // table 추가
-
-    // 실시간
-    for (let data of dataArr) {
-      // stockInterval = {};
-      if (data.category === "stock") {
-        clearInterval(stockInterval[data.code]);
-        stockInterval[data.code] = null;
-
-        // 평단,수량 입력
-        // console.log("stockInterval:", stockInterval);
-        document.querySelector(`#A${data.code}-avgPrice`).value = data.avgPrice;
-        document.querySelector(`#A${data.code}-amount`).value = data.amount;
-
-        addStockData(data.code);
-        // stock 10초마다 호출
-        stockInterval[data.code] = setInterval(function () {
-          addStockData(data.code);
-        }, 10000);
-      } else {
-        document.querySelector(`#${data.code}-avgPrice`).value = data.avgPrice;
-        document.querySelector(`#${data.code}-amount`).value = data.amount;
-
-        initWebSocket(data.code, data.codes);
-      }
-    }
-  }
+  };
 
   return (
     <div className="container">

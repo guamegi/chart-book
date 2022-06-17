@@ -104,4 +104,10 @@ const initDoughnutChart = () => {
   }, updateTime);
 };
 
-export { setDoughnutChart, initDoughnutChart };
+const removeDoughnutChart = () => {
+  if (myDoughnutChart) {
+    myDoughnutChart = null;
+  }
+};
+
+export { setDoughnutChart, initDoughnutChart, removeDoughnutChart };

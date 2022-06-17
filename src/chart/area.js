@@ -107,11 +107,21 @@ function setLineChart() {
   });
 }
 
+const removeLineChart = () => {
+  if (myLineChart) {
+    console.log("clreaaa");
+    // clearInterval(lineInterval);
+    myLineChart = null;
+  }
+};
+
 let lineInterval = null;
 const updateTime = 5000;
 const initLineChart = () => {
   // console.log("line interval:", lineInterval);
+  // get data시는 리턴에 걸림.
   if (lineInterval) return;
+
   let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   let xAxes = ["", "", "", "", "", "", "", "", "", "", "", ""];
   const totalEval = document.querySelector("#totalEval");
@@ -145,4 +155,4 @@ const initLineChart = () => {
   }, updateTime);
 };
 
-export { setLineChart, initLineChart };
+export { setLineChart, initLineChart, removeLineChart };
