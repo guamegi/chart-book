@@ -1,12 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import { createChart } from "lightweight-charts";
+import { addIndexData } from "config/crawler";
 
 const Home = () => {
   const tvChartRef = useRef();
+  // const [kospiData, setKospiData] = useState([]);
+  let kospiData = [];
+
   useEffect(() => {
+    const data = addIndexData();
+    kospiData.push(data);
+
     makeChart();
-    // console.log(tvChartRef);
-  });
+  }, []);
 
   const makeChart = () => {
     const chart = createChart(tvChartRef.current, {
@@ -29,63 +35,29 @@ const Home = () => {
       chart.applyOptions({ height: newRect.height, width: newRect.width });
     }).observe(tvChartRef.current);
 
-    // sample data
-    const data = [
-      {
-        time: "2020-05-09",
-        open: 180.34,
-        high: 180.99,
-        low: 178.57,
-        close: 179.85,
-      },
-      {
-        time: "2020-05-10",
-        open: 180.34,
-        high: 190.99,
-        low: 179.57,
-        close: 185.31,
-      },
-      {
-        time: "2020-05-11",
-        open: 200.34,
-        high: 190.99,
-        low: 179.57,
-        close: 185.31,
-      },
-      {
-        time: "2020-05-12",
-        open: 183.34,
-        high: 190.99,
-        low: 179.57,
-        close: 185.31,
-      },
-      {
-        time: "2020-05-13",
-        open: 180.34,
-        high: 190.99,
-        low: 179.57,
-        close: 185.31,
-      },
-    ];
+    // kospi data Promise 분해, chart 데이터 세팅
+    kospiData[0].then((datas) => {
+      // console.log(datas);
+      let newArr = datas.map((data) => {
+        let tempData = {};
+        // 날짜 string 변환
+        const date = data.localDate;
+        const year = date.slice(0, 4);
+        const month = date.slice(4, 6);
+        const day = date.slice(date.length - 2, date.length);
 
-    // line exemple
-    // const lineSeries = chart.addLineSeries();
-    // lineSeries.setData([
-    //   { time: "2019-04-11", value: 80.01 },
-    //   { time: "2019-04-12", value: 96.63 },
-    //   { time: "2019-04-13", value: 76.64 },
-    //   { time: "2019-04-14", value: 81.89 },
-    //   { time: "2019-04-15", value: 74.43 },
-    //   { time: "2019-04-16", value: 80.01 },
-    //   { time: "2019-04-17", value: 96.63 },
-    //   { time: "2019-04-18", value: 76.64 },
-    //   { time: "2019-04-19", value: 81.89 },
-    //   { time: "2019-04-20", value: 74.43 },
-    // ]);
+        tempData.time = `${year}-${month}-${day}`;
+        tempData.open = data.openPrice;
+        tempData.high = data.highPrice;
+        tempData.low = data.lowPrice;
+        tempData.close = data.closePrice;
 
-    // candle exemple
-    let candleSeries = chart.addCandlestickSeries();
-    candleSeries.setData(data);
+        return tempData;
+      });
+      // console.log("newArr:", newArr);
+      let candleSeries = chart.addCandlestickSeries();
+      candleSeries.setData(newArr);
+    });
   };
 
   return (

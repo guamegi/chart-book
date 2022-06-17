@@ -13,6 +13,27 @@ const getStockHtml = async (code) => {
   }
 };
 
+// kospi index 크롤링
+const getIndexHtml = async () => {
+  const stockUrl = `/chart/domestic/index/KOSPI?periodType=dayCandle`;
+
+  try {
+    return await axios.get(stockUrl);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const addIndexData = async () => {
+  let data = null;
+  await getIndexHtml().then((html) => {
+    // console.log(html.data);
+    data = html.data.priceInfos;
+  });
+
+  return data;
+};
+
 const addStockData = (code) => {
   getStockHtml(code).then((html) => {
     // console.log(html);
@@ -138,4 +159,4 @@ const addStockData = (code) => {
   });
 };
 
-export { addStockData };
+export { addStockData, addIndexData };

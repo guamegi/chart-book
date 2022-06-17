@@ -10,6 +10,7 @@
     "bootstrap": "^4.5.1",
     "chart.js": "^2.9.3",
     "history": "^5.0.0",
+    "http-proxy-middleware": "^2.0.6",
     "jquery": "^3.5.1",
     "lightweight-charts": "^3.8.0",
     "prop-types": "^15.7.2",
@@ -43,6 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "https://polling.finance.naver.com"
+  }
 }
