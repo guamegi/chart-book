@@ -1,43 +1,46 @@
 import * as axios from "axios";
 import { comma, uncomma } from "common";
 
-// stock 크롤링
-const getStockHtml = async (code) => {
-  //   const stockUrl = `/domestic/stock/${code}/total`;
-  const stockUrl = `/api/realtime/domestic/stock/${code}`;
-
-  try {
-    return await axios.get(stockUrl);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-// kospi index 크롤링
-const getIndexHtml = async () => {
-  // const stockUrl = `/chart/domestic/index/KOSPI?periodType=dayCandle`;
-  const stockUrl = `/siseJson.naver?symbol=KOSPI&requestType=1&startTime=20200811&endTime=20210412&timeframe=day`;
-
-  try {
-    return await axios.get(stockUrl);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const addIndexData = async () => {
+const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
   let data = null;
-  await getIndexHtml().then((html) => {
+
+  const startTime = "20200811";
+  const endTime = "20210412";
+
+  // index 크롤링
+  const getIndexHtml = async (symbol, startTime, endTime, timeframe) => {
+    console.log(symbol, startTime, endTime, timeframe);
+    // const stockUrl = `/siseJson.naver?symbol=KOSPI&requestType=1&startTime=20200811&endTime=20210412&timeframe=day`;
+    const stockUrl = `/siseJson.naver?symbol=${symbol}&requestType=1&startTime=${startTime}&endTime=${endTime}&timeframe=${timeframe}`;
+
+    try {
+      return await axios.get(stockUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  await getIndexHtml(symbol, startTime, endTime, timeframe).then((html) => {
     // console.log(html.data, typeof html.data);
-    // data = html.data.priceInfos;
-    let tt = html.data.replaceAll("'", '"');
-    data = JSON.parse(tt);
+    let tempData = html.data.replaceAll("'", '"');
+    data = JSON.parse(tempData);
   });
 
   return data;
 };
 
 const addStockData = (code) => {
+  // stock 크롤링
+  const getStockHtml = async (code) => {
+    const stockUrl = `/api/realtime/domestic/stock/${code}`;
+
+    try {
+      return await axios.get(stockUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   getStockHtml(code).then((html) => {
     // console.log(html);
     const priceData = html.data.datas[0].closePrice;
