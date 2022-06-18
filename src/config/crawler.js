@@ -15,7 +15,8 @@ const getStockHtml = async (code) => {
 
 // kospi index 크롤링
 const getIndexHtml = async () => {
-  const stockUrl = `/chart/domestic/index/KOSPI?periodType=dayCandle`;
+  // const stockUrl = `/chart/domestic/index/KOSPI?periodType=dayCandle`;
+  const stockUrl = `/siseJson.naver?symbol=KOSPI&requestType=1&startTime=20200811&endTime=20210412&timeframe=day`;
 
   try {
     return await axios.get(stockUrl);
@@ -27,8 +28,10 @@ const getIndexHtml = async () => {
 const addIndexData = async () => {
   let data = null;
   await getIndexHtml().then((html) => {
-    // console.log(html.data);
-    data = html.data.priceInfos;
+    // console.log(html.data, typeof html.data);
+    // data = html.data.priceInfos;
+    let tt = html.data.replaceAll("'", '"');
+    data = JSON.parse(tt);
   });
 
   return data;
