@@ -1,5 +1,5 @@
 import * as axios from "axios";
-import { comma, uncomma, getToday } from "common";
+import { comma, uncomma } from "common";
 
 const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
   let data = null;
@@ -15,11 +15,10 @@ const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
 
   const startTime = "20200811";
   const endTime = getToday();
-  // console.log(startTime);
 
   // index 크롤링
   const getIndexHtml = async (symbol, startTime, endTime, timeframe) => {
-    console.log(symbol, startTime, endTime, timeframe);
+    // console.log(symbol, startTime, endTime, timeframe);
     // const stockUrl = `/siseJson.naver?symbol=KOSPI&requestType=1&startTime=20200811&endTime=20210412&timeframe=day`;
     const stockUrl = `/siseJson.naver?symbol=${symbol}&requestType=1&startTime=${startTime}&endTime=${endTime}&timeframe=${timeframe}`;
 

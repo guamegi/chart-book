@@ -1,12 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
 import { addIndexData } from "config/crawler";
 import styles from "./home.module.css";
 
+let chart = null;
 const Home = () => {
   const tvChartRef = useRef();
   // const [kospiData, setKospiData] = useState([]);
   let kospiData = [];
+  let chartName = "KOSPI";
+  // let chartInterval = "day";
+  const [chartInterval, setChartInterval] = useState(["Day"]);
 
   useEffect(() => {
     const data = addIndexData();
@@ -15,13 +19,13 @@ const Home = () => {
     makeChart();
   }, []);
 
-  let chart = null;
   const makeChart = () => {
     // console.log("chart:", chart);
     if (chart) {
       chart.remove();
       chart = null;
     }
+
     // trading view 차트 생성
     chart = createChart(tvChartRef.current, {
       width: tvChartRef.current.offsetWidth,
@@ -130,14 +134,21 @@ const Home = () => {
     });
   };
 
-  // symbol (코스피, 코스닥, 선물) 클릭
-  const onClickList = (symbol) => {
-    // console.log(symbol);
-    const data = addIndexData(symbol, "day");
+  // symbol (코스피, 코스닥, 선물) / interval 클릭
+  const onClickList = (symbol, interval = "Day") => {
+    // console.log(symbol, interval);
+    if (symbol) {
+      chartName = symbol;
+    }
+
+    const data = addIndexData(chartName, interval.toLowerCase());
     kospiData = [];
     kospiData.push(data);
-
+    // console.log(kospiData);
     makeChart();
+
+    // chartInterval = interval;
+    setChartInterval(interval);
   };
 
   return (
@@ -148,7 +159,7 @@ const Home = () => {
             <ul className="nav navbar-nav text-dark">
               <li
                 className={`${styles.navItem} mr-2`}
-                role="presentation"
+                role="button"
                 onClick={() => {
                   onClickList("KOSPI");
                 }}
@@ -158,7 +169,7 @@ const Home = () => {
               <span className="text-muted">|</span>
               <li
                 className={`${styles.navItem} ml-2 mr-2`}
-                role="presentation"
+                role="button"
                 onClick={() => {
                   onClickList("KOSDAQ");
                 }}
@@ -168,12 +179,100 @@ const Home = () => {
               <span className="text-muted">|</span>
               <li
                 className={`${styles.navItem} ml-2`}
-                role="presentation"
+                role="button"
                 onClick={() => {
                   onClickList("FUT");
                 }}
               >
                 <span className="text-muted">선물</span>
+              </li>
+            </ul>
+            <ul className="nav navbar-nav text-dark">
+              {/* <li className="p-2">
+                <span className="text-muted">Type:</span>
+              </li>
+              <li className="nav-item dropdown mr-4">
+                <a
+                  className="nav-link dropdown-toggle text-muted"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Candle
+                </a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a className="dropdown-item" href="#">
+                    Candle
+                  </a>
+                  <a className="dropdown-item" href="#">
+                    Line
+                  </a>
+                  <a className="dropdown-item" href="#">
+                    Bar
+                  </a>
+                  <div className="dropdown-divider"></div>
+                  <a className="dropdown-item" href="#">
+                    Candle
+                  </a>
+                </div>
+              </li> */}
+              <li className="p-2">
+                <span className="text-muted">Interval:</span>
+              </li>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle text-muted"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {chartInterval}
+                </a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Day");
+                    }}
+                  >
+                    Day
+                  </a>
+                  <a
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Week");
+                    }}
+                  >
+                    Week
+                  </a>
+                  <a
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Month");
+                    }}
+                  >
+                    Month
+                  </a>
+                  <div className="dropdown-divider"></div>
+                  <a
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Day");
+                    }}
+                  >
+                    Day
+                  </a>
+                </div>
               </li>
             </ul>
           </div>

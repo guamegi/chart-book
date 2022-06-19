@@ -11,7 +11,7 @@ class TopMenu extends React.Component {
       >
         <div className="container d-flex flex-row">
           <ul className="nav navbar-nav text-light">
-            <li className="nav-item" role="presentation">
+            <li className="nav-item ml-3" role="presentation">
               <NavLink className="nav-link" activeClassName="active" to="/home">
                 <span>Home</span>
               </NavLink>

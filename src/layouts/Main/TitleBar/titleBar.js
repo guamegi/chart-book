@@ -10,10 +10,7 @@ const TitleBar = (props) => {
           activeClassName="active"
           to="/portfolio"
         >
-          <div className="topbar-brand-icon rotate-n-15">
-            <i className="fas fa-braille"></i>
-          </div>
-          <div className="topbar-brand-text mx-3">
+          <div className="topbar-brand-text mx-4">
             <span>ChartBook</span>
           </div>
         </NavLink>
