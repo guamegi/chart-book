@@ -1,11 +1,21 @@
 import * as axios from "axios";
-import { comma, uncomma } from "common";
+import { comma, uncomma, getToday } from "common";
 
 const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
   let data = null;
 
+  const getToday = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+
+    return year + month + day;
+  };
+
   const startTime = "20200811";
-  const endTime = "20210412";
+  const endTime = getToday();
+  // console.log(startTime);
 
   // index 크롤링
   const getIndexHtml = async (symbol, startTime, endTime, timeframe) => {
