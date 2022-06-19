@@ -13,7 +13,7 @@ const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
     return year + month + day;
   };
 
-  const startTime = "20200811";
+  const startTime = "20100101";
   const endTime = getToday();
 
   // index 크롤링

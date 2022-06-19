@@ -44,7 +44,7 @@ const Home = () => {
       // },
       rightPriceScale: {
         scaleMargins: {
-          top: 0.3,
+          top: 0.1,
           bottom: 0.25,
         },
         borderVisible: true,
@@ -188,44 +188,12 @@ const Home = () => {
               </li>
             </ul>
             <ul className="nav navbar-nav text-dark">
-              {/* <li className="p-2">
-                <span className="text-muted">Type:</span>
-              </li>
-              <li className="nav-item dropdown mr-4">
-                <a
-                  className="nav-link dropdown-toggle text-muted"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Candle
-                </a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="#">
-                    Candle
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Line
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Bar
-                  </a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    Candle
-                  </a>
-                </div>
-              </li> */}
               <li className="p-2">
                 <span className="text-muted">Interval:</span>
               </li>
               <li className="nav-item dropdown">
-                <a
+                <div
                   className="nav-link dropdown-toggle text-muted"
-                  href="#"
                   id="navbarDropdown"
                   role="button"
                   data-toggle="dropdown"
@@ -233,9 +201,9 @@ const Home = () => {
                   aria-expanded="false"
                 >
                   {chartInterval}
-                </a>
+                </div>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a
+                  <div
                     className="dropdown-item"
                     role="button"
                     onClick={() => {
@@ -243,8 +211,8 @@ const Home = () => {
                     }}
                   >
                     Day
-                  </a>
-                  <a
+                  </div>
+                  <div
                     className="dropdown-item"
                     role="button"
                     onClick={() => {
@@ -252,8 +220,8 @@ const Home = () => {
                     }}
                   >
                     Week
-                  </a>
-                  <a
+                  </div>
+                  <div
                     className="dropdown-item"
                     role="button"
                     onClick={() => {
@@ -261,9 +229,9 @@ const Home = () => {
                     }}
                   >
                     Month
-                  </a>
+                  </div>
                   <div className="dropdown-divider"></div>
-                  <a
+                  <div
                     className="dropdown-item"
                     role="button"
                     onClick={() => {
@@ -271,7 +239,7 @@ const Home = () => {
                     }}
                   >
                     Day
-                  </a>
+                  </div>
                 </div>
               </li>
             </ul>
