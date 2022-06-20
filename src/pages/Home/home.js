@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
 import { addIndexData } from "config/crawler";
-import styles from "./home.module.css";
+// import styles from "./home.module.css";
 
 let chart = null;
 const Home = () => {
@@ -173,7 +173,7 @@ const Home = () => {
           <div className="container d-flex flex-row">
             <ul className="nav navbar-nav text-dark">
               <li
-                className={`${styles.navItem} mr-2`}
+                className={`mr-2`}
                 role="button"
                 onClick={() => {
                   onClickList("KOSPI");
@@ -183,7 +183,7 @@ const Home = () => {
               </li>
               <span className="text-muted">|</span>
               <li
-                className={`${styles.navItem} ml-2 mr-2`}
+                className={`ml-2 mr-2`}
                 role="button"
                 onClick={() => {
                   onClickList("KOSDAQ");
@@ -193,7 +193,7 @@ const Home = () => {
               </li>
               <span className="text-muted">|</span>
               <li
-                className={`${styles.navItem} ml-2`}
+                className={`ml-2`}
                 role="button"
                 onClick={() => {
                   onClickList("FUT");
