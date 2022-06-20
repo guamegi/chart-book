@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
 import { addIndexData } from "config/crawler";
+import { Carousel } from "@trendyol-js/react-carousel";
+import styles from "./market.module.css";
 
 let chart = null;
 const Home = () => {
@@ -163,116 +165,175 @@ const Home = () => {
     setChartInterval([interval]);
   };
 
+  // 상단 차트 카드
+  const ChartCard = () => {
+    return (
+      <div className="ml-2 mr-2">
+        <div className="card py-4">
+          <div className="card-body">
+            <div className="row align-items-center no-gutters">
+              <div className="col mr-2">
+                <div className="text-uppercase text-primary font-weight-bold mb-1">
+                  <span>종목명</span>
+                </div>
+                <div className="text-dark font-weight-bold h5 mb-0">
+                  <span id="totalAmt">83,120,630</span>
+                </div>
+              </div>
+              <div className="text-dark font-weight-bold h5 mb-0">
+                <span id="totalAmt">chart image</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const RightArrow = () => {
+    return (
+      <button className={styles.arrow}>
+        <i className="fas fa-angle-right"></i>
+      </button>
+    );
+  };
+  const LeftArrow = () => {
+    return (
+      <button className={styles.arrow}>
+        <i className="fas fa-angle-left"></i>
+      </button>
+    );
+  };
+
   return (
     <div className="container">
       <div className="col">
-        <nav className={"navbar navbar-expand"}>
-          <div className="container d-flex flex-row">
-            <ul className="nav navbar-nav text-dark">
-              <li
-                className={`mr-2`}
-                role="button"
-                onClick={() => {
-                  onClickList("KOSPI");
-                }}
-              >
-                <span className="text-muted">코스피</span>
-              </li>
-              <span className="text-muted">|</span>
-              <li
-                className={`ml-2 mr-2`}
-                role="button"
-                onClick={() => {
-                  onClickList("KOSDAQ");
-                }}
-              >
-                <span className="text-muted">코스닥</span>
-              </li>
-              <span className="text-muted">|</span>
-              <li
-                className={`ml-2`}
-                role="button"
-                onClick={() => {
-                  onClickList("FUT");
-                }}
-              >
-                <span className="text-muted">선물</span>
-              </li>
-            </ul>
-            <ul className="nav navbar-nav text-dark">
-              <li className="p-2">
-                <span className="text-muted">Interval:</span>
-              </li>
-              <li className="nav-item dropdown">
-                <div
-                  className="nav-link dropdown-toggle text-muted"
-                  id="navbarDropdown"
+        <Carousel
+          show={2.5}
+          slide={2}
+          transition={0.9}
+          rightArrow={<RightArrow />}
+          leftArrow={<LeftArrow />}
+          className="mb-5"
+        >
+          <ChartCard />
+          <ChartCard />
+          <ChartCard />
+          <ChartCard />
+        </Carousel>
+
+        <div className="col">
+          <nav className={"navbar navbar-expand"}>
+            <div className="container d-flex flex-row">
+              <ul className="nav navbar-nav text-dark">
+                <li
+                  className={`mr-2`}
                   role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
+                  onClick={() => {
+                    onClickList("KOSPI");
+                  }}
                 >
-                  {chartInterval}
-                </div>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <span className="text-muted">코스피</span>
+                </li>
+                <span className="text-muted">|</span>
+                <li
+                  className={`ml-2 mr-2`}
+                  role="button"
+                  onClick={() => {
+                    onClickList("KOSDAQ");
+                  }}
+                >
+                  <span className="text-muted">코스닥</span>
+                </li>
+                <span className="text-muted">|</span>
+                <li
+                  className={`ml-2`}
+                  role="button"
+                  onClick={() => {
+                    onClickList("FUT");
+                  }}
+                >
+                  <span className="text-muted">선물</span>
+                </li>
+              </ul>
+              <ul className="nav navbar-nav text-dark">
+                <li className="p-2">
+                  <span className="text-muted">Interval:</span>
+                </li>
+                <li className="nav-item dropdown">
                   <div
-                    className="dropdown-item"
+                    className="nav-link dropdown-toggle text-muted"
+                    id="navbarDropdown"
                     role="button"
-                    onClick={() => {
-                      onClickList(null, "Day");
-                    }}
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
                   >
-                    Day
+                    {chartInterval}
                   </div>
                   <div
-                    className="dropdown-item"
-                    role="button"
-                    onClick={() => {
-                      onClickList(null, "Week");
-                    }}
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
                   >
-                    Week
+                    <div
+                      className="dropdown-item"
+                      role="button"
+                      onClick={() => {
+                        onClickList(null, "Day");
+                      }}
+                    >
+                      Day
+                    </div>
+                    <div
+                      className="dropdown-item"
+                      role="button"
+                      onClick={() => {
+                        onClickList(null, "Week");
+                      }}
+                    >
+                      Week
+                    </div>
+                    <div
+                      className="dropdown-item"
+                      role="button"
+                      onClick={() => {
+                        onClickList(null, "Month");
+                      }}
+                    >
+                      Month
+                    </div>
+                    <div className="dropdown-divider"></div>
+                    <div
+                      className="dropdown-item"
+                      role="button"
+                      onClick={() => {
+                        onClickList(null, "Day");
+                      }}
+                    >
+                      Day
+                    </div>
                   </div>
-                  <div
-                    className="dropdown-item"
-                    role="button"
-                    onClick={() => {
-                      onClickList(null, "Month");
-                    }}
-                  >
-                    Month
-                  </div>
-                  <div className="dropdown-divider"></div>
-                  <div
-                    className="dropdown-item"
-                    role="button"
-                    onClick={() => {
-                      onClickList(null, "Day");
-                    }}
-                  >
-                    Day
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        <div className="card shadow py-2">
-          <div className="card-body">
-            <div className="row mb-2">
-              <div className="ml-3">{chartName}</div>
-              <div className="ml-3">
-                <label className="small ml-2">시</label>
-                <span className="small font-weight-bold ml-1">{chartOP}</span>
-                <label className="small ml-2">고</label>
-                <span className="small font-weight-bold ml-1">{chartHP}</span>
-                <label className="small ml-2">저</label>
-                <span className="small font-weight-bold ml-1">{chartLP}</span>
-                <label className="small ml-2">종</label>
-                <span className="small font-weight-bold ml-1">{chartCP}</span>
-              </div>
+                </li>
+              </ul>
             </div>
-            <div id="tvChart" ref={tvChartRef}></div>
+          </nav>
+          <div className="card shadow py-2">
+            <div className="card-body">
+              <div className="row mb-2">
+                <div className="ml-3">{chartName}</div>
+                <div className="ml-3">
+                  <label className="small ml-2">시</label>
+                  <span className="small font-weight-bold ml-1">{chartOP}</span>
+                  <label className="small ml-2">고</label>
+                  <span className="small font-weight-bold ml-1">{chartHP}</span>
+                  <label className="small ml-2">저</label>
+                  <span className="small font-weight-bold ml-1">{chartLP}</span>
+                  <label className="small ml-2">종</label>
+                  <span className="small font-weight-bold ml-1">{chartCP}</span>
+                </div>
+              </div>
+              <div id="tvChart" ref={tvChartRef}></div>
+            </div>
           </div>
         </div>
       </div>
