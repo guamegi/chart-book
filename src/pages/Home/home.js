@@ -6,10 +6,15 @@ import styles from "./home.module.css";
 let chart = null;
 const Home = () => {
   const tvChartRef = useRef();
-  // const [kospiData, setKospiData] = useState([]);
+
   let kospiData = [];
-  let chartName = "KOSPI";
-  // let chartInterval = "day";
+  // let chartName = "KOSPI";
+  const [chartName, setChartName] = useState(["KOSPI"]);
+  const [chartOP, setChartOP] = useState([""]);
+  const [chartHP, setChartHP] = useState([""]);
+  const [chartLP, setChartLP] = useState([""]);
+  const [chartCP, setChartCP] = useState([""]);
+
   const [chartInterval, setChartInterval] = useState(["Day"]);
 
   useEffect(() => {
@@ -131,24 +136,34 @@ const Home = () => {
         },
       });
       histSeries.setData(histArr);
+
+      const lastValue = datas[datas.length - 1];
+      // console.log(datas, kospiData, lastValue);
+      // 종목,시,고,저,종가
+      setChartOP(lastValue[1]);
+      setChartHP(lastValue[2]);
+      setChartLP(lastValue[3]);
+      setChartCP(lastValue[4]);
     });
   };
+
+  useEffect(() => {
+    // console.log(chartInterval, chartName);
+    const data = addIndexData(chartName[0], chartInterval[0].toLowerCase());
+    kospiData = [];
+    kospiData.push(data);
+
+    makeChart();
+  }, [chartName, chartInterval]);
 
   // symbol (코스피, 코스닥, 선물) / interval 클릭
   const onClickList = (symbol, interval = "Day") => {
     // console.log(symbol, interval);
     if (symbol) {
-      chartName = symbol;
+      setChartName([symbol]);
     }
 
-    const data = addIndexData(chartName, interval.toLowerCase());
-    kospiData = [];
-    kospiData.push(data);
-    // console.log(kospiData);
-    makeChart();
-
-    // chartInterval = interval;
-    setChartInterval(interval);
+    setChartInterval([interval]);
   };
 
   return (
@@ -247,6 +262,19 @@ const Home = () => {
         </nav>
         <div className="card shadow py-2">
           <div className="card-body">
+            <div className="row mb-2">
+              <div className="ml-3">{chartName}</div>
+              <div className="ml-3">
+                <label className="small ml-2">시</label>
+                <span className="small font-weight-bold ml-1">{chartOP}</span>
+                <label className="small ml-2">고</label>
+                <span className="small font-weight-bold ml-1">{chartHP}</span>
+                <label className="small ml-2">저</label>
+                <span className="small font-weight-bold ml-1">{chartLP}</span>
+                <label className="small ml-2">종</label>
+                <span className="small font-weight-bold ml-1">{chartCP}</span>
+              </div>
+            </div>
             <div id="tvChart" ref={tvChartRef}></div>
           </div>
         </div>
