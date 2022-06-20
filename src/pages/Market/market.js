@@ -169,18 +169,18 @@ const Home = () => {
   const ChartCard = () => {
     return (
       <div className="ml-2 mr-2">
-        <div className="card py-4">
+        <div className="card">
           <div className="card-body">
-            <div className="row align-items-center no-gutters">
-              <div className="col mr-2">
-                <div className="text-uppercase text-primary font-weight-bold mb-1">
+            <div className="col d-flex flex-column justify-content-between">
+              <div className="row p-2">
+                <div className="text-uppercase text-primary font-weight-bold mb-0">
                   <span>종목명</span>
                 </div>
-                <div className="text-dark font-weight-bold h5 mb-0">
+                <div className="text-dark font-weight-bold h5 ml-3 mb-0">
                   <span id="totalAmt">83,120,630</span>
                 </div>
               </div>
-              <div className="text-dark font-weight-bold h5 mb-0">
+              <div className={styles.cardChart}>
                 <span id="totalAmt">chart image</span>
               </div>
             </div>
@@ -193,25 +193,26 @@ const Home = () => {
   const RightArrow = () => {
     return (
       <button className={styles.arrow}>
-        <i className="fas fa-angle-right"></i>
+        <i className="fas fa-angle-right fa-2x"></i>
       </button>
     );
   };
   const LeftArrow = () => {
     return (
       <button className={styles.arrow}>
-        <i className="fas fa-angle-left"></i>
+        <i className="fas fa-angle-left fa-2x"></i>
       </button>
     );
   };
 
   return (
-    <div className="container">
+    <div className="container mb-4">
       <div className="col">
         <Carousel
           show={2.5}
           slide={2}
           transition={0.9}
+          swiping={true}
           rightArrow={<RightArrow />}
           leftArrow={<LeftArrow />}
           className="mb-5"
