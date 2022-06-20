@@ -12,11 +12,6 @@ class TopMenu extends React.Component {
         <div className="container d-flex flex-row">
           <ul className="nav navbar-nav text-light">
             <li className="nav-item ml-3" role="presentation">
-              <NavLink className="nav-link" activeClassName="active" to="/home">
-                <span>Home</span>
-              </NavLink>
-            </li>
-            <li className="nav-item ml-3" role="presentation">
               <NavLink
                 className="nav-link"
                 activeClassName="active"
@@ -25,9 +20,13 @@ class TopMenu extends React.Component {
                 <span>자산현황</span>
               </NavLink>
             </li>
-            <li className="nav-item  ml-3" role="presentation">
-              <NavLink className="nav-link" activeClassName="active" to="/push">
-                <span>알림</span>
+            <li className="nav-item ml-3" role="presentation">
+              <NavLink
+                className="nav-link"
+                activeClassName="active"
+                to="/market"
+              >
+                <span>증시현황</span>
               </NavLink>
             </li>
             <li className="nav-item ml-3" role="presentation">

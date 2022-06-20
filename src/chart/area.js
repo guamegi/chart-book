@@ -109,7 +109,7 @@ function setLineChart() {
 
 const removeLineChart = () => {
   if (myLineChart) {
-    console.log("clreaaa");
+    console.log("remove chart");
     // clearInterval(lineInterval);
     myLineChart = null;
   }

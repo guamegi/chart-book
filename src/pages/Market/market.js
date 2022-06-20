@@ -1,20 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
 import { addIndexData } from "config/crawler";
-// import styles from "./home.module.css";
 
 let chart = null;
 const Home = () => {
   const tvChartRef = useRef();
 
   let kospiData = [];
-  // let chartName = "KOSPI";
   const [chartName, setChartName] = useState(["KOSPI"]);
-  const [chartOP, setChartOP] = useState([""]);
-  const [chartHP, setChartHP] = useState([""]);
-  const [chartLP, setChartLP] = useState([""]);
-  const [chartCP, setChartCP] = useState([""]);
-
+  const [chartOP, setChartOP] = useState([""]); // open price
+  const [chartHP, setChartHP] = useState([""]); // high price
+  const [chartLP, setChartLP] = useState([""]); // low price
+  const [chartCP, setChartCP] = useState([""]); // close price
   const [chartInterval, setChartInterval] = useState(["Day"]);
 
   useEffect(() => {
@@ -65,7 +62,7 @@ const Home = () => {
       chart.applyOptions({ height: newRect.height, width: newRect.width });
     }).observe(tvChartRef.current);
 
-    // kospi data Promise 분해, chart 데이터 세팅
+    // kospi data Promise 분해 할당
     // [['날짜', '시가', '고가', '저가', '종가', '거래량', '외국인소진율'],
     // ["20200811", 2396.11, 2429.36, 2396.11, 2418.67, 843437, 0.0],...]
     kospiData[0].then((datas) => {
