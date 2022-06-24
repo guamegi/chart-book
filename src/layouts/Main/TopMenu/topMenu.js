@@ -29,11 +29,6 @@ class TopMenu extends React.Component {
                 <span>증시현황</span>
               </NavLink>
             </li>
-            <li className="nav-item ml-3" role="presentation">
-              <NavLink className="nav-link" activeClassName="active" to="/test">
-                <span>테스트</span>
-              </NavLink>
-            </li>
           </ul>
         </div>
       </nav>

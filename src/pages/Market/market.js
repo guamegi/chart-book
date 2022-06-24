@@ -1,30 +1,84 @@
+/* eslint-disable */
 import React, { useEffect, useRef, useState } from "react";
 import { createChart, CrosshairMode } from "lightweight-charts";
-import { addIndexData } from "config/crawler";
+import { addIndexData, addCardData } from "config/crawler";
 import { Carousel } from "@trendyol-js/react-carousel";
 import styles from "./market.module.css";
 
 let chart = null;
 const Home = () => {
   const tvChartRef = useRef();
+  const cardInfoRef = useRef({});
 
   let kospiData = [];
+  const [cardInfo, setCardInfo] = useState([
+    { name: "다우존스", shortName: "DJI", code: "DJI", price: "price" },
+    {
+      name: "나스닥 종합",
+      shortName: "NAS",
+      code: "IXIC",
+      price: "price",
+    },
+    {
+      name: "S&P 500",
+      shortName: "SPI",
+      code: "SPX",
+      price: "price",
+    },
+    {
+      name: "영국 FTSE 100",
+      shortName: "LNS",
+      code: "FTSE100",
+      price: "price",
+    },
+    {
+      name: "프랑스 CAC 40",
+      shortName: "PAS",
+      code: "CAC40",
+      price: "price",
+    },
+    {
+      name: "독일 DAX",
+      shortName: "XTR",
+      code: "DAX30",
+      price: "price",
+    },
+  ]);
+
   const [chartName, setChartName] = useState(["KOSPI"]);
-  const [chartOP, setChartOP] = useState([""]); // open price
-  const [chartHP, setChartHP] = useState([""]); // high price
-  const [chartLP, setChartLP] = useState([""]); // low price
-  const [chartCP, setChartCP] = useState([""]); // close price
+  const [ohlcPrice, setOhlcPrice] = useState({
+    openPrice: "",
+    highPrice: "",
+    lowPrice: "",
+    closePrice: "",
+  });
+
+  const { openPrice, highPrice, lowPrice, closePrice } = ohlcPrice;
   const [chartInterval, setChartInterval] = useState(["Day"]);
 
   useEffect(() => {
     const data = addIndexData();
     kospiData.push(data);
-
     makeChart();
+    updateCardPrice();
   }, []);
 
+  const updateCardPrice = () => {
+    addCardData().then((data) => {
+      // console.log(data);
+      const [DJI, NAS, SPI, LNS, PAS, XTR] = data;
+
+      let newCardInfo = cardInfo.map((item) => {
+        item.price = eval(item.shortName).closePrice;
+        return item;
+      });
+
+      setCardInfo(newCardInfo);
+    });
+  };
+
+  // tradingView 차트 생성
   const makeChart = () => {
-    // console.log("chart:", chart);
     if (chart) {
       chart.remove();
       chart = null;
@@ -52,6 +106,14 @@ const Home = () => {
           bottom: 0.25,
         },
         borderVisible: true,
+      },
+      watermark: {
+        visible: true,
+        fontSize: 34,
+        horzAlign: "center",
+        vertAlign: "center",
+        color: "rgba(171, 71, 188, 0.1)",
+        text: "Simple ChartBook",
       },
     });
 
@@ -139,10 +201,13 @@ const Home = () => {
       const lastValue = datas[datas.length - 1];
       // console.log(datas, kospiData, lastValue);
       // 종목,시,고,저,종가
-      setChartOP(lastValue[1]);
-      setChartHP(lastValue[2]);
-      setChartLP(lastValue[3]);
-      setChartCP(lastValue[4]);
+      setOhlcPrice({
+        ...ohlcPrice,
+        openPrice: lastValue[1],
+        highPrice: lastValue[2],
+        lowPrice: lastValue[3],
+        closePrice: lastValue[4],
+      });
     });
   };
 
@@ -153,7 +218,7 @@ const Home = () => {
     kospiData.push(data);
 
     makeChart();
-  }, [chartName, chartInterval]);
+  }, [chartInterval]);
 
   // symbol (코스피, 코스닥, 선물) / interval 클릭
   const onClickList = (symbol, interval = "Day") => {
@@ -165,8 +230,17 @@ const Home = () => {
     setChartInterval([interval]);
   };
 
+  // const updateCard = (symbol) => {
+  //   // console.log(cardInfoRef.current);
+  //   // TODO: cardInfo 에 price, chart 생성해서 넣기
+  //   addCardData(symbol)
+  // };
+
+  /*
   // 상단 차트 카드
-  const ChartCard = () => {
+  const ChartCard = (name, price, chart) => {
+    // console.log(name, price, chart);
+    updateCard(name, price, chart);
     return (
       <div className="ml-2 mr-2">
         <div className="card">
@@ -174,14 +248,20 @@ const Home = () => {
             <div className="col d-flex flex-column justify-content-between">
               <div className="row p-2">
                 <div className="text-uppercase text-primary font-weight-bold mb-0">
-                  <span>종목명</span>
+                  <span ref={(el) => (cardInfoRef.current[name] = el)}>
+                    종목명
+                  </span>
                 </div>
                 <div className="text-dark font-weight-bold h5 ml-3 mb-0">
-                  <span id="totalAmt">83,120,630</span>
+                  <span ref={(el) => (cardInfoRef.current[price] = el)}>
+                    83,120,630
+                  </span>
                 </div>
               </div>
               <div className={styles.cardChart}>
-                <span id="totalAmt">chart image</span>
+                <span ref={(el) => (cardInfoRef.current[chart] = el)}>
+                  chart image
+                </span>
               </div>
             </div>
           </div>
@@ -189,18 +269,18 @@ const Home = () => {
       </div>
     );
   };
-
+  */
   const RightArrow = () => {
     return (
       <button className={styles.arrow}>
-        <i className="fas fa-angle-right fa-2x"></i>
+        <i className="fas fa-angle-right text-gray-300 fa-2x ml-2"></i>
       </button>
     );
   };
   const LeftArrow = () => {
     return (
       <button className={styles.arrow}>
-        <i className="fas fa-angle-left fa-2x"></i>
+        <i className="fas fa-angle-left text-gray-300 fa-2x"></i>
       </button>
     );
   };
@@ -216,11 +296,45 @@ const Home = () => {
           rightArrow={<RightArrow />}
           leftArrow={<LeftArrow />}
           className="mb-5"
+          dynamic={true}
         >
-          <ChartCard />
-          <ChartCard />
-          <ChartCard />
-          <ChartCard />
+          {cardInfo.map((item, index) => {
+            // console.log(cardInfo);
+            return (
+              // <ChartCard
+              //   name={el.name}
+              //   price={el.price}
+              //   chart={el.chart}
+              //   key={index}
+              // />
+              <div className="ml-2 mr-2" key={index}>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="col d-flex flex-column justify-content-between">
+                      <div className="row ml-1 mb-2">
+                        <div className="text-uppercase text-primary font-weight-bold mb-0">
+                          {item.name}
+                        </div>
+                        <div className="text-dark font-weight-bold ml-4 mb-0">
+                          <span
+                            ref={(el) => (cardInfoRef.current[item.name] = el)}
+                          >
+                            {item.price}
+                          </span>
+                        </div>
+                      </div>
+                      <div className={styles.cardChart}>
+                        <img
+                          className={styles.cardImg}
+                          src={`https://ssl.pstatic.net/imgfinance/chart/world/continent/${item.shortName}@${item.code}.png`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </Carousel>
 
         <div className="col">
@@ -321,16 +435,25 @@ const Home = () => {
           <div className="card shadow py-2">
             <div className="card-body">
               <div className="row mb-2">
-                <div className="ml-3">{chartName}</div>
-                <div className="ml-3">
+                <div className="text-primary font-weight-bold ml-3">
+                  {chartName}
+                </div>
+                <div className="text-dark font-weight-bold ml-3">
+                  {closePrice}
+                </div>
+                <div className="ml-4">
                   <label className="small ml-2">시</label>
-                  <span className="small font-weight-bold ml-1">{chartOP}</span>
+                  <span className="small font-weight-bold ml-1">
+                    {openPrice}
+                  </span>
                   <label className="small ml-2">고</label>
-                  <span className="small font-weight-bold ml-1">{chartHP}</span>
+                  <span className="small font-weight-bold ml-1">
+                    {highPrice}
+                  </span>
                   <label className="small ml-2">저</label>
-                  <span className="small font-weight-bold ml-1">{chartLP}</span>
-                  <label className="small ml-2">종</label>
-                  <span className="small font-weight-bold ml-1">{chartCP}</span>
+                  <span className="small font-weight-bold ml-1">
+                    {lowPrice}
+                  </span>
                 </div>
               </div>
               <div id="tvChart" ref={tvChartRef}></div>

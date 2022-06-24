@@ -1,6 +1,29 @@
 import * as axios from "axios";
 import { comma, uncomma } from "common";
 
+// card data 호출
+const addCardData = async () => {
+  let data = null;
+
+  const getHtml = async () => {
+    const stockUrl = `worldstock/index/.DJI%2C.IXIC%2C.INX%2C.FTSE%2C.FCHI%2C.GDAXI%2C.`;
+
+    try {
+      return await axios.get(stockUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  await getHtml().then((html) => {
+    // console.log(html.data.datas);
+    // return html.data.datas;
+    data = html.data.datas;
+  });
+
+  return data;
+};
+
+// 코스피,코스닥,선물 data 호출
 const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
   let data = null;
 
@@ -13,11 +36,12 @@ const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
     return year + month + day;
   };
 
+  // chart 기간 설정
   const startTime = "20100101";
   const endTime = getToday();
 
   // index 크롤링
-  const getIndexHtml = async (symbol, startTime, endTime, timeframe) => {
+  const getHtml = async (symbol, startTime, endTime, timeframe) => {
     // console.log(symbol, startTime, endTime, timeframe);
     // const stockUrl = `/siseJson.naver?symbol=KOSPI&requestType=1&startTime=20200811&endTime=20210412&timeframe=day`;
     const stockUrl = `/siseJson.naver?symbol=${symbol}&requestType=1&startTime=${startTime}&endTime=${endTime}&timeframe=${timeframe}`;
@@ -29,7 +53,7 @@ const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
     }
   };
 
-  await getIndexHtml(symbol, startTime, endTime, timeframe).then((html) => {
+  await getHtml(symbol, startTime, endTime, timeframe).then((html) => {
     // console.log(html.data, typeof html.data);
     let tempData = html.data.replaceAll("'", '"');
     data = JSON.parse(tempData);
@@ -40,7 +64,7 @@ const addIndexData = async (symbol = "KOSPI", timeframe = "day") => {
 
 const addStockData = (code) => {
   // stock 크롤링
-  const getStockHtml = async (code) => {
+  const getHtml = async (code) => {
     const stockUrl = `/api/realtime/domestic/stock/${code}`;
 
     try {
@@ -50,7 +74,7 @@ const addStockData = (code) => {
     }
   };
 
-  getStockHtml(code).then((html) => {
+  getHtml(code).then((html) => {
     // console.log(html);
     const priceData = html.data.datas[0].closePrice;
     const changeRateData = html.data.datas[0].fluctuationsRatio;
@@ -174,4 +198,4 @@ const addStockData = (code) => {
   });
 };
 
-export { addStockData, addIndexData };
+export { addStockData, addIndexData, addCardData };
