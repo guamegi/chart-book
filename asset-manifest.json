@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/chart-book/static/css/main.8c49e74f.chunk.css",
-    "main.js": "/chart-book/static/js/main.c1616f5f.chunk.js",
-    "main.js.map": "/chart-book/static/js/main.c1616f5f.chunk.js.map",
+    "main.js": "/chart-book/static/js/main.a5babc0e.chunk.js",
+    "main.js.map": "/chart-book/static/js/main.a5babc0e.chunk.js.map",
     "runtime-main.js": "/chart-book/static/js/runtime-main.2b65fc12.js",
     "runtime-main.js.map": "/chart-book/static/js/runtime-main.2b65fc12.js.map",
     "static/js/2.2ed64a78.chunk.js": "/chart-book/static/js/2.2ed64a78.chunk.js",
     "static/js/2.2ed64a78.chunk.js.map": "/chart-book/static/js/2.2ed64a78.chunk.js.map",
     "index.html": "/chart-book/index.html",
-    "precache-manifest.c6277d3301154d77b31e78e7ec09568b.js": "/chart-book/precache-manifest.c6277d3301154d77b31e78e7ec09568b.js",
+    "precache-manifest.d426b6c07d4cbc30a2ae8d224a85a645.js": "/chart-book/precache-manifest.d426b6c07d4cbc30a2ae8d224a85a645.js",
     "service-worker.js": "/chart-book/service-worker.js",
     "static/css/main.8c49e74f.chunk.css.map": "/chart-book/static/css/main.8c49e74f.chunk.css.map",
     "static/js/2.2ed64a78.chunk.js.LICENSE.txt": "/chart-book/static/js/2.2ed64a78.chunk.js.LICENSE.txt",
-    "static/js/main.c1616f5f.chunk.js.LICENSE.txt": "/chart-book/static/js/main.c1616f5f.chunk.js.LICENSE.txt",
+    "static/js/main.a5babc0e.chunk.js.LICENSE.txt": "/chart-book/static/js/main.a5babc0e.chunk.js.LICENSE.txt",
     "static/media/fontawesome-all.min.css": "/chart-book/static/media/fa-solid-900.f6121be5.woff2"
   },
   "entrypoints": [
     "static/js/runtime-main.2b65fc12.js",
     "static/js/2.2ed64a78.chunk.js",
     "static/css/main.8c49e74f.chunk.css",
-    "static/js/main.c1616f5f.chunk.js"
+    "static/js/main.a5babc0e.chunk.js"
   ]
 }
