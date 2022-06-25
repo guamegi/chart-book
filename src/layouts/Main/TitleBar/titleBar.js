@@ -8,7 +8,7 @@ const TitleBar = (props) => {
         <NavLink
           className="navbar-brand d-flex justify-content-center align-items-center topbar-brand m-0"
           activeClassName="active"
-          to="/portfolio"
+          to="/"
         >
           <div className="topbar-brand-text mx-4">
             <span>ChartBook</span>

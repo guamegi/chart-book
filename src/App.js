@@ -5,7 +5,7 @@ import Routes from "./Routes";
 export default class App extends Component {
   render() {
     return (
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router>
         <Routes />
       </Router>
     );
