@@ -11,6 +11,7 @@ import {
 import { addStockData } from "config/crawler";
 import { removeLineChart } from "chart/area";
 import { removeDoughnutChart } from "chart/doughnut";
+import styles from "./portfolio.module.css";
 
 let stockInterval = {};
 const Portfolio = () => {
@@ -113,7 +114,8 @@ const Portfolio = () => {
   // add new 클릭. 모달 창 열기
   const openModal = () => {
     setModalOn(!modalOn);
-    // addButtonEl.current.focus();
+    // console.log(stockPopupEl.current);
+    // stockPopupEl.current.focus();
   };
 
   // background 클릭. 모달 창 닫기
@@ -286,7 +288,7 @@ const Portfolio = () => {
       {/* <!-- table --> */}
       {/* <!-- Page Heading --> */}
       <div className="row justify-content-between">
-        <div>
+        <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
           <button
             id="addStock"
             className="btn btn-light ml-2"
@@ -315,7 +317,7 @@ const Portfolio = () => {
             ""
           )}
         </div>
-        <div>
+        <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
           <button className="btn btn-info" onClick={saveData}>
             save
           </button>
@@ -377,7 +379,7 @@ const Portfolio = () => {
                     </td>
                     <td>
                       <NumberFormat
-                        className="avgPrice bg-light form-control small"
+                        className={`${styles.stockInput} bg-light form-control small`}
                         placeholder="평균단가 입력"
                         name="avgPrice"
                         id={`${
@@ -391,7 +393,7 @@ const Portfolio = () => {
                     </td>
                     <td>
                       <NumberFormat
-                        className="amount bg-light form-control small"
+                        className={`${styles.stockInput} bg-light form-control small`}
                         placeholder="수량 입력"
                         name="amount"
                         id={`${
