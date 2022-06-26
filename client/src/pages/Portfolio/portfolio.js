@@ -381,7 +381,7 @@ const Portfolio = () => {
                     </td>
                     <td>
                       <NumberFormat
-                        className={`${styles.stockInput} bg-light form-control small`}
+                        className={`${styles.stockInput} avgPrice bg-light form-control small`}
                         placeholder="평균단가 입력"
                         name="avgPrice"
                         id={`${
@@ -395,7 +395,7 @@ const Portfolio = () => {
                     </td>
                     <td>
                       <NumberFormat
-                        className={`${styles.stockInput} bg-light form-control small`}
+                        className={`${styles.stockInput} amount bg-light form-control small`}
                         placeholder="수량 입력"
                         name="amount"
                         id={`${
