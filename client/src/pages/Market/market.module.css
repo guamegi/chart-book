@@ -4,6 +4,10 @@
   border-width: 0;
 }
 
+.devider {
+  line-height: 40px;
+}
+
 /* .cardChart {
   width: 100%;
   border: 1px solid rgb(228, 227, 227);

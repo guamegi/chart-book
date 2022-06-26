@@ -289,22 +289,24 @@ const Portfolio = () => {
       {/* <!-- Page Heading --> */}
       <div className="row justify-content-between">
         <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
-          <button
+          <div
             id="addStock"
             className="btn btn-light ml-2"
+            role="button"
             onClick={openModal}
             ref={addButtonEl}
           >
             <i className="fas fa-plus mr-2"></i>
             종목 추가
-          </button>
-          <button
+          </div>
+          <div
             className="btn btn-light text-danger ml-2"
+            role="button"
             onClick={removeAllStock}
           >
             <i className="fas fa-trash mr-2"></i>
             전체 삭제
-          </button>
+          </div>
           {modalOn ? (
             <SearchStockPopup
               modalOn={modalOn}

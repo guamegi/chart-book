@@ -5,11 +5,13 @@ import { Carousel } from "@trendyol-js/react-carousel";
 
 import { addIndexData, addCardData } from "config/crawler";
 import { ChartCard } from "../../components";
+import { checkMobile } from "common";
 import styles from "./market.module.css";
 
 let chart = null;
 const Home = () => {
   const tvChartRef = useRef(); // trading view chart selector
+  const isMobile = checkMobile();
 
   let kospiData = [];
   const [cardInfo, setCardInfo] = useState([
@@ -249,8 +251,8 @@ const Home = () => {
     <div className="container mb-4">
       <div className="col">
         <Carousel
-          show={2.5}
-          slide={2}
+          show={isMobile ? 1 : 2.5}
+          slide={isMobile ? 1 : 2}
           transition={0.9}
           swiping={true}
           rightArrow={<RightArrow />}
@@ -259,105 +261,104 @@ const Home = () => {
           dynamic={true}
         >
           {cardInfo.map((item, index) => {
-            return <ChartCard key={index} item={item} />;
+            return (
+              <ChartCard
+                key={index}
+                item={item}
+                className="col-md-6 col-xl-3"
+              />
+            );
           })}
         </Carousel>
 
         <div className="col">
-          <nav className={"navbar navbar-expand"}>
-            <div className="container d-flex flex-row">
-              <ul className="nav navbar-nav text-dark">
-                <li
-                  className={`mr-2`}
-                  role="button"
-                  onClick={() => {
-                    onClickList("KOSPI");
-                  }}
-                >
-                  <span className="text-muted">코스피</span>
-                </li>
-                <span className="text-muted">|</span>
-                <li
-                  className={`ml-2 mr-2`}
-                  role="button"
-                  onClick={() => {
-                    onClickList("KOSDAQ");
-                  }}
-                >
-                  <span className="text-muted">코스닥</span>
-                </li>
-                <span className="text-muted">|</span>
-                <li
-                  className={`ml-2`}
-                  role="button"
-                  onClick={() => {
-                    onClickList("FUT");
-                  }}
-                >
-                  <span className="text-muted">선물</span>
-                </li>
-              </ul>
-              <ul className="nav navbar-nav text-dark">
-                <li className="p-2">
-                  <span className="text-muted">Interval:</span>
-                </li>
-                <li className="nav-item dropdown">
-                  <div
-                    className="nav-link dropdown-toggle text-muted"
-                    id="navbarDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {chartInterval}
-                  </div>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Day");
-                      }}
-                    >
-                      Day
-                    </div>
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Week");
-                      }}
-                    >
-                      Week
-                    </div>
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Month");
-                      }}
-                    >
-                      Month
-                    </div>
-                    <div className="dropdown-divider"></div>
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Day");
-                      }}
-                    >
-                      Day
-                    </div>
-                  </div>
-                </li>
-              </ul>
+          <div className="row justify-content-between">
+            <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
+              <div
+                className="btn btn-light text-muted"
+                role="button"
+                onClick={() => {
+                  onClickList("KOSPI");
+                }}
+              >
+                코스피
+              </div>
+              <span className={`${styles.devider} text-muted`}>|</span>
+              <div
+                className="btn btn-light text-muted"
+                role="button"
+                onClick={() => {
+                  onClickList("KOSDAQ");
+                }}
+              >
+                코스닥
+              </div>
+              <span className={`${styles.devider} text-muted`}>|</span>
+              <div
+                className="btn btn-light text-muted"
+                role="button"
+                onClick={() => {
+                  onClickList("FUT");
+                }}
+              >
+                선물
+              </div>
             </div>
-          </nav>
+            <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
+              <span className={`${styles.devider} text-muted`}>Interval:</span>
+              <span className="nav-item dropdown">
+                <div
+                  className="nav-link dropdown-toggle text-muted"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {chartInterval}
+                </div>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Day");
+                    }}
+                  >
+                    Day
+                  </div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Week");
+                    }}
+                  >
+                    Week
+                  </div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Month");
+                    }}
+                  >
+                    Month
+                  </div>
+                  <div className="dropdown-divider"></div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Day");
+                    }}
+                  >
+                    Day
+                  </div>
+                </div>
+              </span>
+            </div>
+          </div>
           <div className="card shadow py-2">
             <div className="card-body">
               <div className="row mb-2">
