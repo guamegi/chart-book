@@ -1,6 +1,3 @@
-// const [ws, removeWebSocket] = useState([]);
-import { setLineChart, initLineChart } from "../chart/area";
-import { setDoughnutChart, initDoughnutChart } from "../chart/doughnut";
 import { calcData } from "../chart/calcData";
 
 let ws = [];
@@ -12,11 +9,12 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // 웹소켓 생성
   const websocket = new WebSocket("wss://api.upbit.com/websocket/v1");
   websocket.binaryType = "blob";
-
   ws.push(websocket);
-  //   removeWebSocket((socket) => [...socket, websocket]);
-  setLineChart();
-  setDoughnutChart();
+
+  // setLineChart();
+  // setDoughnutChart();
+  // initLineChart();
+  // initDoughnutChart();
 
   // 콜백 이벤트 설정
   websocket.onopen = function (evt) {
@@ -28,11 +26,6 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   websocket.onclose = function (evt) {
     console.log("close socket");
     // console.log("ws:", ws);
-
-    // setTimeout(function () {
-    //   initWebSocket();
-    //   console.log("reconnect socket");
-    // }, 1000);
   };
   websocket.onmessage = function (evt) {
     const reader = new FileReader();
@@ -40,11 +33,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
     reader.onload = function () {
       const result = JSON.parse(reader.result);
       // console.log(result);
-
       calcData(code, result);
-
-      initLineChart();
-      initDoughnutChart();
     };
   };
   websocket.onerror = function (evt) {

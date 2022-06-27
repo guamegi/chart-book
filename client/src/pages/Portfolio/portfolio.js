@@ -9,8 +9,12 @@ import {
   initWebSocket,
 } from "services/websocket";
 import { addStockData } from "config/crawler";
-import { removeLineChart } from "chart/area";
-import { removeDoughnutChart } from "chart/doughnut";
+import { initLineChart, removeLineChart, setLineChart } from "chart/area";
+import {
+  initDoughnutChart,
+  removeDoughnutChart,
+  setDoughnutChart,
+} from "chart/doughnut";
 import styles from "./portfolio.module.css";
 
 let stockInterval = {};
@@ -26,6 +30,11 @@ const Portfolio = () => {
       removeAllWebSocket();
     }
     loadData();
+
+    setLineChart();
+    setDoughnutChart();
+    initLineChart();
+    initDoughnutChart();
 
     document.addEventListener("click", closeModal);
     document.addEventListener("visibilitychange", handleVisibilityChange);

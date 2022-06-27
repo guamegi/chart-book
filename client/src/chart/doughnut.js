@@ -67,13 +67,13 @@ function setDoughnutChart() {
 let doughnutInterval = null;
 const updateTime = 5000;
 const initDoughnutChart = () => {
-  if (doughnutInterval) return;
+  // if (doughnutInterval) {
+  //   clearInterval(doughnutInterval);
+  // }
   const totalEval = document.querySelector("#totalEval");
   const dataTable = document.querySelector("#dataTable");
-  // console.log(dataTable.childNodes);
 
-  // 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
-  doughnutInterval = setInterval(function () {
+  const updateDoughnut = () => {
     let data = [];
     let name = [];
     for (let i = 0; i < dataTable.childNodes.length; i++) {
@@ -98,14 +98,26 @@ const initDoughnutChart = () => {
     for (let i = 0; i < dataTableEl.length; i++) {
       name.push(dataTableEl[i].firstChild.firstChild.textContent);
     }
+
+    // console.log(data, name);
     myDoughnutChart.data.datasets[0].data = data;
     myDoughnutChart.data.labels = name.length > 0 ? name : "-";
     myDoughnutChart.update();
+  };
+
+  setTimeout(function () {
+    updateDoughnut();
+  }, 1000);
+
+  // 추가된 종목들의 평가금액 가져와서 비율 계산한 다음 데이터 넣기
+  doughnutInterval = setInterval(function () {
+    updateDoughnut();
   }, updateTime);
 };
 
 const removeDoughnutChart = () => {
   if (myDoughnutChart) {
+    clearInterval(doughnutInterval);
     myDoughnutChart = null;
   }
 };
