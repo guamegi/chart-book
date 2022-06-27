@@ -11,6 +11,7 @@ import styles from "./market.module.css";
 let chart = null;
 const Home = () => {
   const tvChartRef = useRef(); // trading view chart selector
+  const loaderRef = useRef(); // loading progress bar
   const isMobile = checkMobile();
 
   let kospiData = [];
@@ -86,6 +87,9 @@ const Home = () => {
       chart.remove();
       chart = null;
     }
+
+    // console.log(loaderRef.current);
+    loaderRef.current.hidden = false;
 
     chart = createChart(tvChartRef.current, {
       width: tvChartRef.current.offsetWidth,
@@ -210,6 +214,8 @@ const Home = () => {
         lowPrice: lastValue[3],
         closePrice: lastValue[4],
       });
+
+      loaderRef.current.hidden = true;
     });
   };
 
@@ -361,6 +367,12 @@ const Home = () => {
           </div>
           <div className="card shadow py-2">
             <div className="card-body">
+              <div className={styles.loader} ref={loaderRef}>
+                <div className={`${styles.dot_box} ${styles.dot_img1}`}></div>
+                <div className={`${styles.dot_box} ${styles.dot_img2}`}></div>
+                <div className={`${styles.dot_box} ${styles.dot_img3}`}></div>
+              </div>
+
               <div className="row mb-2">
                 <div className="text-primary font-weight-bold ml-3">
                   {chartName}
