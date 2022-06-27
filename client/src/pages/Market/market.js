@@ -257,7 +257,7 @@ const Home = () => {
     <div className="container mb-4">
       <div className="col">
         <Carousel
-          show={isMobile ? 1 : 2.5}
+          show={isMobile ? 1.1 : 2.5}
           slide={isMobile ? 1 : 2}
           transition={0.9}
           swiping={true}
