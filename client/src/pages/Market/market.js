@@ -16,7 +16,7 @@ const Home = () => {
 
   let kospiData = [];
   const [cardInfo, setCardInfo] = useState([
-    { name: "다우존스", shortName: "DJI", code: "DJI", price: "price" },
+    { name: "다우존스", shortName: "DJI", code: "DJI", price: "-" },
     {
       name: "나스닥 종합",
       shortName: "NAS",
