@@ -393,6 +393,7 @@ const Portfolio = () => {
                         className={`${styles.stockInput} avgPrice bg-light form-control small`}
                         placeholder="평균단가 입력"
                         name="avgPrice"
+                        type="tel"
                         id={`${
                           stock.category === "stock"
                             ? "A" + stock.code
@@ -407,6 +408,7 @@ const Portfolio = () => {
                         className={`${styles.stockInput} amount bg-light form-control small`}
                         placeholder="수량 입력"
                         name="amount"
+                        type="tel"
                         id={`${
                           stock.category === "stock"
                             ? "A" + stock.code
