@@ -42,7 +42,7 @@ const Notifications = () => {
       if (result === "granted") {
         return new Notification(title, options);
       } else {
-        alert("알림 권한을 허용해주세요.");
+        // alert("알림 권한을 허용해주세요.");
       }
     });
   };
