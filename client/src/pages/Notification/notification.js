@@ -60,69 +60,74 @@ const Notifications = () => {
   };
 
   return (
-    <div className="container">
-      <h4>지정가 알림 설정</h4>
-      <div className="m-4 mb-5">
-        <div className="d-flex justify-content-start">
-          <span className={`${styles.devider} text-muted`}>알림 내용:</span>
-          <span className="nav-item dropdown">
-            <div
-              className="nav-link dropdown-toggle text-muted"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              {notiName}
+    <div className="container mb-5">
+      <h4 className="text-dark">지정가 알림 설정</h4>
+      <div className="card shadow border-left-secondary m-5">
+        <div className="card-body">
+          <div className="m-5 mb-5">
+            <div className="d-flex justify-content-start">
+              <span className={`${styles.devider} text-muted`}>
+                알림 내용 :
+              </span>
+              <span className="nav-item dropdown">
+                <div
+                  className="nav-link dropdown-toggle text-dark"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {notiName}
+                </div>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList("총 평가");
+                    }}
+                  >
+                    총 평가
+                  </div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList("평가손익");
+                    }}
+                  >
+                    평가손익
+                  </div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList("수익률");
+                    }}
+                  >
+                    수익률
+                  </div>
+                </div>
+              </span>
             </div>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <div
-                className="dropdown-item"
-                role="button"
-                onClick={() => {
-                  onClickList("총 평가");
-                }}
-              >
-                총 평가
-              </div>
-              <div
-                className="dropdown-item"
-                role="button"
-                onClick={() => {
-                  onClickList("평가손익");
-                }}
-              >
-                평가손익
-              </div>
-              <div
-                className="dropdown-item"
-                role="button"
-                onClick={() => {
-                  onClickList("수익률");
-                }}
-              >
-                수익률
-              </div>
-            </div>
-          </span>
-        </div>
 
-        <div className={`${styles.groupLine} input-group`}>
-          {/* <span className={`${styles.devider} text-muted`}>지정가:</span> */}
-          <NumberFormat
-            className={`${styles.priceInput} avgPrice bg-light form-control small`}
-            placeholder="지정가 입력"
-            name="avgPrice"
-            type="tel"
-            thousandSeparator={true}
-            onChange={onChangePrice}
-            // value={stock.avgPrice ? stock.avgPrice : null}
-          />
-          <div className="input-group-append">
-            <button className="btn btn-primary" onClick={setNotification}>
-              알림 등록
-            </button>
+            <div className={`${styles.groupLine} input-group input-group-sm`}>
+              <NumberFormat
+                className={`${styles.priceInput} avgPrice bg-light form-control`}
+                placeholder="지정가 입력"
+                name="avgPrice"
+                type="tel"
+                thousandSeparator={true}
+                onChange={onChangePrice}
+                // value={stock.avgPrice ? stock.avgPrice : null}
+              />
+              <div className="input-group-append">
+                <button className="btn btn-primary" onClick={setNotification}>
+                  알림 등록
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

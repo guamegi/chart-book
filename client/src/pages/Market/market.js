@@ -281,7 +281,7 @@ const Home = () => {
           <div className="row justify-content-between">
             <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
               <div
-                className="btn btn-light text-muted"
+                className="btn btn-light text-dark"
                 role="button"
                 onClick={() => {
                   onClickList("KOSPI");
@@ -291,7 +291,7 @@ const Home = () => {
               </div>
               <span className={`${styles.devider} text-muted`}>|</span>
               <div
-                className="btn btn-light text-muted"
+                className="btn btn-light text-dark"
                 role="button"
                 onClick={() => {
                   onClickList("KOSDAQ");
@@ -301,7 +301,7 @@ const Home = () => {
               </div>
               <span className={`${styles.devider} text-muted`}>|</span>
               <div
-                className="btn btn-light text-muted"
+                className="btn btn-light text-dark"
                 role="button"
                 onClick={() => {
                   onClickList("FUT");
@@ -314,7 +314,7 @@ const Home = () => {
               <span className={`${styles.devider} text-muted`}>Interval:</span>
               <span className="nav-item dropdown">
                 <div
-                  className="nav-link dropdown-toggle text-muted"
+                  className="nav-link dropdown-toggle text-dark"
                   id="navbarDropdown"
                   role="button"
                   data-toggle="dropdown"
