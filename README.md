@@ -1,7 +1,7 @@
 # React + Express 연동 주식&가상화폐 토탈 자산현황 서비스(배포 버전)
 
 View deployment 
-http://chart-book.herokuapp.com/
+https://chart-book.herokuapp.com/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
