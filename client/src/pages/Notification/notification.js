@@ -30,8 +30,9 @@ const Notifications = () => {
       return;
     }
 
-    Notification.requestPermission().then(function (result) {
-      console.log("Notification 상태", result);
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    } else {
       const title = "지정가 등록";
       const options = {
         body: `${notiName} ${notiPrice} 등록 완료`,
@@ -39,12 +40,24 @@ const Notifications = () => {
         // icon: `${process.env.PUBLIC_URL}/logo192.png`,
       };
 
-      if (result === "granted") {
-        return new Notification(title, options);
-      } else {
-        // alert("알림 권한을 허용해주세요.");
-      }
-    });
+      let notification = new Notification(title, options);
+    }
+
+    // Notification.requestPermission().then(function (result) {
+    //   console.log("Notification 상태", result);
+    //   const title = "지정가 등록";
+    //   const options = {
+    //     body: `${notiName} ${notiPrice} 등록 완료`,
+    //     icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaIxtxsTyFb7mB1pH-KQ9OQZZ7DsxlQ50qXg&usqp=CAU",
+    //     // icon: `${process.env.PUBLIC_URL}/logo192.png`,
+    //   };
+
+    //   if (result === "granted") {
+    //     return new Notification(title, options);
+    //   } else {
+    //     // alert("알림 권한을 허용해주세요.");
+    //   }
+    // });
   };
 
   const onChangePrice = (e) => {
