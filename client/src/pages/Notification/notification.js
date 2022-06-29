@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import NumberFormat from "react-number-format";
 
+import { checkMobile } from "common";
 import styles from "./notification.module.css";
 
 const Notifications = () => {
   const [notiName, setNotiName] = useState("총 평가");
   const [notiPrice, setNotiPrice] = useState("0");
+  const isMobile = checkMobile();
 
   // TODO: 알림 도달시 공지
   const notify = () => {
@@ -68,7 +70,7 @@ const Notifications = () => {
           <div className="m-4 mb-5">
             <div className="d-flex justify-content-start">
               <span className={`${styles.devider} text-muted`}>
-                알림 내용 :
+                {isMobile ? "알림 :" : "알림 내용 :"}
               </span>
               <span className="nav-item dropdown">
                 <div
