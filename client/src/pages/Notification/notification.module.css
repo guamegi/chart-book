@@ -1,0 +1,11 @@
+.devider {
+  line-height: 40px;
+}
+
+.priceInput {
+  min-width: 100px;
+}
+
+.groupLine {
+  max-width: 300px;
+}

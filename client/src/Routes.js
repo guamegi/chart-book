@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Redirect } from "react-router-dom";
 import { ProtectedRouteWithLayout } from "./components";
 import { AdminLayout } from "./layouts";
-import { Market, Portfolio, NotFound } from "./pages";
+import { Market, Portfolio, NotFound, Notification } from "./pages";
 
 const Routes = () => {
   return (
@@ -19,6 +19,12 @@ const Routes = () => {
         exact
         layout={AdminLayout}
         path="/market"
+      />
+      <ProtectedRouteWithLayout
+        component={Notification}
+        exact
+        layout={AdminLayout}
+        path="/notification"
       />
       <ProtectedRouteWithLayout
         component={NotFound}
