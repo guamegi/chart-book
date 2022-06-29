@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NumberFormat from "react-number-format";
+
 import styles from "./notification.module.css";
 
 const Notifications = () => {
@@ -64,7 +65,7 @@ const Notifications = () => {
       <h4 className="text-dark">지정가 알림 설정</h4>
       <div className="card shadow border-left-secondary m-5">
         <div className="card-body">
-          <div className="m-5 mb-5">
+          <div className="m-4 mb-5">
             <div className="d-flex justify-content-start">
               <span className={`${styles.devider} text-muted`}>
                 알림 내용 :

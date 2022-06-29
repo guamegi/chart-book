@@ -8,6 +8,10 @@
   line-height: 40px;
 }
 
+.tvChart {
+  height: 280px;
+}
+
 .loader {
   position: absolute;
   top: 50%;

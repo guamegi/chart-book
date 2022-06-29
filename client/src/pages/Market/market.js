@@ -278,8 +278,8 @@ const Home = () => {
         </Carousel>
 
         <div className="col">
-          <div className="row justify-content-between">
-            <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
+          <div className="row d-flex justify-content-between">
+            <div className="pl-3">
               <div
                 className="btn btn-light text-dark"
                 role="button"
@@ -310,8 +310,8 @@ const Home = () => {
                 선물
               </div>
             </div>
-            <div className="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-center">
-              <span className={`${styles.devider} text-muted`}>Interval:</span>
+            <div className="pr-3">
+              {/* <span className={` text-muted`}>Interval:</span> */}
               <span className="nav-item dropdown">
                 <div
                   className="nav-link dropdown-toggle text-dark"
@@ -395,7 +395,11 @@ const Home = () => {
                   </span>
                 </div>
               </div>
-              <div id="tvChart" ref={tvChartRef}></div>
+              <div
+                id="tvChart"
+                className={isMobile ? styles.tvChart : null}
+                ref={tvChartRef}
+              ></div>
             </div>
           </div>
         </div>
