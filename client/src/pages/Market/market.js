@@ -21,31 +21,31 @@ const Home = () => {
       name: "나스닥 종합",
       shortName: "NAS",
       code: "IXIC",
-      price: "price",
+      price: "-",
     },
     {
       name: "S&P 500",
       shortName: "SPI",
       code: "SPX",
-      price: "price",
+      price: "-",
     },
     {
       name: "영국 FTSE 100",
       shortName: "LNS",
       code: "FTSE100",
-      price: "price",
+      price: "-",
     },
     {
       name: "프랑스 CAC 40",
       shortName: "PAS",
       code: "CAC40",
-      price: "price",
+      price: "-",
     },
     {
       name: "독일 DAX",
       shortName: "XTR",
       code: "DAX30",
-      price: "price",
+      price: "-",
     },
   ]);
 
