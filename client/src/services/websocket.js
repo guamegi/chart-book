@@ -5,12 +5,12 @@ let ws = [];
 const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   // request data
   const json = [{ ticket: "ticket" }, { type: "ticker", codes: [codes] }];
-  // console.log("ws:", ws);
+
   // 웹소켓 생성
   const websocket = new WebSocket("wss://api.upbit.com/websocket/v1");
   websocket.binaryType = "blob";
   ws.push(websocket);
-
+  // console.log("ws:", ws);
   // setLineChart();
   // setDoughnutChart();
   // initLineChart();
@@ -25,7 +25,7 @@ const initWebSocket = (code = "BTC", codes = "KRW-BTC") => {
   };
   websocket.onclose = function (evt) {
     console.log("close socket");
-    // console.log("ws:", ws);
+    // console.log("ws:", ws, "evt:", evt);
   };
   websocket.onmessage = function (evt) {
     const reader = new FileReader();

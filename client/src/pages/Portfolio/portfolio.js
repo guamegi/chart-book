@@ -40,7 +40,7 @@ const Portfolio = () => {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
       document.removeEventListener("click", closeModal);
-      document.addEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
 
       /**
        * myLineChart, myDoughnutChart 제거
