@@ -60,9 +60,37 @@ const Portfolio = () => {
   async function loadData() {
     // localData 체크
     const localDataStr = localStorage.getItem("saveData");
-
+    let data = null;
     console.log("load data");
-    const data = JSON.parse(localDataStr);
+
+    if (localDataStr) {
+      console.log("stock is saved");
+      data = JSON.parse(localDataStr);
+    } else {
+      console.log("stock is not saved");
+      // default data
+      data = {
+        0: {
+          amount: "0.1",
+          avgPrice: "20,000,000",
+          category: "coin",
+          code: "BTC",
+          codes: "KRW-BTC",
+          en_name: "Bitcoin",
+          name: "비트코인",
+        },
+        1: {
+          amount: "10",
+          avgPrice: "50,000",
+          category: "stock",
+          code: "005930",
+          codes: null,
+          en_name: null,
+          name: "삼성전자",
+        },
+      };
+    }
+
     const dataArr = [];
     for (let i in data) {
       dataArr.push(data[i]);
@@ -344,7 +372,7 @@ const Portfolio = () => {
           }
         >
           <button className="btn btn-info" onClick={saveData}>
-            save
+            종목 저장
           </button>
           <button className="btn btn-success ml-2" onClick={getData}>
             get data
