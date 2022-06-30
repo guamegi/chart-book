@@ -1,6 +1,6 @@
 # React 주식&가상화폐 포트폴리오 모니터링 웹 앱(local 버전)
 
-React + Express 연동 주식&가상화폐 토탈 자산현황 서비스(배포 버전) 
+React + Express 연동 주식&가상화폐 토탈 자산현황 웹 앱(배포 버전) 
 https://github.com/guamegi/chart-book-nodejs
 
 View deployment 
