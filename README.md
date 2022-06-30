@@ -1,4 +1,4 @@
-# React + Express 연동 주식&가상화폐 토탈 자산현황 서비스(배포 버전)
+# React + Express 연동 주식&가상화폐 포트폴리오 웹 앱(배포 버전)
 
 View deployment 
 https://chart-book.herokuapp.com/
