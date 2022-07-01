@@ -64,10 +64,10 @@ const Portfolio = () => {
     console.log("load data");
 
     if (localDataStr) {
-      console.log("stock is saved");
+      // console.log("saved");
       data = JSON.parse(localDataStr);
     } else {
-      console.log("stock is not saved");
+      // console.log("not saved");
       // default data
       data = {
         0: {
@@ -100,7 +100,6 @@ const Portfolio = () => {
 
     // 실시간
     for (let data of dataArr) {
-      // stockInterval = {};
       if (data.category === "stock") {
         clearInterval(stockInterval[data.code]);
         stockInterval[data.code] = null;
