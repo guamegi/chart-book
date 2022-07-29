@@ -27,7 +27,7 @@ class TopMenu extends React.Component {
                 to="/market"
               >
                 <span>증시현황</span>
-              </NavLink> */}
+              </NavLink> 
             </li>
             <li className="nav-item ml-3" role="presentation">
               <NavLink
@@ -37,6 +37,7 @@ class TopMenu extends React.Component {
               >
                 <span>알림</span>
               </NavLink>
+              */}
             </li>
           </ul>
         </div>
