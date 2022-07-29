@@ -14,12 +14,12 @@ const Routes = () => {
         layout={AdminLayout}
         path="/portfolio"
       />
-      <ProtectedRouteWithLayout
+      {/* <ProtectedRouteWithLayout
         component={Market}
         exact
         layout={AdminLayout}
         path="/market"
-      />
+      /> */}
       <ProtectedRouteWithLayout
         component={NotFound}
         exact
