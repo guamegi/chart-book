@@ -1,31 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "758ecc55250728c6743c6f209f717718",
+    "revision": "aa5b8a8b1e2dd93a47431819581bf610",
     "url": "/chart-book/index.html"
   },
   {
-    "revision": "95d1e8788a94e606863d",
-    "url": "/chart-book/static/css/main.8c49e74f.chunk.css"
+    "revision": "e00e02f7d85ebc56a884",
+    "url": "/chart-book/static/css/main.fc2842bc.chunk.css"
   },
   {
-    "revision": "b8388c9a4d1f12db4d1f",
-    "url": "/chart-book/static/js/2.2ed64a78.chunk.js"
+    "revision": "7b3d09b5385cdff38ffc",
+    "url": "/chart-book/static/js/2.ded30db1.chunk.js"
   },
   {
-    "revision": "92e54e8bb165b0e0dcb81fee31af95c2",
-    "url": "/chart-book/static/js/2.2ed64a78.chunk.js.LICENSE.txt"
+    "revision": "03b80f715a7946a73e33f3be0e918f14",
+    "url": "/chart-book/static/js/2.ded30db1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "95d1e8788a94e606863d",
-    "url": "/chart-book/static/js/main.a2bf7d2a.chunk.js"
+    "revision": "e00e02f7d85ebc56a884",
+    "url": "/chart-book/static/js/main.e6ef4a0a.chunk.js"
   },
   {
     "revision": "64ab9d781c88850b55555a2967061d90",
-    "url": "/chart-book/static/js/main.a2bf7d2a.chunk.js.LICENSE.txt"
+    "url": "/chart-book/static/js/main.e6ef4a0a.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "15704be24ea4f380b33d",
-    "url": "/chart-book/static/js/runtime-main.2b65fc12.js"
+    "revision": "bdcc41f31285f5097e6b",
+    "url": "/chart-book/static/js/runtime-main.aacede8e.js"
   },
   {
     "revision": "088a34f78f530102fd9661173b4a4f26",
