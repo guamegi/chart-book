@@ -54,9 +54,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": {
-    "/api": {
-      "target": "https://polling.finance.naver.com"
-    }
-  }
+  "proxy": "https://polling.finance.naver.com"
 }
