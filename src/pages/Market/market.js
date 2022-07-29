@@ -5,44 +5,47 @@ import { Carousel } from "@trendyol-js/react-carousel";
 
 import { addIndexData, addCardData } from "config/crawler";
 import { ChartCard } from "../../components";
+import { checkMobile } from "common";
 import styles from "./market.module.css";
 
 let chart = null;
 const Home = () => {
   const tvChartRef = useRef(); // trading view chart selector
+  const loaderRef = useRef(); // loading progress bar
+  const isMobile = checkMobile();
 
   let kospiData = [];
   const [cardInfo, setCardInfo] = useState([
-    { name: "다우존스", shortName: "DJI", code: "DJI", price: "price" },
+    { name: "다우존스", shortName: "DJI", code: "DJI", price: "-" },
     {
       name: "나스닥 종합",
       shortName: "NAS",
       code: "IXIC",
-      price: "price",
+      price: "-",
     },
     {
       name: "S&P 500",
       shortName: "SPI",
       code: "SPX",
-      price: "price",
+      price: "-",
     },
     {
       name: "영국 FTSE 100",
       shortName: "LNS",
       code: "FTSE100",
-      price: "price",
+      price: "-",
     },
     {
       name: "프랑스 CAC 40",
       shortName: "PAS",
       code: "CAC40",
-      price: "price",
+      price: "-",
     },
     {
       name: "독일 DAX",
       shortName: "XTR",
       code: "DAX30",
-      price: "price",
+      price: "-",
     },
   ]);
 
@@ -84,6 +87,9 @@ const Home = () => {
       chart.remove();
       chart = null;
     }
+
+    // console.log(loaderRef.current);
+    loaderRef.current.hidden = false;
 
     chart = createChart(tvChartRef.current, {
       width: tvChartRef.current.offsetWidth,
@@ -208,6 +214,8 @@ const Home = () => {
         lowPrice: lastValue[3],
         closePrice: lastValue[4],
       });
+
+      loaderRef.current.hidden = true;
     });
   };
 
@@ -249,8 +257,8 @@ const Home = () => {
     <div className="container mb-4">
       <div className="col">
         <Carousel
-          show={2.5}
-          slide={2}
+          show={isMobile ? 1.1 : 2.5}
+          slide={isMobile ? 1 : 2}
           transition={0.9}
           swiping={true}
           rightArrow={<RightArrow />}
@@ -259,107 +267,112 @@ const Home = () => {
           dynamic={true}
         >
           {cardInfo.map((item, index) => {
-            return <ChartCard key={index} item={item} />;
+            return (
+              <ChartCard
+                key={index}
+                item={item}
+                className="col-md-6 col-xl-3"
+              />
+            );
           })}
         </Carousel>
 
         <div className="col">
-          <nav className={"navbar navbar-expand"}>
-            <div className="container d-flex flex-row">
-              <ul className="nav navbar-nav text-dark">
-                <li
-                  className={`mr-2`}
-                  role="button"
-                  onClick={() => {
-                    onClickList("KOSPI");
-                  }}
-                >
-                  <span className="text-muted">코스피</span>
-                </li>
-                <span className="text-muted">|</span>
-                <li
-                  className={`ml-2 mr-2`}
-                  role="button"
-                  onClick={() => {
-                    onClickList("KOSDAQ");
-                  }}
-                >
-                  <span className="text-muted">코스닥</span>
-                </li>
-                <span className="text-muted">|</span>
-                <li
-                  className={`ml-2`}
-                  role="button"
-                  onClick={() => {
-                    onClickList("FUT");
-                  }}
-                >
-                  <span className="text-muted">선물</span>
-                </li>
-              </ul>
-              <ul className="nav navbar-nav text-dark">
-                <li className="p-2">
-                  <span className="text-muted">Interval:</span>
-                </li>
-                <li className="nav-item dropdown">
-                  <div
-                    className="nav-link dropdown-toggle text-muted"
-                    id="navbarDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {chartInterval}
-                  </div>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Day");
-                      }}
-                    >
-                      Day
-                    </div>
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Week");
-                      }}
-                    >
-                      Week
-                    </div>
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Month");
-                      }}
-                    >
-                      Month
-                    </div>
-                    <div className="dropdown-divider"></div>
-                    <div
-                      className="dropdown-item"
-                      role="button"
-                      onClick={() => {
-                        onClickList(null, "Day");
-                      }}
-                    >
-                      Day
-                    </div>
-                  </div>
-                </li>
-              </ul>
+          <div className="row d-flex justify-content-between">
+            <div className="pl-3">
+              <div
+                className="btn btn-light text-dark"
+                role="button"
+                onClick={() => {
+                  onClickList("KOSPI");
+                }}
+              >
+                코스피
+              </div>
+              <span className={`${styles.devider} text-muted`}>|</span>
+              <div
+                className="btn btn-light text-dark"
+                role="button"
+                onClick={() => {
+                  onClickList("KOSDAQ");
+                }}
+              >
+                코스닥
+              </div>
+              <span className={`${styles.devider} text-muted`}>|</span>
+              <div
+                className="btn btn-light text-dark"
+                role="button"
+                onClick={() => {
+                  onClickList("FUT");
+                }}
+              >
+                선물
+              </div>
             </div>
-          </nav>
+            <div className="pr-3">
+              {/* <span className={` text-muted`}>Interval:</span> */}
+              <span className="nav-item dropdown">
+                <div
+                  className="nav-link dropdown-toggle text-dark"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {chartInterval}
+                </div>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Day");
+                    }}
+                  >
+                    Day
+                  </div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Week");
+                    }}
+                  >
+                    Week
+                  </div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Month");
+                    }}
+                  >
+                    Month
+                  </div>
+                  <div className="dropdown-divider"></div>
+                  <div
+                    className="dropdown-item"
+                    role="button"
+                    onClick={() => {
+                      onClickList(null, "Day");
+                    }}
+                  >
+                    Day
+                  </div>
+                </div>
+              </span>
+            </div>
+          </div>
           <div className="card shadow py-2">
             <div className="card-body">
+              <div className={styles.loader} ref={loaderRef}>
+                <div className={`${styles.dot_box} ${styles.dot_img1}`}></div>
+                <div className={`${styles.dot_box} ${styles.dot_img2}`}></div>
+                <div className={`${styles.dot_box} ${styles.dot_img3}`}></div>
+              </div>
+
               <div className="row mb-2">
                 <div className="text-primary font-weight-bold ml-3">
                   {chartName}
@@ -382,7 +395,11 @@ const Home = () => {
                   </span>
                 </div>
               </div>
-              <div id="tvChart" ref={tvChartRef}></div>
+              <div
+                id="tvChart"
+                className={isMobile ? styles.tvChart : null}
+                ref={tvChartRef}
+              ></div>
             </div>
           </div>
         </div>

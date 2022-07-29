@@ -109,8 +109,8 @@ function setLineChart() {
 
 const removeLineChart = () => {
   if (myLineChart) {
-    console.log("remove chart");
-    // clearInterval(lineInterval);
+    // console.log("remove chart");
+    clearInterval(lineInterval);
     myLineChart = null;
   }
 };
@@ -120,15 +120,16 @@ const updateTime = 5000;
 const initLineChart = () => {
   // console.log("line interval:", lineInterval);
   // get data시는 리턴에 걸림.
-  if (lineInterval) return;
+  // if (lineInterval) {
+  //   clearInterval(lineInterval);
+  // }
 
   let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   let xAxes = ["", "", "", "", "", "", "", "", "", "", "", ""];
   const totalEval = document.querySelector("#totalEval");
   const dataTable = document.querySelector("#dataTable");
 
-  // 5초마다 총 평가금액 라인차트에 추가
-  lineInterval = setInterval(function () {
+  const updateLine = () => {
     for (let i = 0; i < dataTable.childNodes.length; i++) {
       // console.log(dataTable.childNodes[i].id);
       const stockCode = dataTable.childNodes[i].id;
@@ -152,6 +153,15 @@ const initLineChart = () => {
     myLineChart.data.labels = xAxes;
 
     myLineChart.update();
+  };
+
+  setTimeout(() => {
+    updateLine();
+  }, 1000);
+
+  // 5초마다 총 평가금액 라인차트에 추가
+  lineInterval = setInterval(function () {
+    updateLine();
   }, updateTime);
 };
 
