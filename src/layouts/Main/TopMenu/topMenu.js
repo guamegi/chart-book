@@ -16,7 +16,7 @@ class TopMenu extends React.Component {
                 className="nav-link"
                 activeClassName="active"
                 to="/portfolio"
-              >
+              >s
                 <span>자산현황</span>
               </NavLink>
             </li>
