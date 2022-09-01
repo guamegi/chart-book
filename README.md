@@ -1,4 +1,4 @@
-# React 주식&가상화폐 포트폴리오 모니터링 웹 앱(개발 버전)
+# React 주식&가상화폐 포트폴리오 모니터링 웹 앱(back-end 제외)
 
 View deployment 
 https://chart-book.herokuapp.com/
