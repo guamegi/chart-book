@@ -1,7 +1,13 @@
-# React 주식&가상화폐 포트폴리오 모니터링 웹 앱(back-end 제외)
+# React 주식&가상화폐 포트폴리오
 
-View deployment 
-https://chart-book.herokuapp.com/
+자신이 보유한 주식과 가상화폐의 총 자산 현황을 실시간성으로 파악하는 서비스.
+
+
+● 사용 방법\
+종목 추가 -> 평균 단가, 수량 입력
+
+
+가상화폐 웹소켓 실시간 시세, 주식 시세 크롤링, chart 라이브러리 활용 차트생성.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
